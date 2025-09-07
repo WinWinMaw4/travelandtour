@@ -1,7 +1,7 @@
 import React from "react";
 // import LanguageSwitch from "@/components/LanguageSwitch";
-import heroImage from "../assets/images/hero/hero.jpg"
-import heroImage1 from "../assets/images/hero/8659.jpg"
+import heroImage1 from "../assets/images/hero/8659.png"
+import heroImage2 from "../assets/images/hero/8659smalldevice.png"
 import contactImage from "../assets/images/hero/8657.jpg"
 
 import BlogSection from "./BlogSection";
@@ -44,24 +44,58 @@ const MakkaTourWebsite: React.FC = () => {
             {/* Hero Section */}
             <section
                 id="home"
-                className="relative bg-cover  bg-center text-white py-44 text-center bg-blend-color-burn "
-                style={{ backgroundImage: `url(${heroImage1})` }}
+                className="relative text-white text-center md:text-left bg-blend-color-burn"
             >
-                {/* <div className="absolute inset-0 bg-emerald-700/60 backdrop-blur-xs max-w-xl"></div> */}
+                {/* Show image only on mobile */}
+                <div className="md:hidden">
+                    <img
+                        src={heroImage2}
+                        alt="Hero"
+                        className="w-full h-[350px] object-contain"
+                    />
+                </div>
 
-                <div className="relative z-10 max-w-2xl mx-start text-emerald-700">
-                    <h2 className="text-5xl font-bold mb-4">Experience the Spiritual Journey</h2>
-                    <p className="text-lg mb-8">
-                        Join Makka Tour for a guided, safe, and memorable pilgrimage experience.
-                    </p>
-                    <a
-                        href="#tours"
-                        className="bg-emerald-700 text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
-                    >
-                        View Packages
-                    </a>
+                {/* Background image only for md+ */}
+                <div
+                    className="hidden md:flex relative bg-cover bg-center w-full py-44"
+                    style={{ backgroundImage: `url(${heroImage1})` }}
+                >
+                    <div className="relative z-10 max-w-2xl mx-auto md:mx-0 px-6 text-emerald-700">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+                            Experience the Spiritual Journey
+                        </h2>
+                        <p className="text-base sm:text-lg md:text-xl mb-8">
+                            Join Makka Tour for a guided, safe, and memorable pilgrimage experience.
+                        </p>
+                        <a
+                            href="#tours"
+                            className="bg-emerald-700 text-white px-5 py-2 sm:px-6 sm:py-3 rounded-full font-semibold hover:bg-gray-100 hover:text-emerald-700 transition"
+                        >
+                            View Packages
+                        </a>
+                    </div>
+                </div>
+
+                {/* Content overlay for mobile */}
+                <div className="absolute inset-0 flex items-center justify-center md:hidden px-6">
+                    <div className="relative h-full flex flex-col items-center justify-center max-w-xl text-emerald-700 bg-white/70 rounded-xl p-6 ">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-3">
+                            Experience the Spiritual Journey
+                        </h2>
+                        <p className="text-sm sm:text-base mb-6">
+                            Join Makka Tour for a guided, safe, and memorable pilgrimage experience.
+                        </p>
+                        <a
+                            href="#tours"
+                            className="bg-emerald-700 text-white px-4 py-2 sm:px-5 sm:py-2 rounded-full font-semibold hover:bg-gray-100 hover:text-emerald-700 transition"
+                        >
+                            View Packages
+                        </a>
+                    </div>
                 </div>
             </section>
+
+
 
             <section>
                 <BlogSection />
