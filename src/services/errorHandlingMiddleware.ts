@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Middleware } from "@reduxjs/toolkit";
+import type { Middleware } from "@reduxjs/toolkit";
 import { isRejectedWithValue } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import isOnline from "is-online";
