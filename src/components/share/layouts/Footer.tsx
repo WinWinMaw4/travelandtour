@@ -18,10 +18,10 @@ const Footer: React.FC = () => {
         <div>
           <h4 className="text-lg font-semibold text-emerald-700 mb-3">Quick Links</h4>
           <ul className="space-y-2 text-sm text-gray-600">
-            <li><a href="#home" className="hover:text-emerald-700">Home</a></li>
-            <li><a href="#about" className="hover:text-emerald-700">About</a></li>
-            <li><a href="#blogss" className="hover:text-emerald-700">Blogs</a></li>
-            <li><a href="#contact" className="hover:text-emerald-700">Contact</a></li>
+            <li><a href="/" className="hover:text-emerald-700">Home</a></li>
+            <li><a href="/#about" className="hover:text-emerald-700">About</a></li>
+            <li><a href="/blogs" className="hover:text-emerald-700">Blogs</a></li>
+            <li><a href="/#contact" className="hover:text-emerald-700">Contact</a></li>
           </ul>
         </div>
 
