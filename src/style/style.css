@@ -1,0 +1,14 @@
+/* global.css */
+.ce-header h2 {
+  @apply text-2xl font-bold;
+}
+.ce-header h3 {
+  @apply text-xl font-semibold;
+}
+.ce-header h4 {
+  @apply text-lg font-medium;
+}
+
+.ce-header h2 { font-size: 2rem; font-weight: bold; }
+.ce-header h3 { font-size: 1.5rem; font-weight: 600; }
+.ce-header h4 { font-size: 1.25rem; font-weight: 500; }
