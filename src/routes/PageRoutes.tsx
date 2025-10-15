@@ -6,6 +6,7 @@ import PlaceDetailPage from "@pages/PlaceDetailPage";
 import BlogList from "@pages/BlogLists";
 import BlogDetail from "@pages/BlogDetail";
 import BlogCreate from "@pages/BlogCreate";
+import BlogEdit from "@pages/BlogEdit";
 
 export const PageRoutes: RouteObject[] = [
     {
@@ -18,6 +19,7 @@ export const PageRoutes: RouteObject[] = [
             { path: "/blogs", element: <BlogList /> },
             { path: "/blogs/:slug", element: <BlogDetail /> },
             { path: "/blogs/create", element: <BlogCreate /> },
+            { path: "/blogs/edit/:slug", element: <BlogEdit /> },
 
 
 

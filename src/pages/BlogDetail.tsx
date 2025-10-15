@@ -27,10 +27,24 @@ const BlogDetail: React.FC = () => {
 
     return (
         <article className="max-w-4xl mx-auto px-6 py-20">
+            <div className="flex justify-end items-end">
+                <div className=" mb-5  rounded ">
+                    <Link to={`/blogs/edit/${post.slug}`} className="px-5 py-2 rounded bg-emerald-100 hover:text-emerald-800 hover:bg-emerald-200 focus-within:ring-emerald-400 focus-within:ring-2">Edit</Link>
+                </div>
+            </div>
+
             {/* Cover Image */}
             <a href={post.coverImage} target="_blank" rel="noopener noreferrer">
-                <img src={post.coverImage} alt={post.slug} className="w-full h-80 object-cover rounded-2xl mb-8 cursor-pointer" />
+                {/* <img src={post.coverImage} alt={post.slug} className="w-full h-80 object-cover rounded-2xl mb-8 cursor-pointer" /> */}
+                <div className="w-full mb-8 rounded-2xl overflow-hidden shadow aspect-video cursor-pointer">
+                    <img
+                        src={"https://img.freepik.com/premium-photo/aerial-view-kaaba-mecca-sunset-with-large-crowd-people-performing-tawaf_559896-6013.jpg"}
+                        alt={post.slug}
+                        className="w-full h-full object-contain"
+                    />
+                </div>
             </a>
+
 
             <p className="text-gray-500 text-sm mb-2">{new Date(post.createdAt).toDateString()}</p>
             <h1 className="text-4xl font-bold mb-10">{post.slug}</h1>

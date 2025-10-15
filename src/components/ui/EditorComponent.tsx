@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef } from 'react';
 import EditorJS from '@editorjs/editorjs';
 
@@ -15,9 +16,10 @@ import Table from '@editorjs/table';
 
 interface EditorComponentProps {
     onChange: (data: any) => void;
+    value?: any; // ⚡ pass existing content
 }
 
-const EditorComponent: React.FC<EditorComponentProps> = ({ onChange }) => {
+const EditorComponent: React.FC<EditorComponentProps> = ({ onChange, value }) => {
     const editorRef = useRef<EditorJS | null>(null);
 
     useEffect(() => {
@@ -26,6 +28,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({ onChange }) => {
                 holder: 'editorjs',
                 autofocus: true,
                 placeholder: 'Start writing your blog...',
+                data: value || {}, // ⚡ prefill existing content
                 tools: {
                     header: {
                         class: Header,
@@ -39,7 +42,13 @@ const EditorComponent: React.FC<EditorComponentProps> = ({ onChange }) => {
                     list: { class: List, inlineToolbar: true },
                     checklist: { class: Checklist, inlineToolbar: true },
                     quote: { class: Quote, inlineToolbar: true },
-                    embed: { class: Embed, config: { services: { youtube: true, vimeo: true, instagram: true, twitter: true } } },
+                    embed: {
+                        class: Embed,
+                        inlineToolbar: true,
+                        config: {
+                            services: { youtube: true, vimeo: true, instagram: true, twitter: true },
+                        },
+                    },
                     simpleImage: { class: SimpleImage, inlineToolbar: true },
                     image: {
                         class: ImageTool,
@@ -61,7 +70,10 @@ const EditorComponent: React.FC<EditorComponentProps> = ({ onChange }) => {
                         },
                     },
                     raw: Raw,
-                    linkTool: { class: LinkTool, config: { endpoint: 'https://api.linkpreview.net/?key=YOUR_API_KEY&q=' } },
+                    linkTool: {
+                        class: LinkTool,
+                        config: { endpoint: 'https://api.linkpreview.net/?key=YOUR_API_KEY&q=' },
+                    },
                     table: { class: Table, inlineToolbar: true, config: { rows: 2, cols: 2 } },
                 },
                 async onChange() {
@@ -74,19 +86,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({ onChange }) => {
 
             editorRef.current = editor;
 
-            // ⚡ Add heading styles after editor is ready
-            //         editor.isReady.then(() => {
-            //             const styleEl = document.createElement('style');
-            //             styleEl.innerHTML = `
-            //     /* Style headings based on their tag */
-            //     .ce-header.h1, .ce-header.h2, .ce-header.h3, .ce-header.h4, .ce-header.h5, .ce-header.h6 {}
-            //     h2.ce-header { font-size: 2rem; font-weight: 700; margin: 1rem 0; }
-            //     h3.ce-header { font-size: 1.5rem; font-weight: 600; margin: 0.75rem 0; }
-            //     h4.ce-header { font-size: 1.25rem; font-weight: 500; margin: 0.5rem 0; }
-            // `;
-            //             document.getElementById('editorjs')?.appendChild(styleEl);
-            //         });
-
+            // Add heading styles
             editor.isReady.then(() => {
                 const observer = new MutationObserver(() => {
                     document.querySelectorAll('h2.ce-header').forEach(el => el.classList.add('text-2xl', 'font-bold', 'my-4'));
@@ -103,9 +103,9 @@ const EditorComponent: React.FC<EditorComponentProps> = ({ onChange }) => {
                 editorRef.current = null;
             }
         };
-    }, [onChange]);
+    }, []); // ⚡ include value so it initializes with existing content
 
-    return <div id="editorjs" className="border p-4 rounded bg-white shadow-sm" />;
+    return <div id="editorjs" className="" />;
 };
 
 export default EditorComponent;

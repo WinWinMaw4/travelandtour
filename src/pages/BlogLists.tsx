@@ -75,15 +75,21 @@ const BlogList: React.FC = () => {
                             className="bg-white rounded-2xl shadow-md hover:shadow-lg overflow-hidden transition"
                         >
                             {/* Cover Image */}
-                            <img
-                                src={
-                                    post.coverImage?.startsWith("http")
-                                        ? post.coverImage
-                                        : `${import.meta.env.VITE_API_BASE_URL || ""}${post.coverImage}`
-                                }
-                                alt={post.title}
-                                className="w-full h-48 object-cover"
-                            />
+                            <div className="w-full aspect-3/2 overflow-hidden bg-emerald-200/20">
+
+                                <img
+                                    src={
+                                        post.coverImage
+                                            ? post.coverImage.startsWith("http")
+                                                ? post.coverImage
+                                                : `${import.meta.env.VITE_API_BASE_URL || ""}${post.coverImage}`
+                                            : "https://img.freepik.com/premium-photo/aerial-view-kaaba-mecca-sunset-with-large-crowd-people-performing-tawaf_559896-6013.jpg"
+                                    }
+                                    alt={post.title}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+
 
                             {/* Blog Content */}
                             <div className="p-6">
