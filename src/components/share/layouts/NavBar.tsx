@@ -8,7 +8,9 @@ const NavBar: React.FC = () => {
         { label: "Home", href: "/" },                  // full path
         { label: "About", href: "/#about" },           // full path with hash
         { label: "Blogs", href: "/blogs" },            // full path
-        { label: "Contact", href: "/#contact" },        // full path
+        { label: "Contact", href: "/#contact" },
+        { label: "Dashboard", href: "/dashboard" },        // full path
+        // full path
     ];
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
