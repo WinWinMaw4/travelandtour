@@ -4,6 +4,8 @@ import { setActiveTab } from '@store/slices/tabSlice';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import BannerPage from './BannerPage';
+import Profile from './ProfilePage';
+import PackagesPage from './PackagesPage';
 
 const tabs = ['Blogs', 'Packages', 'Banners', 'Profile'];
 
@@ -34,9 +36,9 @@ const Dashboard = () => {
             {/* Tab Content */}
             <div className="mt-4">
                 {activeTab === 'Blogs' && <BlogList />}
-                {activeTab === 'Packages' && <div>Packages Content</div>}
+                {activeTab === 'Packages' && <div><PackagesPage /></div>}
                 {activeTab === 'Banners' && <div><BannerPage /></div>}
-                {activeTab === 'Profile' && <div>Profile Content</div>}
+                {activeTab === 'Profile' && <div><Profile /></div>}
             </div>
         </div>
     );

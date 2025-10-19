@@ -1,0 +1,31 @@
+/* BannerSection.css */
+
+:root {
+    --swiper-theme-color: #10b981;
+}
+
+
+
+.swiper-button-prev, .swiper-button-next {
+    color:#10b981;
+}
+
+
+/* Hide arrows on small screens (mobile) */
+@media (max-width: 640px) { /* Tailwind sm breakpoint = 640px */
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none;
+  }
+}
+
+/* Swiper pagination bullets */
+.swiper-pagination-bullet {
+  background-color: #d1fae5;
+  opacity: 0.7;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #10b981;
+  opacity: 1;
+}

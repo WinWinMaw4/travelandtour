@@ -2,7 +2,9 @@ export const endpoints = {
 	register: "auth/register",
 	login:"auth/login",
 	users:"users",
-	blogs:"blogs"
+	blogs:"blogs",
+	banners:"banners",
+	packages:"packages"
 };
 
 

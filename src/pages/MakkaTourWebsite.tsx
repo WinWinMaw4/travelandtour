@@ -9,6 +9,10 @@ import pilgrims from "@assets/images/aboutus/pilgrims.jpg"
 import group1 from "@assets/images/aboutus/group1.jpg"
 import plane from "@assets/images/aboutus/plane.jpg"
 import map from "@assets/images/aboutus/map.jpg"
+import { useGetEndpointQuery } from "@services/apiSlice";
+import { endpoints } from "@services/endpoints";
+import BannerSection from "@components/page/banner/BannerSection";
+import PackagesSection from "./PackagsSection";
 
 
 
@@ -24,6 +28,8 @@ const testimonials = [
 ];
 
 const MakkaTourWebsite: React.FC = () => {
+
+
     return (
         <div className="font-sans">
             {/* Header */}
@@ -95,35 +101,89 @@ const MakkaTourWebsite: React.FC = () => {
                 </div>
             </section>
 
+            <section className="aspect-[4/2] lg:mt-24 max-w-screen md:max-w-3xl xl:max-w-5xl mx-auto overflow-hidden">
+                <BannerSection />
+            </section>
 
-
-            <section>
+            <section className="">
                 <BlogSection />
             </section>
 
             {/* About Section */}
             {/* About Section */}
-            <section id="about" className="max-w-6xl mx-auto px-6 py-20 text-center">
+            <section id="about" className="max-w-full mx-auto px-6 pt-10 pb-20 text-center bg-emerald-300/10 rounded-t-4xl">
                 <h3 className="text-3xl font-semibold mb-6">About Us</h3>
-                <p className="text-gray-700 max-w-3xl mx-auto mb-8">
-                    Makka Tour is dedicated to providing spiritual and memorable journeys for pilgrims visiting the holy cities. Our expert guides and comfortable packages ensure a smooth and enriching experience.
+                <p className="text-gray-700 max-w-3xl mx-auto mb-8 font-semibold text-lg">
+                    Makka Tour is dedicated to providing spiritual and memorable journeys for
+                    pilgrims visiting the holy cities. Our expert guides and comfortable packages
+                    ensure a smooth and enriching experience.
                 </p>
-                <p className="text-gray-700 max-w-3xl mx-auto mb-8">
-                    We have been organizing pilgrimages for years, focusing on safety, comfort, and guidance. From transportation and accommodations to guided tours of holy sites, we take care of every detail so you can focus on your spiritual journey.
+                <p className="text-gray-700 max-w-3xl mx-auto mb-8 font-semibold text-lg">
+                    We have been organizing pilgrimages for years, focusing on safety, comfort,
+                    and guidance. From transportation and accommodations to guided tours of holy
+                    sites, we take care of every detail so you can focus on your spiritual
+                    journey.
                 </p>
 
                 {/* Gallery */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-10">
-                    <img src={pilgrims} alt="Pilgrims" className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform" />
-                    <img src={group1} alt="Makkah View" className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform" />
-                    <img src={plane} alt="Spiritual Gathering" className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform" />
-                    <img src={map} alt="Tour Bus" className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform" />
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-1 md:gap-4 mt-10 max-w-6xl mx-auto">
+                    <a
+                        href={pilgrims}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img
+                            src={pilgrims}
+                            alt="Pilgrims"
+                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
+                        />
+                    </a>
+
+                    <a
+                        href={group1}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img
+                            src={group1}
+                            alt="Makkah View"
+                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
+                        />
+                    </a>
+
+                    <a
+                        href={plane}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img
+                            src={plane}
+                            alt="Spiritual Gathering"
+                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
+                        />
+                    </a>
+
+                    <a
+                        href={map}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img
+                            src={map}
+                            alt="Tour Bus"
+                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
+                        />
+                    </a>
                 </div>
             </section>
 
 
+
             {/* Tours Section */}
-            <section id="tours" className="max-w-6xl mx-auto px-6 py-20">
+            <section>
+                <PackagesSection />
+            </section>
+            {/* <section id="tours" className="max-w-6xl mx-auto px-6 py-20">
                 <h3 className="text-3xl font-semibold text-center mb-12">Our Packages</h3>
                 <div className="grid md:grid-cols-3 gap-8">
                     {tours.map((tour, idx) => (
@@ -138,10 +198,10 @@ const MakkaTourWebsite: React.FC = () => {
                         </div>
                     ))}
                 </div>
-            </section>
+            </section> */}
 
             {/* Testimonials */}
-            <section className="bg-gray-50 py-20">
+            <section className="bg-gray-50 py-20 hidden">
                 <h3 className="text-3xl font-semibold text-center mb-12">Testimonials</h3>
                 <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
                     {testimonials.map((t, idx) => (
@@ -154,31 +214,114 @@ const MakkaTourWebsite: React.FC = () => {
             </section>
 
             {/* Contact Section */}
-            <section id="contact" className="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 bg-cover bg-bottom"
+            <section
+                id="contact"
+                className="max-w-6xl mx-auto px-6 py-20 bg-cover bg-bottom"
             // style={{ backgroundImage: `url(${contactImage})` }}
             >
-                {/* Contact Info */}
-                <div className="space-y-6">
-                    <h3 className="text-3xl font-semibold mb-6">Contact Info</h3>
-                    <div className="bg-white/10 p-6 rounded-2xl shadow-md backdrop-blur-xs">
-                        <p className="font-semibold">Phone: <span className="text-emerald-700">+966 123 456 789</span></p>
-                        <p className="font-semibold">Email: <span className="text-emerald-700">info@makkatour.com</span></p>
-                        <p className="font-semibold">Location: <span className="text-emerald-700">Makkah, Saudi Arabia</span></p>
-                    </div>
-                    <div className="">
-                        <img src={contactImage} alt="contact image" className="" />
-                    </div>
-                </div>
+                <h2 className="text-3xl font-semibold text-center mb-12">Get in Touch</h2>
 
-                {/* Contact Form */}
-                <form className="bg-white/50 p-8 rounded-2xl shadow-md space-y-4 backdrop-blur-xs">
-                    <h3 className="text-2xl font-semibold mb-4">Send a Message</h3>
-                    <input type="text" placeholder="Your Name" className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600" />
-                    <input type="email" placeholder="Your Email" className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600" />
-                    <textarea placeholder="Your Message" rows={5} className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600"></textarea>
-                    <button className="w-full bg-emerald-700 text-white py-3 rounded-xl hover:bg-emerald-800 transition">Send Message</button>
-                </form>
+                <div className="grid lg:grid-cols-2 gap-12">
+                    {/* Left: Contact Info */}
+                    <div className="space-y-8">
+                        <div className="grid sm:grid-cols-2 gap-6">
+                            {/* Australia Branch */}
+                            <div className="bg-white shadow-md rounded-2xl p-6 border border-gray-100 hover:shadow-lg transition">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="text-2xl">🇦🇺</span>
+                                    <h4 className="text-lg font-semibold text-emerald-700">Australia Branch</h4>
+                                </div>
+                                <p className="text-sm text-gray-600">📍 Brisbane, QLD</p>
+                                <p className="text-sm text-gray-600">
+                                    📞{" "}
+                                    <a
+                                        href="tel:0490866626"
+                                        className="text-emerald-700 hover:underline"
+                                    >
+                                        0490 866 626
+                                    </a>
+                                </p>
+                                <p className="text-sm text-gray-600">
+                                    📧{" "}
+                                    <a
+                                        href="mailto:aus@asiabluesky.com"
+                                        className="text-emerald-700 hover:underline"
+                                    >
+                                        aus@asiabluesky.com
+                                    </a>
+                                </p>
+                            </div>
+
+                            {/* Myanmar Branch */}
+                            <div className="bg-white shadow-md rounded-2xl p-6 border border-gray-100 hover:shadow-lg transition">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="text-2xl">🇲🇲</span>
+                                    <h4 className="text-lg font-semibold text-emerald-700">Myanmar Branch</h4>
+                                </div>
+                                <p className="text-sm text-gray-600">📍 Yangon</p>
+                                <p className="text-sm text-gray-600">
+                                    📞{" "}
+                                    <a
+                                        href="tel:+9595171530"
+                                        className="text-emerald-700 hover:underline"
+                                    >
+                                        +959 517 1530
+                                    </a>
+                                </p>
+                                <p className="text-sm text-gray-600">
+                                    📧{" "}
+                                    <a
+                                        href="mailto:mm@asiabluesky.com"
+                                        className="text-emerald-700 hover:underline"
+                                    >
+                                        mm@asiabluesky.com
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Optional image or map */}
+                        <div className="rounded-2xl overflow-hidden shadow-md">
+                            <img
+                                src={contactImage}
+                                alt="Asia Sky Blue Travel Office"
+                                className="w-full h-64 object-cover"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Right: Contact Form */}
+                    <form className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-md space-y-4 border border-gray-100">
+                        <h3 className="text-2xl font-semibold mb-4 text-emerald-700">Send Us a Message</h3>
+                        <p className="text-gray-600 text-sm mb-6">
+                            Have questions or need help planning your journey? We’re happy to assist.
+                        </p>
+                        <input
+                            type="text"
+                            placeholder="Your Name"
+                            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600 outline-none"
+                        />
+                        <input
+                            type="email"
+                            placeholder="Your Email"
+                            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600 outline-none"
+                        />
+                        <textarea
+                            placeholder="Your Message"
+                            rows={5}
+                            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600 outline-none"
+                        ></textarea>
+                        <button
+                            type="submit"
+                            className="w-full bg-emerald-700 text-white py-3 rounded-xl hover:bg-emerald-800 transition font-medium"
+                        >
+                            Send Message
+                        </button>
+                    </form>
+                </div>
             </section>
+
+
 
             {/* Footer
             <footer className="bg-gray-100 py-6 text-center text-gray-600 text-sm">

@@ -1,6 +1,8 @@
 import { useGetEndpointQuery } from "@services/apiSlice";
 import { endpoints } from "@services/endpoints";
+import type { RootState } from "@store/index";
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 interface Blog {
@@ -14,7 +16,10 @@ interface Blog {
 
 const BlogList: React.FC = () => {
     const { data, isLoading, isError } = useGetEndpointQuery(`${endpoints.blogs}`);
-    const navigate = useNavigate();
+    const isAuthenticated = useSelector(
+        (state: RootState) => state.auth.isAuthenticated
+    );
+
     useEffect(() => {
         console.log("Fetched Blogs:", data);
     }, [data]);
@@ -44,12 +49,16 @@ const BlogList: React.FC = () => {
         <section className="max-w-6xl mx-auto px-6 py-20">
             <div className="flex justify-between items-center mb-12">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center">All Blog Posts</h2>
-                <Link
-                    to="/blogs/create"
-                    className="px-5 py-2 rounded text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-emerald-400 focus:ring-2"
-                >
-                    + Create New Blog
-                </Link>
+                {
+                    isAuthenticated && (
+                        <Link
+                            to="/blogs/create"
+                            className="px-5 py-2 rounded text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-emerald-400 focus:ring-2"
+                        >
+                            + Create New Blog
+                        </Link>
+                    )
+                }
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">

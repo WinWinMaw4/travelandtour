@@ -1,22 +1,35 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react"; // lightweight icons
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import type { RootState } from "@store/index";
 
 const NavBar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+
+    // ✅ Get auth state from Redux
+    const isAuthenticated = useSelector(
+        (state: RootState) => state.auth.isAuthenticated
+    );
 
     const navLinks = [
         { label: "Home", href: "/" },                  // full path
         { label: "About", href: "/#about" },           // full path with hash
         { label: "Blogs", href: "/blogs" },            // full path
         { label: "Contact", href: "/#contact" },
-        { label: "Dashboard", href: "/dashboard" },        // full path
+        // { label: "Dashboard", href: "/dashboard" },        // full path
         // full path
     ];
+
+    // ✅ Add dashboard link only if logged in
+    if (isAuthenticated) {
+        navLinks.push({ label: "Dashboard", href: "/dashboard" });
+    }
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
             <div className="max-w-[1920px] mx-auto px-6 py-4 flex justify-between items-center">
                 <h1 className="text-2xl font-bold text-emerald-700">
-                    Asia Sky Blue Travel and Tour
+                    <Link to={"/"}>Asia Sky Blue Travel and Tour</Link>
                 </h1>
 
                 {/* Desktop Nav */}

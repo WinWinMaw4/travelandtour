@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
-/* index.css */
+.prose a, td a {
+  @apply text-emerald-700 hover:text-emerald-900;
+}
 
-.ce-header {
-  /* Apply font sizes based on heading level */
-  font-weight: 600; /* default */
+
+/* .ce-header {
+  font-weight: 600; 
 }
 
 .ce-header[data-level="2"] {
@@ -20,5 +22,6 @@
 .ce-header[data-level="4"] {
   font-size: 1.25rem;
   font-weight: 500;
-}
+} */
+
 
