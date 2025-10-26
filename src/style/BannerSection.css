@@ -1,13 +1,13 @@
 /* BannerSection.css */
 
 :root {
-    --swiper-theme-color: #10b981;
+    --swiper-theme-color: #0077ff;
 }
 
 
 
 .swiper-button-prev, .swiper-button-next {
-    color:#10b981;
+    color:#0077ff;
 }
 
 
@@ -26,6 +26,6 @@
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #10b981;
+  background-color: #0077ff;
   opacity: 1;
 }

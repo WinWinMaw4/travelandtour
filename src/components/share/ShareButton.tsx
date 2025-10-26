@@ -64,7 +64,7 @@ const ShareButton = () => {
         <div className="relative" ref={dropdownRef}>
             <div className="share" onClick={handleShareClick}>
                 <div
-                    className={`flex justify-center items-center rounded border px-2 py-1 cursor-pointer ${isShare ? 'bg-emerald-700 text-white' : 'text-charcoal bg-white'
+                    className={`flex justify-center items-center rounded border px-2 py-1 cursor-pointer ${isShare ? 'bg-primary-700 text-white' : 'text-charcoal bg-white'
                         }`}
                 >
                     {isShare ? (

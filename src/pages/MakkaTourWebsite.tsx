@@ -1,7 +1,7 @@
 import React from "react";
 // import LanguageSwitch from "@/components/LanguageSwitch";
-import heroImage1 from "../assets/images/hero/8659.png"
-import heroImage2 from "../assets/images/hero/8659smalldevice.png"
+import heroImage1 from "../assets/images/hero/hero.png"
+import heroImage2 from "../assets/images/hero/herosmalldevice.png"
 import contactImage from "../assets/images/hero/8657.jpg"
 
 import BlogSection from "./BlogSection";
@@ -37,13 +37,13 @@ const MakkaTourWebsite: React.FC = () => {
             {/* Header */}
             {/* <header className="bg-white shadow-sm sticky top-0 z-50">
                 <div className="max-w-[1920px] mx-auto px-6 py-4 flex justify-between items-center">
-                    <h1 className="text-2xl font-bold text-emerald-700">Asia Sky Blue Travel and Tour</h1>
+                    <h1 className="text-2xl font-bold text-primary-700">Asia Sky Blue Travel and Tour</h1>
                     <div className="flex items-center space-x-6">
                         <nav className="hidden md:flex space-x-4">
-                            <a href="#home" className="hover:text-emerald-700">Home</a>
-                            <a href="#about" className="hover:text-emerald-700">About</a>
-                            <a href="#blogss" className="hover:text-emerald-700">Blogs</a>
-                            <a href="#contact" className="hover:text-emerald-700">Contact</a>
+                            <a href="#home" className="hover:text-primary-700">Home</a>
+                            <a href="#about" className="hover:text-primary-700">About</a>
+                            <a href="#blogss" className="hover:text-primary-700">Blogs</a>
+                            <a href="#contact" className="hover:text-primary-700">Contact</a>
                         </nav>
                     </div>
                 </div>
@@ -68,7 +68,7 @@ const MakkaTourWebsite: React.FC = () => {
                     className="hidden md:flex relative bg-cover bg-center w-full py-44"
                     style={{ backgroundImage: `url(${heroImage1})` }}
                 >
-                    <div className="relative z-10 max-w-2xl mx-auto md:mx-0 px-6 text-emerald-700">
+                    <div className="relative z-10 max-w-2xl mx-auto md:mx-0 px-6 text-primary-700">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
                             {t("banner.title")}
                         </h2>
@@ -77,7 +77,7 @@ const MakkaTourWebsite: React.FC = () => {
                         </p>
                         <a
                             href="#packages"
-                            className="bg-emerald-700 text-white px-5 py-2 sm:px-6 sm:py-3 rounded-full font-semibold hover:bg-gray-100 hover:text-emerald-700 transition"
+                            className="bg-primary-700 text-white px-5 py-2 sm:px-6 sm:py-3 rounded-full font-semibold hover:bg-gray-100 hover:text-primary-700 transition"
                         >
                             {t("banner.button")}
                         </a>
@@ -86,7 +86,7 @@ const MakkaTourWebsite: React.FC = () => {
 
                 {/* Content overlay for mobile */}
                 <div className="absolute inset-0 flex items-center justify-center md:hidden px-6">
-                    <div className="relative h-full flex flex-col items-center justify-center max-w-xl text-emerald-700 bg-white/70 rounded-xl p-6 ">
+                    <div className="relative h-full flex flex-col items-center justify-center max-w-xl text-primary-700 bg-white/70 rounded-xl p-6 ">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-3">
                             {t("banner.title")}
                         </h2>
@@ -95,7 +95,7 @@ const MakkaTourWebsite: React.FC = () => {
                         </p>
                         <a
                             href="#packages"
-                            className="bg-emerald-700 text-white px-4 py-2 sm:px-5 sm:py-2 rounded-full font-semibold hover:bg-gray-100 hover:text-emerald-700 transition"
+                            className="bg-primary-700 text-white px-4 py-2 sm:px-5 sm:py-2 rounded-full font-semibold hover:bg-gray-100 hover:text-primary-700 transition"
                         >
                             {t("banner.button")}
                         </a>
@@ -113,7 +113,7 @@ const MakkaTourWebsite: React.FC = () => {
 
             {/* About Section */}
             {/* About Section */}
-            <section id="about" className="max-w-full mx-auto px-6 py-10 lg:py-24 text-center bg-emerald-300/10 rounded-t-4xl">
+            <section id="about" className="max-w-full mx-auto px-6 py-10 lg:py-24 text-center bg-primary-300/10 rounded-t-4xl">
                 <h3 className="text-3xl font-semibold mb-6">{t("aboutUs.sectionTitle")}</h3>
                 <p className="text-gray-700 max-w-3xl mx-auto mb-8 font-semibold text-lg">
                     {t("aboutUs.description")}
@@ -189,8 +189,8 @@ const MakkaTourWebsite: React.FC = () => {
                             <div className="p-6 text-center">
                                 <h4 className="text-xl font-semibold mb-2">{tour.title}</h4>
                                 <p className="text-gray-600 mb-2">{tour.duration}</p>
-                                <p className="text-emerald-700 font-bold mb-4">{tour.price}</p>
-                                <button className="bg-emerald-700 text-white px-6 py-2 rounded-full hover:bg-emerald-800 transition">Book Now</button>
+                                <p className="text-primary-700 font-bold mb-4">{tour.price}</p>
+                                <button className="bg-primary-700 text-white px-6 py-2 rounded-full hover:bg-primary-800 transition">Book Now</button>
                             </div>
                         </div>
                     ))}
@@ -204,7 +204,7 @@ const MakkaTourWebsite: React.FC = () => {
                     {testimonials.map((t, idx) => (
                         <div key={idx} className="bg-white p-6 rounded-2xl shadow-md">
                             <p className="text-gray-700 mb-4">"{t.text}"</p>
-                            <p className="text-emerald-700 font-semibold text-right">- {t.name}</p>
+                            <p className="text-primary-700 font-semibold text-right">- {t.name}</p>
                         </div>
                     ))}
                 </div>
@@ -243,28 +243,28 @@ const MakkaTourWebsite: React.FC = () => {
                     {/* Right: Contact Form */}
                     <ContactForm />
                     {/* <form className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-md space-y-4 border border-gray-100">
-                        <h3 className="text-2xl font-semibold mb-4 text-emerald-700">Send Us a Message</h3>
+                        <h3 className="text-2xl font-semibold mb-4 text-primary-700">Send Us a Message</h3>
                         <p className="text-gray-600 text-sm mb-6">
                             Have questions or need help planning your journey? We’re happy to assist.
                         </p>
                         <input
                             type="text"
                             placeholder="Your Name"
-                            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600 outline-none"
+                            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-600 outline-none"
                         />
                         <input
                             type="email"
                             placeholder="Your Email"
-                            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600 outline-none"
+                            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-600 outline-none"
                         />
                         <textarea
                             placeholder="Your Message"
                             rows={5}
-                            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600 outline-none"
+                            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-600 outline-none"
                         ></textarea>
                         <button
                             type="submit"
-                            className="w-full bg-emerald-700 text-white py-3 rounded-xl hover:bg-emerald-800 transition font-medium"
+                            className="w-full bg-primary-700 text-white py-3 rounded-xl hover:bg-primary-800 transition font-medium"
                         >
                             Send Message
                         </button>

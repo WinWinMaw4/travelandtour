@@ -21,7 +21,7 @@ const Branches: React.FC = () => {
                         <span className="text-2xl">
                             {branch.country_code === "AU" ? "🇦🇺" : branch.country_code === "MM" ? "🇲🇲" : "🏳️"}
                         </span>
-                        <h4 className="text-lg font-semibold text-emerald-700">
+                        <h4 className="text-lg font-semibold text-primary-700">
                             {branch.country} Branch
                         </h4>
                     </div>
@@ -30,13 +30,13 @@ const Branches: React.FC = () => {
                     </p>
                     <p className="text-sm text-gray-600">
                         📞{" "}
-                        <a href={`tel:${branch.phone}`} className="text-emerald-700 hover:underline">
+                        <a href={`tel:${branch.phone}`} className="text-primary-700 hover:underline">
                             {branch.phone}
                         </a>
                     </p>
                     <p className="text-sm text-gray-600">
                         📧{" "}
-                        <a href={`mailto:${branch.email}`} className="text-emerald-700 hover:underline">
+                        <a href={`mailto:${branch.email}`} className="text-primary-700 hover:underline">
                             {branch.email}
                         </a>
                     </p>

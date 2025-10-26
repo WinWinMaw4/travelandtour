@@ -1,27 +1,55 @@
 @import "tailwindcss";
 
+
+:root {
+    --primary:#800020;
+    --secondary: #8d99b1;
+  --background: #ffffff;
+  --foreground: #171717;
+
+  --font-heading: "Playfair Display", serif;
+}
+
+@theme inline {
+  /* Primary color shades */
+--color-primary-100: #e5f0ff;
+--color-primary-200: #b8d5ff;
+--color-primary-300: #8bbaff;
+--color-primary-400: #5ea0ff;
+--color-primary-500: #0077ff; /* primary */
+--color-primary-600: #005fcc;
+--color-primary-700: #004799;
+--color-primary-800: #003066;
+--color-primary-900: #001933;
+
+--color-primary: var(--color-primary-500);
+
+/* Secondary color shades (Yellow) */
+--color-secondary-100: #fff8e0;
+--color-secondary-200: #ffedb3;
+--color-secondary-300: #ffe285;
+--color-secondary-400: #ffd857;
+--color-secondary-500: #ffcc00; /* secondary */
+--color-secondary-600: #d4a800;
+--color-secondary-700: #a98500;
+--color-secondary-800: #7f6200;
+--color-secondary-900: #554000;
+
+--color-secondary: var(--color-secondary-500);
+
+
+  /* Background & foreground */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Fonts */
+/* --font-heading: var(--font-heading);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono); */
+}
+
+
+
 .prose a, td a {
-  @apply text-emerald-700 hover:text-emerald-900;
+  @apply text-blue-700 hover:text-blue-900;
 }
-
-
-/* .ce-header {
-  font-weight: 600; 
-}
-
-.ce-header[data-level="2"] {
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.ce-header[data-level="3"] {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.ce-header[data-level="4"] {
-  font-size: 1.25rem;
-  font-weight: 500;
-} */
-
-

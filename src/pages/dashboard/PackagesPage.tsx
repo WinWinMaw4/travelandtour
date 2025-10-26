@@ -79,7 +79,7 @@ const PackagesPage: React.FC = () => {
                     isAuthenticated && (
                         <Link
                             to="/dashboard/packages/create"
-                            className="px-5 py-2 rounded text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-emerald-400 focus:ring-2"
+                            className="px-5 py-2 rounded text-white bg-primary-700 hover:bg-primary-800 focus:ring-primary-400 focus:ring-2"
                         >
                             + Create New Package
                         </Link>
@@ -110,10 +110,10 @@ const PackagesPage: React.FC = () => {
                             <div className="p-6 text-center">
                                 <h4 className="text-xl font-semibold mb-2">{pkg.title}</h4>
                                 <p className="text-gray-600 mb-2 ">{pkg.description}</p>
-                                <p className="text-emerald-700 font-bold mb-4">
+                                <p className="text-primary-700 font-bold mb-4">
                                     Est: {pkg.price ? `$${pkg.price}` : "Contact for Price"}
                                 </p>
-                                {/* <button className="bg-emerald-700 text-white px-6 py-2 rounded-full hover:bg-emerald-800 transition">
+                                {/* <button className="bg-primary-700 text-white px-6 py-2 rounded-full hover:bg-primary-800 transition">
                                     Call Now
                                 </button> */}
 

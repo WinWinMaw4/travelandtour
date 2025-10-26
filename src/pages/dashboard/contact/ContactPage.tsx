@@ -10,7 +10,7 @@ const ContactPage = () => {
     const [savingId, setSavingId] = useState<number | null>(null);
 
     // RTK Query mutation
-    const [updateContact, { isLoading: isUpdating }] = useInvalidateEndpointMutation();
+    const [updateContact] = useInvalidateEndpointMutation();
 
     useEffect(() => {
         if (data?.data) {
@@ -50,7 +50,7 @@ const ContactPage = () => {
 
     return (
         <div className="p-6 space-y-8 max-w-4xl mx-auto">
-            <h1 className="text-2xl font-bold text-green-800">Contact</h1>
+            <h1 className="text-2xl font-bold text-primary-700">Contact</h1>
 
             {contacts.map((ct) => (
                 <div
@@ -66,7 +66,7 @@ const ContactPage = () => {
                         {/* Phone field */}
                         <input
                             type="text"
-                            className="w-full border border-emerald-700 focus-within:outline-0 focus-within:border-2 rounded px-3 py-1"
+                            className="w-full border border-primary-700 focus-within:outline-0 focus-within:border-2 rounded px-3 py-1"
                             value={ct.phone}
                             onChange={(e) => handleInputChange(ct.id, "phone", e.target.value)}
                         />
@@ -74,14 +74,14 @@ const ContactPage = () => {
                         {/* Email field */}
                         <input
                             type="email"
-                            className="w-full border border-emerald-700 focus-within:outline-0 focus-within:border-2 rounded px-3 py-1"
+                            className="w-full border border-primary-700 focus-within:outline-0 focus-within:border-2 rounded px-3 py-1"
                             value={ct.email}
                             onChange={(e) => handleInputChange(ct.id, "email", e.target.value)}
                         />
 
                         {/* Save button */}
                         <button
-                            className="bg-green-600 text-white px-4 py-1 rounded cursor-pointer"
+                            className="bg-primary-600 text-white px-4 py-1 rounded cursor-pointer"
                             disabled={savingId === ct.id} // remove isUpdating here
                             onClick={() => handleSave(ct)}
                         >

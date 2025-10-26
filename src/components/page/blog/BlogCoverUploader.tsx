@@ -15,7 +15,7 @@ const BlogCoverUploader: React.FC<BlogCoverUploaderProps> = ({ preview, onFileCh
                 onChange={onFileChange}
                 className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 
                    file:rounded-md file:border-0 file:text-sm file:font-semibold 
-                   file:bg-blue-50 file:text-emerald-600 hover:file:bg-emerald-100"
+                   file:bg-blue-50 file:text-primary-600 hover:file:bg-primary-100"
             />
             {preview && (
                 <div className="mt-3 rounded-lg overflow-hidden shadow aspect-video w-full">

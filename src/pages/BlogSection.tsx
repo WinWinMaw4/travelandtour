@@ -29,7 +29,7 @@ const BlogSection: React.FC = () => {
         <h3 className="text-3xl font-semibold flex-1">{t("latestBlogs.sectionTitle")}</h3>
         <Link
           to="/blogs"
-          className="text-emerald-700 font-semibold hover:underline"
+          className="text-primary-700 font-semibold hover:underline"
         >
           {t("latestBlogs.seeAll")}
         </Link>
@@ -53,7 +53,7 @@ const BlogSection: React.FC = () => {
             <Link key={post.id} to={`/blogs/${post.slug}`} className="cursor-pointer">
               <div className="bg-white group rounded-2xl shadow-md hover:shadow-lg overflow-hidden transition flex flex-col h-full">
                 {/* Cover Image */}
-                <div className="w-full aspect-[3/2] overflow-hidden bg-emerald-200/20">
+                <div className="w-full aspect-[3/2] overflow-hidden bg-primary-200/20">
                   <img
                     src={
                       post.coverImage
@@ -72,7 +72,7 @@ const BlogSection: React.FC = () => {
                   <p className="text-gray-500 text-xs md:text-sm mb-2">
                     {new Date(post.createdAt).toDateString()}
                   </p>
-                  <h4 className="md:text-xl font-semibold mb-2 line-clamp-2 group-hover:text-emerald-700">
+                  <h4 className="md:text-xl font-semibold mb-2 line-clamp-2 group-hover:text-primary-700">
                     {post.title}
                   </h4>
                   {excerpt && (
@@ -83,7 +83,7 @@ const BlogSection: React.FC = () => {
                   <div className="mt-auto">
                     <Link
                       to={`/blogs/${post.slug}`}
-                      className="text-emerald-700 font-semibold hover:underline"
+                      className="text-primary-700 font-semibold hover:underline"
                     >
                       Read More →
                     </Link>

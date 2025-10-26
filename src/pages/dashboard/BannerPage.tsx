@@ -51,7 +51,7 @@ const BannerPage: React.FC = () => {
                 <div className="mb-6">
                     <Link
                         to="/dashboard/banner/create"
-                        className="bg-emerald-700 text-white px-4 py-2 rounded hover:bg-emerald-800"
+                        className="bg-primary-700 text-white px-4 py-2 rounded hover:bg-primary-800"
                     >
                         + Add Banner
                     </Link>

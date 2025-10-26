@@ -129,7 +129,7 @@ const Profile = () => {
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Name"
                         required
-                        className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors.name ? "focus:ring-red-500" : "focus:ring-emerald-500"
+                        className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors.name ? "focus:ring-red-500" : "focus:ring-primary-500"
                             }`}
                     />
                     {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
@@ -140,7 +140,7 @@ const Profile = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
                         required
-                        className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors.email ? "focus:ring-red-500" : "focus:ring-emerald-500"
+                        className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors.email ? "focus:ring-red-500" : "focus:ring-primary-500"
                             }`}
                     />
                     {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
@@ -149,7 +149,7 @@ const Profile = () => {
                 <button
                     onClick={handleUpdateInfo}
                     disabled={isUpdating}
-                    className="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 disabled:opacity-50 mt-2"
+                    className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700 disabled:opacity-50 mt-2"
                 >
                     {isUpdating ? "Updating..." : "Update Info"}
                 </button>
@@ -166,7 +166,7 @@ const Profile = () => {
                         value={oldPassword}
                         onChange={(e) => setOldPassword(e.target.value)}
                         placeholder="Old Password"
-                        className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors.oldPassword ? "focus:ring-red-500" : "focus:ring-emerald-500"
+                        className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors.oldPassword ? "focus:ring-red-500" : "focus:ring-primary-500"
                             }`}
                     />
                     {errors.oldPassword && <p className="text-red-500 text-sm">{errors.oldPassword}</p>}
@@ -176,7 +176,7 @@ const Profile = () => {
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         placeholder="New Password"
-                        className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors.newPassword ? "focus:ring-red-500" : "focus:ring-emerald-500"
+                        className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors.newPassword ? "focus:ring-red-500" : "focus:ring-primary-500"
                             }`}
                     />
                     {errors.newPassword && <p className="text-red-500 text-sm">{errors.newPassword}</p>}
@@ -185,7 +185,7 @@ const Profile = () => {
                 <button
                     onClick={handleChangePassword}
                     disabled={isChanging}
-                    className="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 disabled:opacity-50 mt-2"
+                    className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700 disabled:opacity-50 mt-2"
                 >
                     {isChanging ? "Changing..." : "Change Password"}
                 </button>

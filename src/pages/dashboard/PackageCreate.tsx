@@ -126,7 +126,7 @@ const PackageCreate = () => {
                 <div className="flex items-center">
                     <label
                         htmlFor="coverImage"
-                        className="cursor-pointer inline-flex items-center px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+                        className="cursor-pointer inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +180,7 @@ const PackageCreate = () => {
                     disabled={isLoading}
                     className={`px-6 py-2 rounded-full text-white font-semibold transition ${isLoading
                         ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-emerald-700 hover:bg-emerald-800"
+                        : "bg-primary-700 hover:bg-primary-800"
                         }`}
                 >
                     {isLoading ? "Creating..." : "Create Package"}

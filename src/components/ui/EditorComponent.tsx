@@ -5,12 +5,12 @@ import EditorJS from '@editorjs/editorjs';
 // Import tools
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
-import Checklist from '@editorjs/checklist';
+// import Checklist from '@editorjs/checklist';
 import Quote from '@editorjs/quote';
-import Embed from '@editorjs/embed';
+// import Embed from '@editorjs/embed';
 import SimpleImage from '@editorjs/simple-image';
 import Raw from '@editorjs/raw';
-import LinkTool from '@editorjs/link';
+// import LinkTool from '@editorjs/link';
 import ImageTool from '@editorjs/image';
 import Table from '@editorjs/table';
 
@@ -30,6 +30,9 @@ const EditorComponent: React.FC<EditorComponentProps> = ({ onChange, value }) =>
                 placeholder: 'Start writing your blog...',
                 data: value || {}, // ⚡ prefill existing content
                 tools: {
+                    paragraph: {
+                        inlineToolbar: ['link', 'bold', 'italic'], // 'bold' and 'italic' are built-in tools
+                    },
                     header: {
                         class: Header,
                         inlineToolbar: ['link'],
@@ -39,16 +42,16 @@ const EditorComponent: React.FC<EditorComponentProps> = ({ onChange, value }) =>
                             defaultLevel: 3,
                         },
                     },
-                    list: { class: List, inlineToolbar: true },
-                    checklist: { class: Checklist, inlineToolbar: true },
+                    list: { class: List, inlineToolbar: true, },
+                    // checklist: { class: Checklist, inlineToolbar: true },
                     quote: { class: Quote, inlineToolbar: true },
-                    embed: {
-                        class: Embed,
-                        inlineToolbar: true,
-                        config: {
-                            services: { youtube: true, vimeo: true, instagram: true, twitter: true },
-                        },
-                    },
+                    // embed: {
+                    //     class: Embed,
+                    //     inlineToolbar: true,
+                    //     config: {
+                    //         services: { youtube: true, vimeo: true, instagram: true, twitter: true },
+                    //     },
+                    // },
                     simpleImage: { class: SimpleImage, inlineToolbar: true },
                     image: {
                         class: ImageTool,
@@ -70,12 +73,14 @@ const EditorComponent: React.FC<EditorComponentProps> = ({ onChange, value }) =>
                         },
                     },
                     raw: Raw,
-                    linkTool: {
-                        class: LinkTool,
-                        config: {
-                            endpoint: 'https://api.linkpreview.net/?key=YOUR_API_KEY&q='
-                        },
-                    },
+                    // linkTool: LinkTool,
+                    // linkTool: {
+                    //     class: LinkTool,
+                    //     inlineToolbar: true,
+                    //     config: {
+                    //         endpoint: ""
+                    //     },
+                    // },
                     table: { class: Table, inlineToolbar: true, config: { rows: 2, cols: 2 } },
                 },
                 async onChange() {

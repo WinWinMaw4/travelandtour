@@ -41,7 +41,7 @@ const ContactForm: React.FC = () => {
             onSubmit={sendEmail}
             className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-md space-y-4 border border-gray-100"
         >
-            <h3 className="text-2xl font-semibold mb-4 text-emerald-700">
+            <h3 className="text-2xl font-semibold mb-4 text-primary-700">
                 {t("contact.form.title")}
             </h3>
             <p className="text-gray-600 text-sm mb-6">
@@ -53,27 +53,27 @@ const ContactForm: React.FC = () => {
                 name="name"
                 placeholder={t("contact.form.fields.name")}
                 required
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600 outline-none"
+                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-600 outline-none"
             />
             <input
                 type="email"
                 name="email"
                 placeholder={t("contact.form.fields.email")}
                 required
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600 outline-none"
+                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-600 outline-none"
             />
             <textarea
                 name="message"
                 placeholder={t("contact.form.fields.message")}
                 rows={5}
                 required
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-600 outline-none"
+                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-600 outline-none"
             ></textarea>
 
             <button
                 type="submit"
                 disabled={isSending}
-                className={`w-full bg-emerald-700 text-white py-3 rounded-xl transition font-medium ${isSending ? "opacity-70 cursor-not-allowed" : "hover:bg-emerald-800"
+                className={`w-full bg-primary-700 text-white py-3 rounded-xl transition font-medium ${isSending ? "opacity-70 cursor-not-allowed" : "hover:bg-primary-800"
                     }`}
             >
                 {isSending ? "Sending..." : "Send Message"}
@@ -82,7 +82,7 @@ const ContactForm: React.FC = () => {
             {statusMessage && (
                 <p
                     className={`text-center text-sm mt-3 ${statusMessage.startsWith("✅")
-                        ? "text-emerald-600"
+                        ? "text-primary-600"
                         : "text-red-500"
                         }`}
                 >

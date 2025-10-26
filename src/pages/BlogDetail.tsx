@@ -36,7 +36,7 @@ const BlogDetail: React.FC = () => {
         return (
             <div className="max-w-4xl mx-auto px-6 py-20">
                 <h2 className="text-2xl font-bold mb-6">Post Not Found</h2>
-                <Link to="/blogs" className="text-emerald-700 hover:underline">← Back to Blogs</Link>
+                <Link to="/blogs" className="text-primary-700 hover:underline">← Back to Blogs</Link>
             </div>
         );
 
@@ -64,6 +64,58 @@ const BlogDetail: React.FC = () => {
 
     const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+
+    // Helper function to inject target="_blank" and rel="noopener noreferrer"
+    // Helper function to inject target="_blank", rel, and Tailwind classes
+    const addTargetBlankToLinks = (htmlString: string): string => {
+        if (!htmlString) return '';
+
+        // Classes to ensure are present
+        const requiredClasses = 'text-primary-700 hover:underline';
+
+        return htmlString.replace(
+            /<a\s+(.*?)href=['"](.*?)['"](.*?)\/?>/gi,
+            (match, p1, href, p3) => {
+                let attributes = p1 + p3;
+
+                // 1. Add target="_blank" and rel="noopener noreferrer"
+                if (!match.toLowerCase().includes('target="_blank"')) {
+                    attributes += ' target="_blank"';
+                }
+                if (!match.toLowerCase().includes('rel="noopener noreferrer"')) {
+                    attributes += ' rel="noopener noreferrer"';
+                }
+
+                // 2. Inject Tailwind classes
+                const classMatch = attributes.match(/class=['"](.*?)['"]/i);
+
+                if (classMatch) {
+                    // Class attribute exists: Append required classes
+                    const existingClasses = classMatch[1];
+                    let newClasses = existingClasses;
+
+                    // Only append classes if they aren't already there (basic check)
+                    if (!existingClasses.includes('text-primary-700')) {
+                        newClasses += ' text-primary-700';
+                    }
+                    if (!existingClasses.includes('hover:underline')) {
+                        newClasses += ' hover:underline';
+                    }
+
+                    // Replace the old class attribute with the new one
+                    attributes = attributes.replace(classMatch[0], `class="${newClasses.trim()}"`);
+
+                } else {
+                    // Class attribute doesn't exist: Add the new attribute
+                    attributes += ` class="${requiredClasses}"`;
+                }
+
+                // Reconstruct the <a> tag
+                // We use `p1` and `p3` for attributes not already matched by class or href
+                return `<a ${attributes} href="${href}">`;
+            }
+        );
+    };
 
     return (
         <>
@@ -126,7 +178,7 @@ const BlogDetail: React.FC = () => {
                             {/* <ShareButton /> */}
                             <Link
                                 to={`/blogs/edit/${post.slug}`}
-                                className="px-5 py-2 rounded bg-emerald-100 text-emerald-700 hover:text-emerald-800 hover:bg-emerald-200 focus:ring-emerald-400 focus:ring-2"
+                                className="px-5 py-2 rounded bg-primary-100 text-primary-700 hover:text-primary-800 hover:bg-primary-200 focus:ring-primary-400 focus:ring-2"
                             >
                                 Edit
                             </Link>
@@ -164,13 +216,21 @@ const BlogDetail: React.FC = () => {
 
                 {/* Render EditorJS content */}
                 {parsedContent?.blocks?.map((block: any, idx: number) => {
+                    // 💡 Add processed content variable here
+                    let processedHtml = block.data.text;
+
+                    // Only process blocks that contain text/HTML (header, paragraph, list)
+                    if (block.type === "paragraph" || block.type === "header") {
+                        processedHtml = addTargetBlankToLinks(block.data.text);
+                    }
+
                     switch (block.type) {
                         case "paragraph":
                             return (
                                 <div
                                     key={idx}
-                                    className="prose prose-lg mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800"
-                                    dangerouslySetInnerHTML={{ __html: block.data.text }}
+                                    className="prose prose-lg mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800"
+                                    dangerouslySetInnerHTML={{ __html: processedHtml }}
                                 />
                             );
                         case "header":
@@ -185,19 +245,19 @@ const BlogDetail: React.FC = () => {
                             return (
                                 <Tag
                                     key={idx}
-                                    className={`${headingClass} prose-a:text-emerald-700 hover:prose-a:text-emerald-800`}
-                                    dangerouslySetInnerHTML={{ __html: block.data.text }}
+                                    className={`${headingClass} prose-a:text-primary-700 hover:prose-a:text-primary-800`}
+                                    dangerouslySetInnerHTML={{ __html: processedHtml }}
                                 />
                             );
                         case "list":
                             return block.data.style === "ordered" ? (
-                                <ol key={idx} className="list-decimal list-inside mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800">
+                                <ol key={idx} className="list-decimal list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
                                     {block.data.items.map((item: any, i: number) => (
                                         <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
                                     ))}
                                 </ol>
                             ) : (
-                                <ul key={idx} className="list-disc list-inside mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800">
+                                <ul key={idx} className="list-disc list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
                                     {block.data.items.map((item: any, i: number) => (
                                         <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
                                     ))}
@@ -241,7 +301,7 @@ const BlogDetail: React.FC = () => {
                             );
                         case "quote":
                             return (
-                                <blockquote key={idx} className="border-l-4 border-gray-300 pl-4 italic mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800">
+                                <blockquote key={idx} className="border-l-4 border-gray-300 pl-4 italic mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
                                     <div dangerouslySetInnerHTML={{ __html: block.data.text }} />
                                     {block.data.caption && <cite className="block mt-1 text-sm">{block.data.caption}</cite>}
                                 </blockquote>
@@ -256,7 +316,7 @@ const BlogDetail: React.FC = () => {
                                             href={link}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="text-emerald-700 hover:text-emerald-800 hover:underline"
+                                            className="text-primary-700 hover:text-primary-800 hover:underline"
                                         >
                                             {link}
                                         </a>
@@ -270,7 +330,7 @@ const BlogDetail: React.FC = () => {
                                     href={link}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex flex-col md:flex-row border border-gray-200 rounded-xl overflow-hidden shadow-md mb-6 transition-shadow duration-200 hover:shadow-lg hover:border-emerald-300"
+                                    className="flex flex-col md:flex-row border border-gray-200 rounded-xl overflow-hidden shadow-md mb-6 transition-shadow duration-200 hover:shadow-lg hover:border-primary-300"
                                 >
                                     <div className="p-4 flex-1">
                                         <p className="text-xs text-gray-500 uppercase">{meta.site_name || "Link"}</p>
@@ -295,7 +355,7 @@ const BlogDetail: React.FC = () => {
 
 
                 <div className="mt-12">
-                    <Link to="/blogs" className="text-emerald-700 font-semibold hover:underline">
+                    <Link to="/blogs" className="text-primary-700 font-semibold hover:underline">
                         ← Back to All Blogs
                     </Link>
                 </div>

@@ -118,7 +118,7 @@ const BlogList: React.FC = () => {
                         {isAuthenticated && (
                             <Link
                                 to="/blogs/create"
-                                className="px-5 py-2 rounded text-white bg-emerald-700 hover:bg-emerald-800"
+                                className="px-5 py-2 rounded text-white bg-primary-700 hover:bg-primary-800"
                             >
                                 + Create Blog
                             </Link>
@@ -136,7 +136,7 @@ const BlogList: React.FC = () => {
                             setSearchParams(searchParams);
                         }}
                         placeholder={t("blogsList.searchPlaceholder")}
-                        className="w-full px-4 py-3 border border-gray-400 rounded-lg focus-within:outline-0 focus:ring-emerald-500 focus:border-emerald-500"
+                        className="w-full px-4 py-3 border border-gray-400 rounded-lg focus-within:outline-0 focus:ring-primary-500 focus:border-primary-500"
                     />
                 </div>
 
@@ -200,7 +200,7 @@ const BlogList: React.FC = () => {
                                             </p>
                                         )}
 
-                                        <span className="text-emerald-700 font-semibold mt-3 inline-block">
+                                        <span className="text-primary-700 font-semibold mt-3 inline-block">
                                             Read More →
                                         </span>
                                     </div>

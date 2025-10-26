@@ -16,8 +16,8 @@ const BlogSubmitButton: React.FC<BlogSubmitButtonProps> = ({ onClick, isLoading,
         <button
             onClick={onClick}
             disabled={isLoading}
-            className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold 
-                 hover:bg-emerald-700 transition disabled:opacity-50 mt-4"
+            className="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold 
+                 hover:bg-primary-700 transition disabled:opacity-50 mt-4"
         >
             {getText()}
         </button>

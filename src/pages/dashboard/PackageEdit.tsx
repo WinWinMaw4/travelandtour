@@ -106,7 +106,7 @@ const PackageEdit = () => {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className={`w-full border rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 ${errors.title ? "border-red-500" : "border-gray-300"}`}
+                    className={`w-full border rounded-lg p-2 focus:ring-primary-500 focus:border-primary-500 ${errors.title ? "border-red-500" : "border-gray-300"}`}
                 />
                 {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
             </div>
@@ -118,7 +118,7 @@ const PackageEdit = () => {
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className={`w-full border rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 ${errors.price ? "border-red-500" : "border-gray-300"}`}
+                    className={`w-full border rounded-lg p-2 focus:ring-primary-500 focus:border-primary-500 ${errors.price ? "border-red-500" : "border-gray-300"}`}
                 />
                 {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price}</p>}
             </div>
@@ -130,7 +130,7 @@ const PackageEdit = () => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={5}
-                    className={`w-full border rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 ${errors.description ? "border-red-500" : "border-gray-300"}`}
+                    className={`w-full border rounded-lg p-2 focus:ring-primary-500 focus:border-primary-500 ${errors.description ? "border-red-500" : "border-gray-300"}`}
                 />
                 {errors.description && (
                     <p className="text-red-500 text-sm mt-1">{errors.description}</p>
@@ -145,7 +145,7 @@ const PackageEdit = () => {
                 <div className="flex items-center">
                     <label
                         htmlFor="coverImage"
-                        className="cursor-pointer inline-flex items-center px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+                        className="cursor-pointer inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +193,7 @@ const PackageEdit = () => {
             <button
                 onClick={handleSubmit}
                 disabled={isUpdating}
-                className="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-2 rounded-lg font-semibold transition"
+                className="bg-primary-700 hover:bg-primary-800 text-white px-6 py-2 rounded-lg font-semibold transition"
             >
                 {isUpdating ? "Updating..." : "Update Package"}
             </button>

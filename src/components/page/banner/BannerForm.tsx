@@ -93,7 +93,7 @@ const BannerForm: React.FC<BannerFormProps> = ({
                     value={link}
                     onChange={(e) => setLink(e.target.value)}
                     placeholder="Enter link (optional)"
-                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400"
                 />
                 {errors.link && <p className="text-red-500 text-sm">{errors.link}</p>}
             </div>
@@ -106,8 +106,8 @@ const BannerForm: React.FC<BannerFormProps> = ({
                 type="submit"
                 disabled={isLoading}
                 className={`px-6 py-2 rounded text-white ${isLoading
-                    ? "bg-emerald-400 cursor-not-allowed"
-                    : "bg-emerald-600 hover:bg-emerald-700"
+                    ? "bg-primary-400 cursor-not-allowed"
+                    : "bg-primary-600 hover:bg-primary-700"
                     }`}
             >
                 {isLoading

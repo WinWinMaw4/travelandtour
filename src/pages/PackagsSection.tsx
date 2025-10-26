@@ -78,12 +78,12 @@ const PackagesSection: React.FC = () => {
                             </div>
 
                             <div className="p-6 text-center">
-                                <h4 className="text-xl font-semibold mb-2 group-hover:text-emerald-700">{pkg.title}</h4>
+                                <h4 className="text-xl font-semibold mb-2 group-hover:text-primary-700">{pkg.title}</h4>
                                 <p className="text-gray-600 mb-2">{pkg.description}</p>
-                                <p className="text-emerald-700 font-bold mb-4">
+                                <p className="text-primary-700 font-bold mb-4">
                                     {pkg.price ? `Est : $${pkg.price}` : "Contact for Price"}
                                 </p>
-                                <button className="bg-emerald-700 text-white px-6 py-2 rounded-full hover:bg-emerald-800 transition">
+                                <button className="bg-primary-700 text-white px-6 py-2 rounded-full hover:bg-primary-800 transition">
                                     <a
                                         href="tel:0490866626"
                                         className=""
