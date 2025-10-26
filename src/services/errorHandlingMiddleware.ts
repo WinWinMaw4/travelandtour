@@ -8,7 +8,7 @@ import { logout } from "@store/slices/authSlice";
 let offlineErrorShown = false;
 
 interface CustomErrorPayload {
-  data?: { error?: string };
+  data?: { error?: string, message?:string };
   status?: number;
   originalStatus?: number;
 }
@@ -20,7 +20,8 @@ const errorHandlingMiddleware: Middleware = ({ dispatch }) => (next) => async (a
 	if (isRejectedWithValue(action)) {
 		const errorMessage = action.error.message || "An error occurred";
 const payload = action.payload as CustomErrorPayload;
-const invalidTokenError = payload?.data?.error;
+const invalidTokenError = payload?.data?.message;
+
 	
 		try {
 			const online = await isOnline();
@@ -33,7 +34,7 @@ const invalidTokenError = payload?.data?.error;
 				// Optional: check originalStatus or error message
 				const status = (action.payload as any)?.originalStatus ?? (action.payload as any)?.status;
 
-				if (status === 401 && (errorMessage === "Invalid token" || invalidTokenError==="Invalid token user")) {
+				if (status === 401 && (errorMessage === "Invalid token" || errorMessage === "Invalid token user" || invalidTokenError==="Invalid token user" || invalidTokenError==="Invalid token")) {
 					toast.error("Session expired. Logging out...");
 					dispatch(logout());
 				} else {

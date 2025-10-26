@@ -55,9 +55,11 @@ const BlogCreate = () => {
             }).unwrap();
 
             if (res?.message === "Blog created successfully") {
-                toast.success("Blog created successsfully.");
+                navigate(-1);
+                toast.success("Blog created successsfully.", {
+                    duration: 4000, // Toast will disappear after 4 seconds
+                });
 
-                navigate("/blogs");
 
             } else if (res?.errors) {
                 // Assign API validation errors to state

@@ -1,0 +1,97 @@
+{
+  "site": {
+    "title": "Asia Sky Blue Travel and Tour",
+    "menu": {
+      "home": "Home",
+      "about": "About",
+      "blogs": "Blogs",
+      "contact": "Contact"
+    }
+  },
+  "language": {
+    "my": "မြန်မာ",
+    "en": "English"
+  },
+  "banner": {
+    "title": "Experience the Spiritual Journey",
+    "subtitle": "Join Asia Sky Blue for a guided, safe, and memorable pilgrimage experience.",
+    "button": "View Packages"
+  },
+  "latestBlogs": {
+    "sectionTitle": "Latest Blog Posts",
+    "seeAll": "See All",
+    "posts": []
+  },
+  "blogsList": {
+    "sectionTitle": "All Blog Posts",
+    "searchPlaceholder": "Search blogs...",
+    "posts": []
+  },
+  "aboutUs": {
+    "sectionTitle": "About Us",
+    "description": "Asia Sky Blue is dedicated to providing spiritual and memorable journeys for pilgrims visiting the holy cities. Our expert guides and comfortable packages ensure a smooth and enriching experience.",
+    "details": "We have been organizing pilgrimages for years, focusing on safety, comfort, and guidance. From transportation and accommodations to guided tours of holy sites, we take care of every detail so you can focus on your spiritual journey."
+  },
+  "gallery": {
+    "pilgrims": "Pilgrims",
+    "makkahView": "Makkah View",
+    "spiritualGathering": "Spiritual Gathering",
+    "tourBus": "Tour Bus"
+  },
+  "packages": {
+    "sectionTitle": "Our Packages",
+    "economy13": {
+      "title": "Economy Hajj Package – 13 Days",
+      "description": "Stay 21 days with premium hotel in Makkah & Madinah, guided transport, full meals.",
+      "price": "Est : $3700",
+      "button": "Call Now"
+    },
+    "economy14": {
+      "title": "Economy Hajj Package – 14 Days",
+      "description": "Standard accommodation, shared transport, good value for money for first-time pilgrim.",
+      "price": "Est : $3000",
+      "button": "Call Now"
+    }
+  },
+  "contact": {
+    "sectionTitle": "Get in Touch",
+    "branches": {
+      "australia": {
+        "country": "Australia Branch",
+        "address": "📍 Brisbane, QLD",
+        "phone": "📞 0490 866 626",
+        "email": "📧 aus@asiabluesky.com"
+      },
+      "myanmar": {
+        "country": "Myanmar Branch",
+        "address": "📍 Yangon",
+        "phone": "📞 +959 517 1530",
+        "email": "📧 mm@asiabluesky.com"
+      }
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "subtitle": "Have questions or need help planning your journey? We’re happy to assist.",
+      "fields": {
+        "name": "Your Name",
+        "email": "Your Email",
+        "message": "Your Message"
+      },
+      "button": "Send Message"
+    }
+  },
+  "footer": {
+    "about": "Asia Blue Sky Hajj, Umrah & Travel provides trusted pilgrimage services with carefully planned Umrah & Hajj packages for a spiritual journey.",
+    "quickLinks": {
+      "home": "Home",
+      "about": "About",
+      "blogs": "Blogs",
+      "contact": "Contact"
+    },
+    "contact": {
+      "australia": "🇦🇺 Brisbane, QLD, Australia\n📞 0490 866 626\n📧 aus@asiabluesky.com",
+      "myanmar": "🇲🇲 Yangon, Myanmar\n📞 +959 517 1530\n📧 mm@asiabluesky.com"
+    },
+    "copyright": "© 2025 Makka Tour. All rights reserved."
+  }
+}

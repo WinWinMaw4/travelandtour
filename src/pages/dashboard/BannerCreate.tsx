@@ -21,7 +21,9 @@ const BannerCreatePage: React.FC = () => {
             }).unwrap();
 
             if (res?.message === "Banner created successfully") {
-                toast.success("Banner created successfully");
+                toast.success("Banner created successfully", {
+                    duration: 4000, // Toast will disappear after 4 seconds
+                });
                 navigate(-1); // redirect after success
             } else if (res?.errors) {
                 setErrors(res.errors);

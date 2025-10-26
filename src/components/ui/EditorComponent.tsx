@@ -72,7 +72,9 @@ const EditorComponent: React.FC<EditorComponentProps> = ({ onChange, value }) =>
                     raw: Raw,
                     linkTool: {
                         class: LinkTool,
-                        config: { endpoint: 'https://api.linkpreview.net/?key=YOUR_API_KEY&q=' },
+                        config: {
+                            endpoint: 'https://api.linkpreview.net/?key=YOUR_API_KEY&q='
+                        },
                     },
                     table: { class: Table, inlineToolbar: true, config: { rows: 2, cols: 2 } },
                 },

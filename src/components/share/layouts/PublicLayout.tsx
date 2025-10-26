@@ -15,7 +15,7 @@ export default function PublicLayout({
 
             {/* Main Content */}
             <div className="flex flex-col flex-1">
-                <Toaster position="top-right" /> {/* only once in the app */}
+                <Toaster position="bottom-right" /> {/* only once in the app */}
 
                 <NavBar />
                 {/* Page Content */}

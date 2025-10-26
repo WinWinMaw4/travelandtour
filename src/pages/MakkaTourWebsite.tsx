@@ -9,18 +9,17 @@ import pilgrims from "@assets/images/aboutus/pilgrims.jpg"
 import group1 from "@assets/images/aboutus/group1.jpg"
 import plane from "@assets/images/aboutus/plane.jpg"
 import map from "@assets/images/aboutus/map.jpg"
-import { useGetEndpointQuery } from "@services/apiSlice";
-import { endpoints } from "@services/endpoints";
+// import { useGetEndpointQuery } from "@services/apiSlice";
+// import { endpoints } from "@services/endpoints";
 import BannerSection from "@components/page/banner/BannerSection";
 import PackagesSection from "./PackagsSection";
+import ContactForm from "@components/page/Home/ContactForm";
+import { useTranslation } from "react-i18next";
+import { useGetEndpointQuery } from "@services/apiSlice";
+import { endpoints } from "@services/endpoints";
+import Branches from "@components/page/Home/Branches";
 
 
-
-const tours = [
-    { title: "Umrah Package 3 Days", price: "$499", duration: "3 Days", img: "https://i.pinimg.com/736x/8e/bc/53/8ebc5386d7b355812b0e3b64c7621483.jpg" },
-    { title: "Hajj Premium Package", price: "$1299", duration: "7 Days", img: "https://www.jetwayhajjgroup.com/uploads/4623102.png" },
-    { title: "Makka City Tour", price: "$299", duration: "2 Days", img: "https://tse3.mm.bing.net/th/id/OIP.8pbqOY61TnfIo3wbXaUIlAHaEV?cb=ucfimgc2&rs=1&pid=ImgDetMain&o=7&rm=3" },
-];
 
 const testimonials = [
     { name: "Ahmed", text: "Amazing experience! Highly recommended." },
@@ -28,6 +27,9 @@ const testimonials = [
 ];
 
 const MakkaTourWebsite: React.FC = () => {
+    const { t } = useTranslation();
+
+
 
 
     return (
@@ -68,16 +70,16 @@ const MakkaTourWebsite: React.FC = () => {
                 >
                     <div className="relative z-10 max-w-2xl mx-auto md:mx-0 px-6 text-emerald-700">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-                            Experience the Spiritual Journey
+                            {t("banner.title")}
                         </h2>
                         <p className="text-base sm:text-lg md:text-xl mb-8">
-                            Join Makka Tour for a guided, safe, and memorable pilgrimage experience.
+                            {t("banner.subtitle")}
                         </p>
                         <a
-                            href="#tours"
+                            href="#packages"
                             className="bg-emerald-700 text-white px-5 py-2 sm:px-6 sm:py-3 rounded-full font-semibold hover:bg-gray-100 hover:text-emerald-700 transition"
                         >
-                            View Packages
+                            {t("banner.button")}
                         </a>
                     </div>
                 </div>
@@ -86,16 +88,16 @@ const MakkaTourWebsite: React.FC = () => {
                 <div className="absolute inset-0 flex items-center justify-center md:hidden px-6">
                     <div className="relative h-full flex flex-col items-center justify-center max-w-xl text-emerald-700 bg-white/70 rounded-xl p-6 ">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-3">
-                            Experience the Spiritual Journey
+                            {t("banner.title")}
                         </h2>
                         <p className="text-sm sm:text-base mb-6">
-                            Join Makka Tour for a guided, safe, and memorable pilgrimage experience.
+                            {t("banner.subtitle")}
                         </p>
                         <a
-                            href="#tours"
+                            href="#packages"
                             className="bg-emerald-700 text-white px-4 py-2 sm:px-5 sm:py-2 rounded-full font-semibold hover:bg-gray-100 hover:text-emerald-700 transition"
                         >
-                            View Packages
+                            {t("banner.button")}
                         </a>
                     </div>
                 </div>
@@ -111,18 +113,13 @@ const MakkaTourWebsite: React.FC = () => {
 
             {/* About Section */}
             {/* About Section */}
-            <section id="about" className="max-w-full mx-auto px-6 pt-10 pb-20 text-center bg-emerald-300/10 rounded-t-4xl">
-                <h3 className="text-3xl font-semibold mb-6">About Us</h3>
+            <section id="about" className="max-w-full mx-auto px-6 py-10 lg:py-24 text-center bg-emerald-300/10 rounded-t-4xl">
+                <h3 className="text-3xl font-semibold mb-6">{t("aboutUs.sectionTitle")}</h3>
                 <p className="text-gray-700 max-w-3xl mx-auto mb-8 font-semibold text-lg">
-                    Makka Tour is dedicated to providing spiritual and memorable journeys for
-                    pilgrims visiting the holy cities. Our expert guides and comfortable packages
-                    ensure a smooth and enriching experience.
+                    {t("aboutUs.description")}
                 </p>
                 <p className="text-gray-700 max-w-3xl mx-auto mb-8 font-semibold text-lg">
-                    We have been organizing pilgrimages for years, focusing on safety, comfort,
-                    and guidance. From transportation and accommodations to guided tours of holy
-                    sites, we take care of every detail so you can focus on your spiritual
-                    journey.
+                    {t("aboutUs.details")}
                 </p>
 
                 {/* Gallery */}
@@ -216,69 +213,22 @@ const MakkaTourWebsite: React.FC = () => {
             {/* Contact Section */}
             <section
                 id="contact"
-                className="max-w-6xl mx-auto px-6 py-20 bg-cover bg-bottom"
+                className="max-w-6xl mx-auto px-6 lg:py-20 bg-cover bg-bottom"
             // style={{ backgroundImage: `url(${contactImage})` }}
             >
-                <h2 className="text-3xl font-semibold text-center mb-12">Get in Touch</h2>
+                <h2 className="text-3xl font-semibold text-center mb-12">{t("contact.sectionTitle")}</h2>
 
                 <div className="grid lg:grid-cols-2 gap-12">
                     {/* Left: Contact Info */}
                     <div className="space-y-8">
-                        <div className="grid sm:grid-cols-2 gap-6">
-                            {/* Australia Branch */}
-                            <div className="bg-white shadow-md rounded-2xl p-6 border border-gray-100 hover:shadow-lg transition">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <span className="text-2xl">🇦🇺</span>
-                                    <h4 className="text-lg font-semibold text-emerald-700">Australia Branch</h4>
-                                </div>
-                                <p className="text-sm text-gray-600">📍 Brisbane, QLD</p>
-                                <p className="text-sm text-gray-600">
-                                    📞{" "}
-                                    <a
-                                        href="tel:0490866626"
-                                        className="text-emerald-700 hover:underline"
-                                    >
-                                        0490 866 626
-                                    </a>
-                                </p>
-                                <p className="text-sm text-gray-600">
-                                    📧{" "}
-                                    <a
-                                        href="mailto:aus@asiabluesky.com"
-                                        className="text-emerald-700 hover:underline"
-                                    >
-                                        aus@asiabluesky.com
-                                    </a>
-                                </p>
-                            </div>
+                        {/* <div className="bg-amber-500/20 text-amber-500 border border-amber-500 rounded px-5 py-2">
+                            <p className="font-bold">Hello</p>
+                            <p className="text-black/80">Description</p>
+                        </div> */}
 
-                            {/* Myanmar Branch */}
-                            <div className="bg-white shadow-md rounded-2xl p-6 border border-gray-100 hover:shadow-lg transition">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <span className="text-2xl">🇲🇲</span>
-                                    <h4 className="text-lg font-semibold text-emerald-700">Myanmar Branch</h4>
-                                </div>
-                                <p className="text-sm text-gray-600">📍 Yangon</p>
-                                <p className="text-sm text-gray-600">
-                                    📞{" "}
-                                    <a
-                                        href="tel:+9595171530"
-                                        className="text-emerald-700 hover:underline"
-                                    >
-                                        +959 517 1530
-                                    </a>
-                                </p>
-                                <p className="text-sm text-gray-600">
-                                    📧{" "}
-                                    <a
-                                        href="mailto:mm@asiabluesky.com"
-                                        className="text-emerald-700 hover:underline"
-                                    >
-                                        mm@asiabluesky.com
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
+                        <Branches />
+
+
 
                         {/* Optional image or map */}
                         <div className="rounded-2xl overflow-hidden shadow-md">
@@ -291,7 +241,8 @@ const MakkaTourWebsite: React.FC = () => {
                     </div>
 
                     {/* Right: Contact Form */}
-                    <form className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-md space-y-4 border border-gray-100">
+                    <ContactForm />
+                    {/* <form className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-md space-y-4 border border-gray-100">
                         <h3 className="text-2xl font-semibold mb-4 text-emerald-700">Send Us a Message</h3>
                         <p className="text-gray-600 text-sm mb-6">
                             Have questions or need help planning your journey? We’re happy to assist.
@@ -317,7 +268,7 @@ const MakkaTourWebsite: React.FC = () => {
                         >
                             Send Message
                         </button>
-                    </form>
+                    </form> */}
                 </div>
             </section>
 

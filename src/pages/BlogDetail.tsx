@@ -7,6 +7,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "../index.css"
 import { useSelector } from "react-redux";
 import type { RootState } from "@store/index";
+import ShareButton from "@components/share/ShareButton";
+import SEO from "@components/share/seo/SEO";
+import metaCoverImage from "@assets/metaCover.png";
+
 
 const BlogDetail: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
@@ -62,163 +66,241 @@ const BlogDetail: React.FC = () => {
 
 
     return (
-        <article className="max-w-4xl mx-auto px-6 py-20 relative">
-            {/* Confirm Modal */}
-            {showConfirm && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-                    <div className="bg-white rounded-2xl shadow-xl w-[90%] max-w-sm p-6 text-center">
-                        <h3 className="text-xl font-semibold mb-4">Delete this blog?</h3>
-                        <p className="text-gray-600 mb-6">This action cannot be undone.</p>
-                        <div className="flex justify-center gap-4">
-                            <button
-                                onClick={() => setShowConfirm(false)}
-                                className="px-5 py-2 rounded-lg bg-gray-200 hover:bg-gray-300"
-                                disabled={isDeleting}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleDelete}
-                                className="px-5 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
-                                disabled={isDeleting}
-                            >
-                                {isDeleting ? "Deleting..." : "Delete"}
-                            </button>
+        <>
+            <SEO
+                title={post.title + " | Makka Tour Blog"}
+                description={
+                    post.content
+                        ? (() => {
+                            try {
+                                const parsed = JSON.parse(post.content);
+                                const firstBlock = parsed.blocks?.find(
+                                    (b: any) => b.type === "paragraph" && b.data?.text
+                                );
+                                return firstBlock?.data?.text
+                                    ?.replace(/<[^>]*>/g, "")
+                                    .replace(/&nbsp;/g, " ")
+                                    .trim()
+                                    .slice(0, 160);
+                            } catch {
+                                return post.content.replace(/<[^>]*>/g, "").slice(0, 160);
+                            }
+                        })()
+                        : "Read this spiritual journey blog on Makka Tour."
+                }
+                keywords={`Makka Tour Blog, Hajj, Umrah, Pilgrimage, ${post.title}`}
+                image={post.coverImage ? `${BASE_URL}${post.coverImage}` : metaCoverImage}
+                url={`${window.location.origin}/blogs/${post.slug}`}
+            />
+            <article className="max-w-4xl mx-auto px-6 py-10  md:py-20 relative">
+                {/* Confirm Modal */}
+                {showConfirm && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+                        <div className="bg-white rounded-2xl shadow-xl w-[90%] max-w-sm p-6 text-center">
+                            <h3 className="text-xl font-semibold mb-4">Delete this blog?</h3>
+                            <p className="text-gray-600 mb-6">This action cannot be undone.</p>
+                            <div className="flex justify-center gap-4">
+                                <button
+                                    onClick={() => setShowConfirm(false)}
+                                    className="px-5 py-2 rounded-lg bg-gray-200 hover:bg-gray-300"
+                                    disabled={isDeleting}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleDelete}
+                                    className="px-5 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+                                    disabled={isDeleting}
+                                >
+                                    {isDeleting ? "Deleting..." : "Delete"}
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
 
-            {/* Edit + Delete buttons */}
-            {
-                isAuthenticated && (
-                    <div className="flex justify-end items-end gap-3 mb-5">
-                        <Link
-                            to={`/blogs/edit/${post.slug}`}
-                            className="px-5 py-2 rounded bg-emerald-100 text-emerald-700 hover:text-emerald-800 hover:bg-emerald-200 focus:ring-emerald-400 focus:ring-2"
-                        >
-                            Edit
-                        </Link>
-                        <button
-                            onClick={() => setShowConfirm(true)}
-                            className="px-5 py-2 rounded bg-red-100 text-red-700 hover:bg-red-200 focus:ring-red-400 focus:ring-2"
-                        >
-                            Delete
-                        </button>
+                {/* Edit + Delete buttons */}
+                {
+                    isAuthenticated && (
+                        <div className="flex justify-end items-end gap-3 mb-5">
+                            {/* <ShareButton /> */}
+                            <Link
+                                to={`/blogs/edit/${post.slug}`}
+                                className="px-5 py-2 rounded bg-emerald-100 text-emerald-700 hover:text-emerald-800 hover:bg-emerald-200 focus:ring-emerald-400 focus:ring-2"
+                            >
+                                Edit
+                            </Link>
+                            <button
+                                onClick={() => setShowConfirm(true)}
+                                className="px-5 py-2 rounded bg-red-100 text-red-700 hover:bg-red-200 focus:ring-red-400 focus:ring-2"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    )
+                }
+
+                {/* Cover Image */}
+                <a href={`${BASE_URL}${post.coverImage}`} target="_blank" rel="noopener noreferrer">
+                    <div className="w-full mb-8 rounded-2xl overflow-hidden shadow aspect-video cursor-pointer">
+                        <img
+                            src={post.coverImage ? `${BASE_URL}${post.coverImage}` : "https://via.placeholder.com/800x400?text=No+Cover+Image"}
+                            alt={post.slug}
+                            className="w-full h-full object-cover"
+                        />
                     </div>
-                )
-            }
+                </a>
 
-            {/* Cover Image */}
-            <a href={`${BASE_URL}${post.coverImage}`} target="_blank" rel="noopener noreferrer">
-                <div className="w-full mb-8 rounded-2xl overflow-hidden shadow aspect-video cursor-pointer">
-                    <img
-                        src={post.coverImage ? `${BASE_URL}${post.coverImage}` : "https://via.placeholder.com/800x400?text=No+Cover+Image"}
-                        alt={post.slug}
-                        className="w-full h-full object-cover"
-                    />
+                <div className="">
+                    <div className="flex justify-between items-center">
+                        <p className="text-gray-500 text-sm mb-2">{new Date(post.createdAt).toDateString()}</p>
+                        <ShareButton />
+
+                    </div>
+                    <h1 className="text-4xl font-bold mb-10">{post.title}</h1>
                 </div>
-            </a>
 
-            <p className="text-gray-500 text-sm mb-2">{new Date(post.createdAt).toDateString()}</p>
-            <h1 className="text-4xl font-bold mb-10">{post.title}</h1>
 
-            {/* Render EditorJS content */}
-            {parsedContent?.blocks?.map((block: any, idx: number) => {
-                switch (block.type) {
-                    case "paragraph":
-                        return (
-                            <div
-                                key={idx}
-                                className="prose prose-lg mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800"
-                                dangerouslySetInnerHTML={{ __html: block.data.text }}
-                            />
-                        );
-                    case "header":
-                        const Tag = `h${block.data.level}` as keyof JSX.IntrinsicElements;
-                        let headingClass = "";
-                        switch (block.data.level) {
-                            case 2: headingClass = "text-2xl font-bold mb-4"; break;
-                            case 3: headingClass = "text-xl font-semibold mb-3"; break;
-                            case 4: headingClass = "text-lg font-medium mb-2"; break;
-                            default: headingClass = "text-base font-normal mb-2";
-                        }
-                        return (
-                            <Tag
-                                key={idx}
-                                className={`${headingClass} prose-a:text-emerald-700 hover:prose-a:text-emerald-800`}
-                                dangerouslySetInnerHTML={{ __html: block.data.text }}
-                            />
-                        );
-                    case "list":
-                        return block.data.style === "ordered" ? (
-                            <ol key={idx} className="list-decimal list-inside mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800">
-                                {block.data.items.map((item: any, i: number) => (
-                                    <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
-                                ))}
-                            </ol>
-                        ) : (
-                            <ul key={idx} className="list-disc list-inside mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800">
-                                {block.data.items.map((item: any, i: number) => (
-                                    <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
-                                ))}
-                            </ul>
-                        );
-                    case "table":
-                        return (
-                            <div key={idx} className="overflow-x-auto mb-6">
-                                <table className="table-auto border border-gray-300 w-full text-left">
-                                    <thead className="bg-gray-100">
-                                        <tr>
-                                            {block.data.content[0].map((headerCell: string, hIdx: number) => (
-                                                <th key={hIdx} className="border border-gray-300 px-4 py-2">
-                                                    <div dangerouslySetInnerHTML={{ __html: headerCell }} />
-                                                </th>
-                                            ))}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {block.data.content.slice(1).map((row: string[], rIdx: number) => (
-                                            <tr key={rIdx}>
-                                                {row.map((cell: string, cIdx: number) => (
-                                                    <td key={cIdx} className="border border-gray-300 px-4 py-2">
-                                                        <div dangerouslySetInnerHTML={{ __html: cell }} />
-                                                    </td>
+
+                {/* Render EditorJS content */}
+                {parsedContent?.blocks?.map((block: any, idx: number) => {
+                    switch (block.type) {
+                        case "paragraph":
+                            return (
+                                <div
+                                    key={idx}
+                                    className="prose prose-lg mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800"
+                                    dangerouslySetInnerHTML={{ __html: block.data.text }}
+                                />
+                            );
+                        case "header":
+                            const Tag = `h${block.data.level}` as keyof JSX.IntrinsicElements;
+                            let headingClass = "";
+                            switch (block.data.level) {
+                                case 2: headingClass = "text-2xl font-bold mb-4"; break;
+                                case 3: headingClass = "text-xl font-semibold mb-3"; break;
+                                case 4: headingClass = "text-lg font-medium mb-2"; break;
+                                default: headingClass = "text-base font-normal mb-2";
+                            }
+                            return (
+                                <Tag
+                                    key={idx}
+                                    className={`${headingClass} prose-a:text-emerald-700 hover:prose-a:text-emerald-800`}
+                                    dangerouslySetInnerHTML={{ __html: block.data.text }}
+                                />
+                            );
+                        case "list":
+                            return block.data.style === "ordered" ? (
+                                <ol key={idx} className="list-decimal list-inside mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800">
+                                    {block.data.items.map((item: any, i: number) => (
+                                        <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
+                                    ))}
+                                </ol>
+                            ) : (
+                                <ul key={idx} className="list-disc list-inside mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800">
+                                    {block.data.items.map((item: any, i: number) => (
+                                        <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
+                                    ))}
+                                </ul>
+                            );
+                        case "table":
+                            return (
+                                <div key={idx} className="overflow-x-auto mb-6">
+                                    <table className="table-auto border border-gray-300 w-full text-left">
+                                        <thead className="bg-gray-100">
+                                            <tr>
+                                                {block.data.content[0].map((headerCell: string, hIdx: number) => (
+                                                    <th key={hIdx} className="border border-gray-300 px-4 py-2">
+                                                        <div dangerouslySetInnerHTML={{ __html: headerCell }} />
+                                                    </th>
                                                 ))}
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        );
-                    case "image":
-                        return (
-                            <div key={idx} className="image-block mb-6">
-                                <img src={block.data.file.url} alt={block.data.caption || ""} className="rounded-lg shadow" />
-                                {block.data.caption && (
-                                    <p className="caption text-sm text-gray-500 mt-1">{block.data.caption}</p>
-                                )}
-                            </div>
-                        );
-                    case "quote":
-                        return (
-                            <blockquote key={idx} className="border-l-4 border-gray-300 pl-4 italic mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800">
-                                <div dangerouslySetInnerHTML={{ __html: block.data.text }} />
-                                {block.data.caption && <cite className="block mt-1 text-sm">{block.data.caption}</cite>}
-                            </blockquote>
-                        );
-                    default:
-                        return null;
-                }
-            })}
+                                        </thead>
+                                        <tbody>
+                                            {block.data.content.slice(1).map((row: string[], rIdx: number) => (
+                                                <tr key={rIdx}>
+                                                    {row.map((cell: string, cIdx: number) => (
+                                                        <td key={cIdx} className="border border-gray-300 px-4 py-2">
+                                                            <div dangerouslySetInnerHTML={{ __html: cell }} />
+                                                        </td>
+                                                    ))}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            );
+                        case "image":
+                            return (
+                                <div key={idx} className="image-block mb-6">
+                                    <img src={block.data.file.url} alt={block.data.caption || ""} className="rounded-lg shadow" />
+                                    {block.data.caption && (
+                                        <p className="caption text-sm text-gray-500 mt-1">{block.data.caption}</p>
+                                    )}
+                                </div>
+                            );
+                        case "quote":
+                            return (
+                                <blockquote key={idx} className="border-l-4 border-gray-300 pl-4 italic mb-6 prose-a:text-emerald-700 hover:prose-a:text-emerald-800">
+                                    <div dangerouslySetInnerHTML={{ __html: block.data.text }} />
+                                    {block.data.caption && <cite className="block mt-1 text-sm">{block.data.caption}</cite>}
+                                </blockquote>
+                            );
+                        case "linkTool":
+                            const { link, meta } = block.data;
+                            if (!meta || !meta.title) {
+                                // Fallback for simple links if link preview failed
+                                return (
+                                    <p key={idx} className="mb-6">
+                                        <a
+                                            href={link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-emerald-700 hover:text-emerald-800 hover:underline"
+                                        >
+                                            {link}
+                                        </a>
+                                    </p>
+                                );
+                            }
+                            // Rich Link Card Renderer
+                            return (
+                                <a
+                                    key={idx}
+                                    href={link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex flex-col md:flex-row border border-gray-200 rounded-xl overflow-hidden shadow-md mb-6 transition-shadow duration-200 hover:shadow-lg hover:border-emerald-300"
+                                >
+                                    <div className="p-4 flex-1">
+                                        <p className="text-xs text-gray-500 uppercase">{meta.site_name || "Link"}</p>
+                                        <h4 className="text-lg font-bold text-gray-800 mt-1 mb-2">{meta.title}</h4>
+                                        <p className="text-sm text-gray-600 line-clamp-2">{meta.description}</p>
+                                    </div>
+                                    {meta.image && (
+                                        <div className="md:w-40 w-full h-32 md:h-auto flex-shrink-0">
+                                            <img
+                                                src={meta.image.url}
+                                                alt={meta.title}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                    )}
+                                </a>
+                            );
+                        default:
+                            return null;
+                    }
+                })}
 
 
-            <div className="mt-12">
-                <Link to="/blogs" className="text-emerald-700 font-semibold hover:underline">
-                    ← Back to All Blogs
-                </Link>
-            </div>
-        </article>
+                <div className="mt-12">
+                    <Link to="/blogs" className="text-emerald-700 font-semibold hover:underline">
+                        ← Back to All Blogs
+                    </Link>
+                </div>
+            </article>
+        </>
     );
 };
 

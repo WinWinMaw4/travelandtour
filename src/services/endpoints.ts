@@ -4,7 +4,8 @@ export const endpoints = {
 	users:"users",
 	blogs:"blogs",
 	banners:"banners",
-	packages:"packages"
+	packages:"packages",
+	contacts:"contacts"
 };
 
 

@@ -1,12 +1,20 @@
 
+import SEO from '@components/share/seo/SEO'
 import MakkaTourWebsite from './MakkaTourWebsite'
 
 const Home = () => {
+
+
     return (
-        <div className=''>
-            {/* <IslamicHistoryPage /> */}
-            <MakkaTourWebsite />
-        </div>
+        <>
+            <SEO
+
+            />
+            <div className=''>
+                {/* <IslamicHistoryPage /> */}
+                <MakkaTourWebsite />
+            </div>
+        </>
     )
 }
 

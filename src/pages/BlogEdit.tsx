@@ -72,8 +72,10 @@ const BlogEdit = () => {
             }).unwrap();
 
             if (res?.message === "Blog updated successfully") {
-                toast.success("Blog updated successfully!");
-                navigate("/blogs");
+                navigate(-1);
+                toast.success("Blog updated successfully!", {
+                    duration: 4000, // Toast will disappear after 4 seconds
+                });
             } else if (res?.errors) {
                 setErrors(res.errors);
             }
@@ -95,7 +97,6 @@ const BlogEdit = () => {
 
     return (
         <div className="max-w-3xl mx-auto p-6 space-y-6 bg-white rounded-2xl shadow mt-10">
-            <Toaster position="top-right" />
             <h1 className="text-3xl font-bold text-gray-800">Edit Blog</h1>
 
             <BlogTitleInput value={title} onChange={setTitle} error={errors.title} />

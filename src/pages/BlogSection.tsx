@@ -1,6 +1,7 @@
 import { useGetEndpointQuery } from "@services/apiSlice";
 import { endpoints } from "@services/endpoints";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 interface Blog {
@@ -13,6 +14,7 @@ interface Blog {
 }
 
 const BlogSection: React.FC = () => {
+  const { t } = useTranslation()
   // Fetch only the latest 3 blogs
   const { data, isLoading, isError } = useGetEndpointQuery(`${endpoints.blogs}?latest=true`);
 
@@ -24,17 +26,17 @@ const BlogSection: React.FC = () => {
   return (
     <section id="blog" className="max-w-6xl mx-auto px-6 py-10 lg:py-20">
       <div className="flex justify-between items-center mb-12 flex-wrap gap-4">
-        <h3 className="text-3xl font-semibold flex-1">Latest Posts</h3>
+        <h3 className="text-3xl font-semibold flex-1">{t("latestBlogs.sectionTitle")}</h3>
         <Link
           to="/blogs"
           className="text-emerald-700 font-semibold hover:underline"
         >
-          See All
+          {t("latestBlogs.seeAll")}
         </Link>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 lg:gap-8">
-        {data.map((post: Blog) => {
+        {data?.blogs?.map((post: Blog) => {
           // Generate short excerpt (120 chars)
           let excerpt = "";
           if (post.content) {

@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetEndpointQuery } from "@services/apiSlice";
 import { endpoints } from "@services/endpoints";
 import type { RootState } from "@store/index";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import Pagination from "@components/ui/Pagination";
+import SEO from "@components/share/seo/SEO";
+import { useTranslation } from "react-i18next";
 
+// --- Types ---
 interface Blog {
     id: number;
     title: string;
@@ -14,126 +19,207 @@ interface Blog {
     content?: string;
 }
 
+interface ApiResponse {
+    totalPages: number;
+    currentPage: number;
+    totalItems: number;
+    blogs: Blog[];
+}
+
+const ITEMS_PER_PAGE = 30;
+
 const BlogList: React.FC = () => {
-    const { data, isLoading, isError } = useGetEndpointQuery(`${endpoints.blogs}`);
+    const { t } = useTranslation();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    // Read current pagination + search from URL
+    const urlPage = searchParams.get("page") || "1";
+    const urlSearch = searchParams.get("search") || "";
+
+    const currentPage = Math.max(1, parseInt(urlPage, 10) || 1);
+    const searchValue = urlSearch;
+
+    // ✅ Dynamic API endpoint with search support
+    const blogsEndpoint = `${endpoints.blogs}?page=${currentPage}&limit=${ITEMS_PER_PAGE}${searchValue ? `&search=${encodeURIComponent(searchValue)}` : ""
+        }`;
+
+    const { data: response, isLoading, isError, isFetching } =
+        useGetEndpointQuery(blogsEndpoint);
+
+    const apiData = response as ApiResponse | undefined;
+    const blogs: Blog[] = apiData?.blogs || [];
+    const totalPages = apiData?.totalPages || 1;
+
     const isAuthenticated = useSelector(
         (state: RootState) => state.auth.isAuthenticated
     );
 
     useEffect(() => {
-        console.log("Fetched Blogs:", data);
-    }, [data]);
+        if (response && !isFetching) {
+            console.log("Fetching:", blogsEndpoint);
+        }
+    }, [response, isFetching, blogsEndpoint]);
 
+    // ✅ Page change maintains current search filter
+    const handlePageChange = (page: number) => {
+        searchParams.set("page", page.toString());
+        if (searchValue) searchParams.set("search", searchValue);
+        setSearchParams(searchParams);
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    // ✅ States
     if (isLoading)
-        return (
-            <div className="text-center py-20 text-gray-500">
-                Loading blogs...
-            </div>
-        );
+        return <div className="text-center py-20">Loading blogs...</div>;
 
     if (isError)
         return (
-            <div className="text-center py-20 text-red-500">
-                Failed to load blogs. Please try again later.
+            <div className="text-center py-20 text-red-600">
+                Failed to load blogs.
             </div>
         );
 
-    if (!data || data.length === 0)
-        return (
-            <div className="text-center py-20 text-gray-500">
-                No blogs available yet.
-            </div>
-        );
+    // if (!blogs.length)
+    //     return (
+    //         <div className="text-center py-20 text-gray-500">
+    //             No blogs found.
+    //         </div>
+    //     );
 
     return (
-        <section className="max-w-6xl mx-auto px-6 py-20">
-            <div className="flex justify-between items-center mb-12">
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center">All Blog Posts</h2>
-                {
-                    isAuthenticated && (
-                        <Link
-                            to="/blogs/create"
-                            className="px-5 py-2 rounded text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-emerald-400 focus:ring-2"
-                        >
-                            + Create New Blog
-                        </Link>
-                    )
+        <>
+            <SEO
+                title={
+                    searchValue
+                        ? `Search results for "${searchValue}" | Blog | Makka Tour`
+                        : currentPage > 1
+                            ? `Blogs – Page ${currentPage} | Makka Tour`
+                            : `Blog | Makka Tour – Spiritual & Travel Insights`
                 }
-            </div>
+                description={
+                    searchValue
+                        ? `Blog search results for "${searchValue}" at Makka Tour. Explore articles about Hajj, Umrah, Islamic history and travel guidance.`
+                        : `Explore Hajj & Umrah travel guides, Islamic history articles, and spiritual journey insights with Makka Tour. Updated regularly for Muslim pilgrims.`
+                }
+                keywords="Hajj blog Myanmar, Umrah blog Myanmar, Makka Tour blogs, Islamic travel articles, pilgrimage guidance"
+                url={`${window.location.origin}/blogs?page=${currentPage}` + (searchValue ? `&search=${encodeURIComponent(searchValue)}` : "")}
+            // image="/default-blog-cover.png"
+            />
+            <section className="max-w-6xl mx-auto px-6 py-20">
+                {/* ✅ Search + Create Button */}
+                <div className="flex justify-between items-center mb-12 gap-4">
+                    <h2 className="text-2xl md:text-3xl font-bold">{t("blogsList.sectionTitle")}</h2>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
-                {data.map((post: Blog, idx: number) => {
-                    let excerpt = "";
+                    <div className="flex items-center gap-3">
+                        {/* Search Input */}
 
-                    // ✅ safely parse Editor.js JSON content if valid
-                    if (post.content) {
-                        try {
-                            const parsed = JSON.parse(post.content);
-                            excerpt =
-                                parsed?.blocks?.[0]?.data?.text?.replace(/<[^>]+>/g, "")?.slice(0, 120) ||
-                                "";
-                        } catch {
-                            // content is plain text, not JSON
-                            excerpt = post.content.slice(0, 120);
-                        }
-                    }
 
-                    return (
-                        <Link to={`/blogs/${post.slug}`}
-                            className="cursor-pointer w-full h-full "
-                        >
-
-                            <div
-                                key={idx}
-                                className="bg-white group rounded-2xl shadow-md hover:shadow-lg overflow-hidden transition w-full h-full"
+                        {isAuthenticated && (
+                            <Link
+                                to="/blogs/create"
+                                className="px-5 py-2 rounded text-white bg-emerald-700 hover:bg-emerald-800"
                             >
-                                {/* Cover Image */}
+                                + Create Blog
+                            </Link>
+                        )}
+                    </div>
+                </div>
+                <div className="w-full mb-5">
+                    <input
+                        type="text"
+                        value={searchValue}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            searchParams.set("search", value);
+                            searchParams.set("page", "1");
+                            setSearchParams(searchParams);
+                        }}
+                        placeholder={t("blogsList.searchPlaceholder")}
+                        className="w-full px-4 py-3 border border-gray-400 rounded-lg focus-within:outline-0 focus:ring-emerald-500 focus:border-emerald-500"
+                    />
+                </div>
 
-                                <div className="w-full aspect-3/2 overflow-hidden bg-emerald-200/20">
+                {/* ✅ Blog List */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                    {blogs.map((post: Blog) => {
+                        // ✅ Better excerpt cleaning for Editor.js content
+                        let excerpt = "";
+                        if (post.content) {
+                            try {
+                                const parsed = JSON.parse(post.content);
+                                const firstBlock = parsed?.blocks?.find(
+                                    (b: any) => b.type === "paragraph" && b.data?.text
+                                );
+                                excerpt = firstBlock?.data?.text
+                                    ?.replace(/<[^>]*>/g, "")
+                                    .replace(/&nbsp;/g, " ")
+                                    .replace(/\s+/g, " ")
+                                    .trim()
+                                    .slice(0, 150);
+                            } catch {
+                                excerpt = post.content
+                                    .replace(/<[^>]*>/g, "")
+                                    .replace(/&nbsp;/g, " ")
+                                    .slice(0, 150);
+                            }
+                        }
 
-                                    <img
-                                        src={
-                                            post.coverImage
-                                                ? post.coverImage.startsWith("http")
+                        return (
+                            <Link
+                                to={`/blogs/${post.slug}`}
+                                key={post.id}
+                                className="cursor-pointer"
+                            >
+                                <div className="bg-white overflow-hidden rounded-xl shadow hover:shadow-xl transition flex flex-col">
+                                    <div className="w-full aspect-video overflow-hidden bg-gray-100">
+                                        <img
+                                            src={
+                                                post.coverImage?.startsWith("http")
                                                     ? post.coverImage
-                                                    : `${import.meta.env.VITE_API_BASE_URL || ""}${post.coverImage}`
-                                                : "https://via.placeholder.com/800x400?text=No+Cover+Image"
-                                        }
-                                        alt={post.title}
-                                        className="w-full h-full object-cover"
-                                    />
+                                                    : `${import.meta.env.VITE_API_BASE_URL || ""
+                                                    }${post.coverImage}`
+                                            }
+                                            alt={post.title}
+                                            className="w-full h-full object-cover hover:scale-105 transition-transform"
+                                        />
+                                    </div>
+
+                                    <div className="p-5 flex-grow">
+                                        <p className="text-xs text-gray-500 mb-1">
+                                            {new Date(post.createdAt).toDateString()}
+                                        </p>
+
+                                        <h3 className="font-semibold text-lg mb-2 line-clamp-2">
+                                            {post.title}
+                                        </h3>
+
+                                        {excerpt && (
+                                            <p className="text-gray-700 text-sm line-clamp-3">
+                                                {excerpt}...
+                                            </p>
+                                        )}
+
+                                        <span className="text-emerald-700 font-semibold mt-3 inline-block">
+                                            Read More →
+                                        </span>
+                                    </div>
                                 </div>
+                            </Link>
+                        );
+                    })}
+                </div>
 
-
-                                {/* Blog Content */}
-                                <div className="p-6">
-                                    <p className="text-gray-500 text-xs md:text-sm mb-2">
-                                        {new Date(post.createdAt).toDateString()}
-                                    </p>
-                                    <h3 className="md:text-xl font-semibold mb-2 line-clamp-2 transition-colors group-hover:text-emerald-700">
-                                        {post.title}
-                                    </h3>
-
-                                    {/* ✅ Now excerpt never crashes */}
-                                    {excerpt && (
-                                        <p className="text-sm md:text-base text-gray-700 mb-4 line-clamp-3">{excerpt}...</p>
-                                    )}
-
-                                    <Link
-                                        to={`/blogs/${post.slug}`}
-                                        className="text-emerald-700 font-semibold hover:underline"
-                                    >
-                                        Read More →
-                                    </Link>
-                                </div>
-                            </div>
-                        </Link>
-
-                    );
-                })}
-            </div>
-
-        </section>
+                {/* ✅ Pagination */}
+                {totalPages > 1 && (
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                )}
+            </section>
+        </>
     );
 };
 

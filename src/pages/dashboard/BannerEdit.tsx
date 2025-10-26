@@ -48,7 +48,9 @@ const BannerEditPage: React.FC = () => {
             }).unwrap();
 
             if (res?.message === "Banner updated successfully") {
-                toast.success("Banner updated successfully");
+                toast.success("Banner updated successfully", {
+                    duration: 4000, // Toast will disappear after 4 seconds
+                });
                 navigate(-1);
             } else if (res?.errors) {
                 setErrors(res.errors);

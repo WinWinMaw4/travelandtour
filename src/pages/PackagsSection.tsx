@@ -1,6 +1,7 @@
 import React from "react";
 import { useGetEndpointQuery } from "@services/apiSlice"; // ✅ adjust import if needed
 import { endpoints } from "@services/endpoints"; // ✅ adjust import if needed
+import { useTranslation } from "react-i18next";
 
 interface PackageItem {
     id: number;
@@ -11,13 +12,14 @@ interface PackageItem {
 }
 
 const PackagesSection: React.FC = () => {
+    const { t } = useTranslation();
     // ✅ Fetch from API
     const { data, isLoading, isError } = useGetEndpointQuery(`${endpoints.packages}`);
 
     if (isLoading) {
         return (
-            <section id="tours" className="max-w-6xl mx-auto px-6 py-20 text-center">
-                <h3 className="text-3xl font-semibold mb-12">Our Packages</h3>
+            <section id="packages" className="max-w-6xl mx-auto px-6 py-20 text-center">
+                <h3 className="text-3xl font-semibold mb-12">{t("packages.sectionTitle")}</h3>
                 <p className="text-gray-500">Loading packages...</p>
             </section>
         );
@@ -25,8 +27,8 @@ const PackagesSection: React.FC = () => {
 
     if (isError) {
         return (
-            <section id="tours" className="max-w-6xl mx-auto px-6 py-20 text-center">
-                <h3 className="text-3xl font-semibold mb-12">Our Packages</h3>
+            <section id="packages" className="max-w-6xl mx-auto px-6 py-20 text-center">
+                <h3 className="text-3xl font-semibold mb-12">{t("packages.sectionTitle")}</h3>
                 <p className="text-red-600">Failed to load packages. Please try again later.</p>
             </section>
         );
@@ -35,8 +37,8 @@ const PackagesSection: React.FC = () => {
     const packages: PackageItem[] = data || [];
 
     return (
-        <section id="tours" className="max-w-6xl mx-auto px-6 py-20">
-            <h3 className="text-3xl font-semibold text-center mb-12">Our Packages</h3>
+        <section id="packages" className="max-w-6xl mx-auto px-6 py-20">
+            <h3 className="text-3xl font-semibold text-center mb-12">{t("packages.sectionTitle")}</h3>
 
             {packages.length === 0 ? (
                 <p className="text-center text-gray-500">No packages available at the moment.</p>
@@ -82,7 +84,12 @@ const PackagesSection: React.FC = () => {
                                     {pkg.price ? `Est : $${pkg.price}` : "Contact for Price"}
                                 </p>
                                 <button className="bg-emerald-700 text-white px-6 py-2 rounded-full hover:bg-emerald-800 transition">
-                                    Call Now
+                                    <a
+                                        href="tel:0490866626"
+                                        className=""
+                                    >
+                                        {t("packages.economy13.button")}
+                                    </a>
                                 </button>
                             </div>
                         </div>

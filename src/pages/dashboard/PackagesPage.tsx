@@ -57,7 +57,9 @@ const PackagesPage: React.FC = () => {
                 method: "DELETE",
             }).unwrap();
 
-            toast.success(res?.message || "Package deleted successfully");
+            toast.success(res?.message || "Package deleted successfully", {
+                duration: 4000, // Toast will disappear after 4 seconds
+            });
             // Optional: refetch packages after deletion
             refetch?.();
         } catch (error: any) {

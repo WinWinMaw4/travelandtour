@@ -30,11 +30,39 @@ const BannerForm: React.FC<BannerFormProps> = ({
         setPreview(defaultPreview);
     }, [defaultLink, defaultPreview]);
 
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
+    // Assuming you have a state for the file error, e.g.,
+    // const [fileError, setFileError] = useState<string | null>(null);
+
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
-        setImageFile(file);
-        if (file) setPreview(URL.createObjectURL(file));
-        else setPreview(defaultPreview);
+
+        // Reset previous error
+        // setFileError(null); 
+
+        if (file) {
+            if (file.size > MAX_FILE_SIZE) {
+                // ⭐ VALIDATION FAILED: File is too large
+                alert("Image must be smaller than 10MB"); // Or display error in your UI
+                // setFileError("Image must be smaller than 10MB"); 
+
+                // Clear the input and reset states to prevent the large file from being uploaded
+                e.target.value = '';
+                setImageFile(null);
+                setPreview(defaultPreview);
+                return; // Stop processing
+            }
+
+            // ⭐ VALIDATION PASSED: File is valid
+            setImageFile(file);
+            setPreview(URL.createObjectURL(file));
+
+        } else {
+            // No file selected (input cleared or cancelled)
+            setImageFile(null);
+            setPreview(defaultPreview);
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {

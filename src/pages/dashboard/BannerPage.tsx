@@ -31,7 +31,9 @@ const BannerPage: React.FC = () => {
                 method: "DELETE",
             }).unwrap();
 
-            toast.success(res?.message || "Banner deleted successfully");
+            toast.success(res?.message || "Banner deleted successfully", {
+                duration: 4000, // Toast will disappear after 4 seconds
+            });
             refetch();
         } catch (error: any) {
             toast.error(error?.data?.message || "Failed to delete banner");

@@ -72,7 +72,9 @@ const PackageEdit = () => {
             }).unwrap();
 
             if (res?.message === "Package updated successfully") {
-                toast.success("Package updated successfully!");
+                toast.success("Package updated successfully!", {
+                    duration: 4000, // Toast will disappear after 4 seconds
+                });
                 navigate(-1);
             } else if (res?.errors) {
                 setErrors(res.errors);
@@ -95,7 +97,6 @@ const PackageEdit = () => {
 
     return (
         <div className="max-w-3xl mx-auto p-6 space-y-6 bg-white rounded-2xl shadow mt-10">
-            <Toaster position="top-right" />
             <h1 className="text-3xl font-bold text-gray-800">Edit Package</h1>
 
             {/* Title */}

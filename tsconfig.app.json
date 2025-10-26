@@ -23,6 +23,9 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+
+
     // ✅ PATH ALIASES — used with vite-tsconfig-paths
      "baseUrl": "./src",
     "paths": {

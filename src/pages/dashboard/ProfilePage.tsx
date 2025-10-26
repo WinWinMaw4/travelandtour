@@ -47,7 +47,9 @@ const Profile = () => {
             }).unwrap();
 
             if (res?.message === "User info updated successfully") {
-                toast.success("Profile Updated Successfully");
+                toast.success("Profile Updated Successfully", {
+                    duration: 4000, // Toast will disappear after 4 seconds
+                });
                 dispatch(login(res?.user))
 
             } else if (res?.errors) {
@@ -82,7 +84,9 @@ const Profile = () => {
             }).unwrap();
 
             if (res?.message === "Password changed successfully") {
-                toast.success("Password Changed Successfully");
+                toast.success("Password Changed Successfully", {
+                    duration: 4000, // Toast will disappear after 4 seconds
+                });
                 setOldPassword("");
                 setNewPassword("");
             } else if (res?.errors) {
@@ -100,7 +104,9 @@ const Profile = () => {
 
     const logoutHandler = () => {
         dispatch(logout())
-        toast.success('Logout successfully')
+        toast.success('Logout successfully', {
+            duration: 4000, // Toast will disappear after 4 seconds
+        })
         navigate("/")
 
     }

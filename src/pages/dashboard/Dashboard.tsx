@@ -6,8 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import BannerPage from './BannerPage';
 import Profile from './ProfilePage';
 import PackagesPage from './PackagesPage';
+import ContactPage from './contact/ContactPage';
 
-const tabs = ['Blogs', 'Packages', 'Banners', 'Profile'];
+const tabs = ['Blogs', 'Packages', 'Banners', 'Profile', 'Contact'];
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -39,6 +40,8 @@ const Dashboard = () => {
                 {activeTab === 'Packages' && <div><PackagesPage /></div>}
                 {activeTab === 'Banners' && <div><BannerPage /></div>}
                 {activeTab === 'Profile' && <div><Profile /></div>}
+                {activeTab === 'Contact' && <div><ContactPage /></div>}
+
             </div>
         </div>
     );

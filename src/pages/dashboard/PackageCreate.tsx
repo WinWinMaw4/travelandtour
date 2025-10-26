@@ -55,7 +55,9 @@ const PackageCreate = () => {
             }).unwrap();
 
             if (res?.message === "Package created successfully") {
-                toast.success("Package created successfully.");
+                toast.success("Package created successfully.", {
+                    duration: 4000, // Toast will disappear after 4 seconds
+                });
                 navigate(-1);
             } else if (res?.errors) {
                 setErrors(res.errors);
@@ -71,7 +73,6 @@ const PackageCreate = () => {
 
     return (
         <div className="max-w-3xl mx-auto p-6 space-y-6 bg-white rounded-2xl shadow mt-10">
-            <Toaster position="top-right" />
             <h1 className="text-3xl font-bold text-gray-800">Create New Package</h1>
 
             {/* Title Input */}

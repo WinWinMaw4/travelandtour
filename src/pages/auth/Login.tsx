@@ -32,7 +32,9 @@ const Login: React.FC = () => {
 
             dispatch(login(user))
             dispatch(setToken(token))
-            toast.success("Login Successfully")
+            toast.success("Login Successfully", {
+                duration: 4000, // Toast will disappear after 4 seconds
+            })
 
             navigate("/");
         } catch (err: any) {
