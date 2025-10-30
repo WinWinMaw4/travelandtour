@@ -1,0 +1,6 @@
+# Allow all crawlers complete access
+User-agent: *
+Disallow:
+
+# Optional: Sitemap location (helps indexing)
+Sitemap: https://www.asiaskyblue.com/sitemap.xml

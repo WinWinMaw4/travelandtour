@@ -50,9 +50,11 @@ const BlogSection: React.FC = () => {
           }
 
           return (
-            <Link key={post.id} to={`/blogs/${post.slug}`} className="cursor-pointer">
-              <div className="bg-white group rounded-2xl shadow-md hover:shadow-lg overflow-hidden transition flex flex-col h-full">
-                {/* Cover Image */}
+            // <Link key={post.id} to={`/blogs/${post.slug}`} className="cursor-pointer">
+            <div key={post.id} className="bg-white group rounded-2xl shadow-md hover:shadow-lg overflow-hidden transition flex flex-col h-full">
+              {/* Cover Image */}
+              <Link to={`/blogs/${post.slug}`}>
+
                 <div className="w-full aspect-[3/2] overflow-hidden bg-primary-200/20">
                   <img
                     src={
@@ -66,31 +68,32 @@ const BlogSection: React.FC = () => {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
+              </Link>
 
-                {/* Blog Content */}
-                <div className="p-4 lg:p-6 flex-1 flex flex-col">
-                  <p className="text-gray-500 text-xs md:text-sm mb-2">
-                    {new Date(post.createdAt).toDateString()}
+              {/* Blog Content */}
+              <div className="p-4 lg:p-6 flex-1 flex flex-col">
+                <p className="text-gray-500 text-xs md:text-sm mb-2">
+                  {new Date(post.createdAt).toDateString()}
+                </p>
+                <h4 className="md:text-xl font-semibold mb-2 line-clamp-2 group-hover:text-primary-700">
+                  {post.title}
+                </h4>
+                {excerpt && (
+                  <p className="text-gray-700 text-sm md:text-base mb-4 line-clamp-3">
+                    {excerpt}...
                   </p>
-                  <h4 className="md:text-xl font-semibold mb-2 line-clamp-2 group-hover:text-primary-700">
-                    {post.title}
-                  </h4>
-                  {excerpt && (
-                    <p className="text-gray-700 text-sm md:text-base mb-4 line-clamp-3">
-                      {excerpt}...
-                    </p>
-                  )}
-                  <div className="mt-auto">
-                    <Link
-                      to={`/blogs/${post.slug}`}
-                      className="text-primary-700 font-semibold hover:underline"
-                    >
-                      Read More →
-                    </Link>
-                  </div>
+                )}
+                <div className="mt-auto">
+                  <Link
+                    to={`/blogs/${post.slug}`}
+                    className="text-primary-700 font-semibold hover:underline"
+                  >
+                    Read More →
+                  </Link>
                 </div>
               </div>
-            </Link>
+            </div>
+            // </Link>
           );
         })}
       </div>

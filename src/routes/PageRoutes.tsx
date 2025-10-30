@@ -14,6 +14,7 @@ import BannerEditPage from "@pages/dashboard/BannerEdit";
 import ProtectedRoute from "./ProtectRoutes";
 import PackageCreate from "@pages/dashboard/PackageCreate";
 import PackageEdit from "@pages/dashboard/PackageEdit";
+import PackageDetail from "@pages/PackageDetailPage";
 
 export const PageRoutes: RouteObject[] = [
     {
@@ -26,6 +27,7 @@ export const PageRoutes: RouteObject[] = [
             { path: "/place/:id", element: <PlaceDetailPage /> },
             { path: "/blogs", element: <BlogList /> },
             { path: "/blogs/:slug", element: <BlogDetail /> },
+            { path: "/packages/:id", element: <PackageDetail /> },
             // ✅ Protected routes start here
             {
                 element: <ProtectedRoute />,

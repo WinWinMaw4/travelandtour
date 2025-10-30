@@ -118,7 +118,7 @@ const BlogList: React.FC = () => {
                         {isAuthenticated && (
                             <Link
                                 to="/blogs/create"
-                                className="px-5 py-2 rounded text-white bg-primary-700 hover:bg-primary-800"
+                                className="px-5 py-2 rounded text-white bg-primary-700 hover:bg-primary-800 whitespace-nowrap"
                             >
                                 + Create Blog
                             </Link>

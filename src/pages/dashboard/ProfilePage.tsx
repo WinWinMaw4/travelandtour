@@ -2,7 +2,7 @@
 import { useInvalidateEndpointMutation } from "@services/apiSlice";
 import type { RootState } from "@store/index";
 import { login, logout } from "@store/slices/authSlice";
-import React, { useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

@@ -1,10 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetEndpointQuery } from "@services/apiSlice";
 import { endpoints } from "@services/endpoints";
 import React from "react";
-import { useTranslation } from "react-i18next";
 
 const Branches: React.FC = () => {
-    const { t } = useTranslation();
     const { data, isLoading } = useGetEndpointQuery(`${endpoints.contacts}`);
 
     if (isLoading) return <p>Loading...</p>;

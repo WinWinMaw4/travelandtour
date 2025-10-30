@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -18,6 +19,7 @@ const BannerSection: React.FC = () => {
     if (isError || !banners) return <div>Error loading banners</div>;
 
     return (
+
         <div className="w-full overflow-hidden">
             <Swiper
                 modules={[Navigation, Autoplay, Pagination]}
@@ -47,7 +49,6 @@ const BannerSection: React.FC = () => {
                 ))}
             </Swiper>
         </div>
-
 
     );
 };

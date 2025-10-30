@@ -19,7 +19,6 @@ const ShareButton = () => {
     const [isShare, setIsShare] = useState<boolean>(false);
     const [showOptions, setShowOptions] = useState<boolean>(false); // State for dropdown visibility
     const dropdownRef = useRef<HTMLDivElement | null>(null);
-    const baseUrl = import.meta.env.VITE_SITE_DOMAIN;
 
     const handleShareClick = () => {
         setIsShare(!isShare);

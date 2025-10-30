@@ -1,7 +1,9 @@
 import React from "react";
-import { useGetEndpointQuery } from "@services/apiSlice"; // ✅ adjust import if needed
-import { endpoints } from "@services/endpoints"; // ✅ adjust import if needed
+import { useGetEndpointQuery } from "@services/apiSlice";
+import { endpoints } from "@services/endpoints";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom"; // ✅ add this
+import ShareButton from "@components/share/ShareButton";
 
 interface PackageItem {
     id: number;
@@ -13,7 +15,7 @@ interface PackageItem {
 
 const PackagesSection: React.FC = () => {
     const { t } = useTranslation();
-    // ✅ Fetch from API
+    const navigate = useNavigate(); // ✅ navigation hook
     const { data, isLoading, isError } = useGetEndpointQuery(`${endpoints.packages}`);
 
     if (isLoading) {
@@ -43,60 +45,48 @@ const PackagesSection: React.FC = () => {
             {packages.length === 0 ? (
                 <p className="text-center text-gray-500">No packages available at the moment.</p>
             ) : (
-                <div
-                    className="grid  sm:grid-cols-2 md:grid-cols-3 gap-8"
-                >
-                    {packages.map((pkg) => (
-                        <div
-                            key={pkg.id}
-                            className="bg-white group rounded-2xl shadow-md hover:shadow-lg transition overflow-hidden"
-                        >
-                            <div className="aspect-[3/2] overflow-hidden rounded-t-2xl">
-                                <a
-                                    href={
-                                        pkg.coverImage
-                                            ? pkg.coverImage.startsWith("http")
-                                                ? pkg.coverImage
-                                                : `${import.meta.env.VITE_API_BASE_URL || ""}${pkg.coverImage}`
-                                            : "https://via.placeholder.com/800x400?text=No+Cover+Image"
-                                    }
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <img
-                                        src={
-                                            pkg.coverImage
-                                                ? pkg.coverImage.startsWith("http")
-                                                    ? pkg.coverImage
-                                                    : `${import.meta.env.VITE_API_BASE_URL || ""}${pkg.coverImage}`
-                                                : "https://via.placeholder.com/800x400?text=No+Cover+Image"
-                                        }
-                                        alt={pkg.title}
-                                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                                    />
-                                </a>
-                            </div>
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+                    {packages.map((pkg) => {
+                        const imageUrl = pkg.coverImage
+                            ? pkg.coverImage.startsWith("http")
+                                ? pkg.coverImage
+                                : `${import.meta.env.VITE_API_BASE_URL || ""}${pkg.coverImage}`
+                            : "https://via.placeholder.com/800x400?text=No+Cover+Image";
 
-                            <div className="p-6 text-center">
-                                <h4 className="text-xl font-semibold mb-2 group-hover:text-primary-700">{pkg.title}</h4>
-                                <p className="text-gray-600 mb-2">{pkg.description}</p>
-                                <p className="text-primary-700 font-bold mb-4">
-                                    {pkg.price ? `Est : $${pkg.price}` : "Contact for Price"}
-                                </p>
-                                <button className="bg-primary-700 text-white px-6 py-2 rounded-full hover:bg-primary-800 transition">
-                                    <a
-                                        href="tel:0490866626"
-                                        className=""
+                        return (
+                            <div
+                                key={pkg.id}
+                                className="bg-white group rounded-2xl shadow-md hover:shadow-lg transition overflow-hidden cursor-pointer"
+                                onClick={() => navigate(`/packages/${pkg.id}`)} // ✅ navigate to detail
+                            >
+                                <div className="aspect-3/2 overflow-hidden rounded-t-2xl">
+                                    <img
+                                        src={imageUrl}
+                                        alt={pkg.title}
+                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                </div>
+
+                                <div className="p-6 text-center">
+                                    <h4 className="text-xl font-semibold mb-2 group-hover:text-primary-700 line-clamp-2">{pkg.title}</h4>
+                                    <p className="text-gray-600 mb-2 line-clamp-3">{pkg.description}</p>
+                                    <p className="text-primary-700 font-bold mb-4">
+                                        {pkg.price ? `Est : $${pkg.price}` : "Contact for Price"}
+                                    </p>
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // prevent navigating to detail
+                                        }}
+                                        className="bg-primary-700 text-white px-6 py-2 rounded-full hover:bg-primary-800 transition"
                                     >
-                                        {t("packages.economy13.button")}
-                                    </a>
-                                </button>
+                                        <a href="tel:0490866626">{t("packages.economy13.button")}</a>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
-
         </section>
     );
 };

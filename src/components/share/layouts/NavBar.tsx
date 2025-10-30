@@ -6,6 +6,7 @@ import type { RootState } from "@store/index";
 import { LanguageSwitcher } from "@components/ui/LanguagesSwitcher";
 import { useTranslation } from "react-i18next";
 import { scrollToSection } from "@utils/ScrollToSection";
+import logo from "@assets/images/logo/logo.png"
 
 const NavBar: React.FC = () => {
     const { t } = useTranslation();
@@ -22,14 +23,20 @@ const NavBar: React.FC = () => {
     );
 
     const handleSectionClick = (sectionId: string) => {
-        navigate("/"); // go home first
+        // navigate("/"); // go home first
+        setCurrentSection("")
+
+        navigate(`/#${sectionId}`);
+
         scrollToSection(sectionId);
     };
+
 
     const navLinks = [
         {
             id: "home", label: t("site.menu.home"), action: () => {
                 navigate("/");
+                setCurrentSection('home')
                 window.scrollTo({ top: 0, behavior: "smooth" });
             }
         },
@@ -37,6 +44,7 @@ const NavBar: React.FC = () => {
         {
             id: "blogs", label: t("site.menu.blogs"), action: () => {
                 navigate("/blogs");
+                setCurrentSection("")
                 window.scrollTo({ top: 0, behavior: "smooth" });
             }
         },
@@ -47,7 +55,12 @@ const NavBar: React.FC = () => {
 
     // ✅ Add dashboard link only if logged in
     if (isAuthenticated) {
-        navLinks.push({ id: "dashboard", label: "Dashboard", action: () => navigate("/dashboard") });
+        navLinks.push({
+            id: "dashboard", label: "Dashboard", action: () => {
+                navigate("/dashboard")
+                setCurrentSection("")
+            }
+        });
     }
 
     React.useEffect(() => {
@@ -74,9 +87,12 @@ const NavBar: React.FC = () => {
 
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
-            <div className="max-w-[1920px] mx-auto px-6 py-4 flex justify-between items-center">
-                <h1 className="text-2xl font-bold text-primary-700">
-                    <Link to={"/"}>Asia Sky Blue HAJJ & UMRAH</Link>
+            <div className="max-w-[1920px] mx-auto px-6 py-2 flex justify-between items-center">
+                <h1 className="md:text-lg lg:text-2xl font-bold text-primary-700">
+                    <div className="flex justify-start items-center">
+                        <img src={logo} className="w-10" />
+                        <Link to={"/"}>Asia Sky Blue <sub className="font-normal">HAJJ & UMRAH</sub></Link>
+                    </div>
                 </h1>
 
                 {/* Desktop Nav */}
@@ -88,8 +104,15 @@ const NavBar: React.FC = () => {
                                 link.action();
                                 setMenuOpen(false);
                             }}
-                            className={`transition cursor-pointer ${(link.id === currentSection && location.pathname === "/") ||
-                                location.pathname.startsWith(`/${link.id}`)
+                            // className={`transition cursor-pointer ${(link.id === currentSection && location.pathname === "/") ||
+                            //     location.pathname.startsWith(`/${link.id}`)
+                            //     ? "text-primary-700 font-bold"
+                            //     : "hover:text-primary-700"
+                            //     }`}
+
+                            className={`transition cursor-pointer ${(link.id === currentSection) ||
+                                location.pathname.startsWith(`/${link.id}`) ||
+                                location.hash === `#${link.id}`
                                 ? "text-primary-700 font-bold"
                                 : "hover:text-primary-700"
                                 }`}
@@ -125,7 +148,13 @@ const NavBar: React.FC = () => {
                                     link.action();
                                     setMenuOpen(false);
                                 }}
-                                className="hover:text-primary-700 transition cursor-pointer"
+                                // className="hover:text-primary-700 transition cursor-pointer"
+                                className={`transition cursor-pointer ${(link.id === currentSection) ||
+                                    location.pathname.startsWith(`/${link.id}`) ||
+                                    location.hash === `#${link.id}`
+                                    ? "text-primary-700 font-bold"
+                                    : "hover:text-primary-700"
+                                    }`}
                             >
                                 {link.label}
                             </button>

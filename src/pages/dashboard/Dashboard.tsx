@@ -1,7 +1,6 @@
 import BlogList from '@pages/BlogLists';
 import type { RootState } from '@store/index';
 import { setActiveTab } from '@store/slices/tabSlice';
-import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import BannerPage from './BannerPage';
 import Profile from './ProfilePage';
@@ -19,9 +18,9 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="p-4">
+        <div className="p-4 max-w-screen overflow-hidden">
             {/* Tab Bar */}
-            <div className="flex space-x-4 border-b border-gray-200 mb-4 justify-center">
+            <div className="flex space-x-4 border-b border-gray-200 mb-4 justify-center max-w-screen  overflow-x-scroll">
                 {tabs.map((tab) => (
                     <button
                         key={tab}
@@ -35,7 +34,7 @@ const Dashboard = () => {
             </div>
 
             {/* Tab Content */}
-            <div className="mt-4">
+            <div className="mt-4 max-w-screen">
                 {activeTab === 'Blogs' && <BlogList />}
                 {activeTab === 'Packages' && <div><PackagesPage /></div>}
                 {activeTab === 'Banners' && <div><BannerPage /></div>}

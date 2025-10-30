@@ -10,4 +10,14 @@ export default defineConfig({
     tailwindcss(),
     tsconfigPaths(),
     ],
+    server: {
+  open: "/",
+  proxy: {
+    '/api': {
+      target: 'http://localhost:5000',
+      changeOrigin: true,
+      secure: true, // because it's https
+    },
+  },
+}
 })

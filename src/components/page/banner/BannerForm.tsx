@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, ChangeEvent, useEffect } from "react";
+import React, { useState, useEffect, type ChangeEvent } from "react";
 import BannerCoverUploader from "./BannerUploader";
 
 interface BannerFormProps {

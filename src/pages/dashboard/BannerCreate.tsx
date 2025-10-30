@@ -9,7 +9,7 @@ import BannerForm from "@components/page/banner/BannerForm";
 const BannerCreatePage: React.FC = () => {
     const navigate = useNavigate();
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    const [createBanner, { isLoading }] = useInvalidateEndpointMutation();
+    const [createBanner] = useInvalidateEndpointMutation();
 
     const handleCreateBanner = async (formData: FormData) => {
         setErrors({}); // reset previous errors

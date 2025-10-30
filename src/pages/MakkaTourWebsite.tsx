@@ -15,8 +15,6 @@ import BannerSection from "@components/page/banner/BannerSection";
 import PackagesSection from "./PackagsSection";
 import ContactForm from "@components/page/Home/ContactForm";
 import { useTranslation } from "react-i18next";
-import { useGetEndpointQuery } from "@services/apiSlice";
-import { endpoints } from "@services/endpoints";
 import Branches from "@components/page/Home/Branches";
 
 
@@ -27,9 +25,10 @@ const testimonials = [
 ];
 
 const MakkaTourWebsite: React.FC = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
 
+    const lang = i18n.language;
 
 
     return (
@@ -69,12 +68,28 @@ const MakkaTourWebsite: React.FC = () => {
                     style={{ backgroundImage: `url(${heroImage1})` }}
                 >
                     <div className="relative z-10 max-w-2xl mx-auto md:mx-0 px-6 text-primary-700">
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+                        {/* <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+                            {t("banner.title")}
+                        </h2> */}
+                        <h2
+                            className={`font-bold mb-4 ${lang === "my"
+                                ? "text-4xl" // smaller for Myanmar
+                                : "text-6xl" // default for English
+                                }`}
+                        >
                             {t("banner.title")}
                         </h2>
-                        <p className="text-base sm:text-lg md:text-xl mb-8">
+                        <p
+                            className={`mb-8 ${lang === "my"
+                                ? "text-lg"
+                                : "text-2xl"
+                                }`}
+                        >
                             {t("banner.subtitle")}
                         </p>
+                        {/* <p className="text-base sm:text-lg md:text-xl mb-8">
+                            {t("banner.subtitle")}
+                        </p> */}
                         <a
                             href="#packages"
                             className="bg-primary-700 text-white px-5 py-2 sm:px-6 sm:py-3 rounded-full font-semibold hover:bg-gray-100 hover:text-primary-700 transition"
@@ -90,12 +105,12 @@ const MakkaTourWebsite: React.FC = () => {
                         <h2 className="text-2xl sm:text-3xl font-bold mb-3">
                             {t("banner.title")}
                         </h2>
-                        <p className="text-sm sm:text-base mb-6">
+                        <p className="text-sm sm:text-base mb-6 font-bold">
                             {t("banner.subtitle")}
                         </p>
                         <a
                             href="#packages"
-                            className="bg-primary-700 text-white px-4 py-2 sm:px-5 sm:py-2 rounded-full font-semibold hover:bg-gray-100 hover:text-primary-700 transition"
+                            className="bg-primary-700  text-white px-4 py-2 sm:px-5 sm:py-2 rounded-full font-semibold hover:bg-gray-100 hover:text-primary-700 transition"
                         >
                             {t("banner.button")}
                         </a>
@@ -106,6 +121,7 @@ const MakkaTourWebsite: React.FC = () => {
             <section className="aspect-[4/2] lg:mt-24 max-w-screen md:max-w-3xl xl:max-w-5xl mx-auto overflow-hidden">
                 <BannerSection />
             </section>
+
 
             <section className="">
                 <BlogSection />

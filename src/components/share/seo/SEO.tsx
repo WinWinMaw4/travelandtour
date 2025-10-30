@@ -12,7 +12,7 @@ interface SEOProps {
 }
 
 const SEO = ({
-  title = "Asia Blue Sky Asia Sky Blue HAJJ, UMRAH & Tourp",
+  title = "Asia Sky Blue HAJJ& UMRAH",
   description = "Experience a safe and spiritual Hajj & Umrah journey with Asia Blue Sky Travel and Tour. We provide trusted pilgrimage services with guided tours, comfortable accommodation, and complete support for pilgrims from Myanmar & Australia.",
   keywords = "Hajj Packages Myanmar, Umrah Packages Myanmar, Pilgrimage Tours, Makkah Tour, Madinah Tour, Muslim Travel Myanmar, Asia Blue Sky Travel, Makka Tour, Brisbane Hajj Packages, Yangon Umrah",
   image = metaCoverImage,

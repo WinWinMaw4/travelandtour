@@ -34,7 +34,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({ onChange, value }) =>
                         inlineToolbar: ['link', 'bold', 'italic'], // 'bold' and 'italic' are built-in tools
                     },
                     header: {
-                        class: Header,
+                        class: Header as any,
                         inlineToolbar: ['link'],
                         config: {
                             placeholder: 'Enter a heading',
@@ -81,7 +81,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({ onChange, value }) =>
                     //         endpoint: ""
                     //     },
                     // },
-                    table: { class: Table, inlineToolbar: true, config: { rows: 2, cols: 2 } },
+                    table: { class: Table as any, inlineToolbar: true, config: { rows: 2, cols: 2 } },
                 },
                 async onChange() {
                     if (editorRef.current) {

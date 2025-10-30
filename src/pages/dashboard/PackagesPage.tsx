@@ -4,7 +4,7 @@ import { useGetEndpointQuery, useInvalidateEndpointMutation } from "@services/ap
 import { endpoints } from "@services/endpoints"; // ✅ adjust import if needed
 import { useSelector } from "react-redux";
 import type { RootState } from "@store/index";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import ConfirmModal from "@components/share/ConfirmModal";
 
@@ -17,6 +17,7 @@ interface PackageItem {
 }
 
 const PackagesPage: React.FC = () => {
+    const navigate = useNavigate();
 
     const [selectedId, setSelectedId] = useState<number | null>(null);
     const [showConfirm, setShowConfirm] = useState(false);
@@ -94,8 +95,9 @@ const PackagesPage: React.FC = () => {
                         <div
                             key={pkg.id}
                             className="bg-white rounded-2xl shadow-md hover:shadow-lg transition overflow-hidden"
+                            onClick={() => navigate(`/packages/${pkg.id}`)} // ✅ navigate to detail
                         >
-                            <div className="aspect-[3/2] overflow-hidden rounded-t-2xl">
+                            <div className="aspect-3/2 overflow-hidden rounded-t-2xl">
                                 <img
                                     src={pkg.coverImage
                                         ? pkg.coverImage.startsWith("http")
@@ -108,8 +110,8 @@ const PackagesPage: React.FC = () => {
                             </div>
 
                             <div className="p-6 text-center">
-                                <h4 className="text-xl font-semibold mb-2">{pkg.title}</h4>
-                                <p className="text-gray-600 mb-2 ">{pkg.description}</p>
+                                <h4 className="text-xl font-semibold mb-2 line-clamp-2">{pkg.title}</h4>
+                                <p className="text-gray-600 mb-2 line-clamp-3 ">{pkg.description}</p>
                                 <p className="text-primary-700 font-bold mb-4">
                                     Est: {pkg.price ? `$${pkg.price}` : "Contact for Price"}
                                 </p>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { type ChangeEvent } from "react";
 
 interface BannerCoverUploaderProps {
     preview: string | null;

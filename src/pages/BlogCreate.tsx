@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, ChangeEvent } from "react";
+import  { useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useInvalidateEndpointMutation } from "@services/apiSlice";
 import { endpoints } from "@services/endpoints";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import BlogTitleInput from "@components/page/blog/BlogTitleInput";
 import BlogEditor from "@components/page/blog/BlogEditor";
 import BlogCoverUploader from "@components/page/blog/BlogCoverUploader";
