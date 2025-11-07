@@ -3,7 +3,6 @@ import { useGetEndpointQuery } from "@services/apiSlice";
 import { endpoints } from "@services/endpoints";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom"; // ✅ add this
-import ShareButton from "@components/share/ShareButton";
 
 interface PackageItem {
     id: number;
