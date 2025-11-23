@@ -1,6 +1,6 @@
 import React from "react";
 // import LanguageSwitch from "@/components/LanguageSwitch";
-import heroImage1 from "../assets/images/hero/hero.png"
+import heroImage1 from "../assets/images/hero/herocrop.png"
 import heroImage2 from "../assets/images/hero/herosmalldevice.png"
 import contactImage from "../assets/images/hero/8657.jpg"
 
@@ -64,10 +64,10 @@ const MakkaTourWebsite: React.FC = () => {
 
                 {/* Background image only for md+ */}
                 <div
-                    className="hidden md:flex relative bg-cover bg-center w-full py-44"
+                    className="hidden md:flex relative bg-contain bg-right bg-no-repeat w-full py-32"
                     style={{ backgroundImage: `url(${heroImage1})` }}
                 >
-                    <div className="relative z-10 max-w-2xl mx-auto md:mx-0 px-6 text-primary-700">
+                    <div className="relative z-10 max-w-2xl mx-auto md:mx-0 ps-20 text-primary-700 ">
                         {/* <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
                             {t("banner.title")}
                         </h2> */}
@@ -116,86 +116,31 @@ const MakkaTourWebsite: React.FC = () => {
                         </a>
                     </div>
                 </div>
-            </section>
+                <div className="absolute inset-0 items-center justify-center hidden md:flex xl:hidden px-6">
+                    <div className="relative flex flex-col items-center justify-center w-full h-full text-primary-700 bg-white/70 rounded-xl p-6 ">
 
-            <section className="aspect-[4/2] lg:mt-24 max-w-screen md:max-w-3xl xl:max-w-5xl mx-auto overflow-hidden">
-                <BannerSection />
-            </section>
-
-
-            <section className="">
-                <BlogSection />
-            </section>
-
-            {/* About Section */}
-            {/* About Section */}
-            <section id="about" className="max-w-full mx-auto px-6 py-10 lg:py-24 text-center bg-primary-300/10 rounded-t-4xl">
-                <h3 className="text-3xl font-semibold mb-6">{t("aboutUs.sectionTitle")}</h3>
-                <p className="text-gray-700 max-w-3xl mx-auto mb-8 font-semibold text-lg">
-                    {t("aboutUs.description")}
-                </p>
-                <p className="text-gray-700 max-w-3xl mx-auto mb-8 font-semibold text-lg">
-                    {t("aboutUs.details")}
-                </p>
-
-                {/* Gallery */}
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-1 md:gap-4 mt-10 max-w-6xl mx-auto">
-                    <a
-                        href={pilgrims}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <img
-                            src={pilgrims}
-                            alt="Pilgrims"
-                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
-                        />
-                    </a>
-
-                    <a
-                        href={group1}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <img
-                            src={group1}
-                            alt="Makkah View"
-                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
-                        />
-                    </a>
-
-                    <a
-                        href={plane}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <img
-                            src={plane}
-                            alt="Spiritual Gathering"
-                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
-                        />
-                    </a>
-
-                    <a
-                        href={map}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <img
-                            src={map}
-                            alt="Tour Bus"
-                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
-                        />
-                    </a>
+                    </div>
                 </div>
             </section>
 
-
+            <section className="aspect-4/2 lg:mt-24 max-w-screen md:max-w-3xl xl:max-w-5xl mx-auto overflow-hidden">
+                <BannerSection />
+            </section>
 
             {/* Tours Section */}
-            <section>
+            <section className="">
                 <PackagesSection />
             </section>
+
+
+            <section className=" bg-primary-300/10 ">
+                <BlogSection />
+            </section>
+
+
+
+
+
             {/* <section id="tours" className="max-w-6xl mx-auto px-6 py-20">
                 <h3 className="text-3xl font-semibold text-center mb-12">Our Packages</h3>
                 <div className="grid md:grid-cols-3 gap-8">
@@ -214,7 +159,7 @@ const MakkaTourWebsite: React.FC = () => {
             </section> */}
 
             {/* Testimonials */}
-            <section className="bg-gray-50 py-20 hidden">
+            <section className="bg-gray-50 py-20 hidden ">
                 <h3 className="text-3xl font-semibold text-center mb-12">Testimonials</h3>
                 <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
                     {testimonials.map((t, idx) => (
@@ -287,6 +232,69 @@ const MakkaTourWebsite: React.FC = () => {
                     </form> */}
                 </div>
             </section>
+
+            {/* About Section */}
+            <section id="about" className="max-w-full mx-auto px-6 py-10 lg:py-0 text-center  rounded-t-4xl">
+                <h3 className="text-3xl font-semibold mb-6">{t("aboutUs.sectionTitle")}</h3>
+                <p className="text-gray-700 max-w-3xl mx-auto mb-8 font-semibold text-lg">
+                    {t("aboutUs.description")}
+                </p>
+                <p className="text-gray-700 max-w-3xl mx-auto mb-8 font-semibold text-lg">
+                    {t("aboutUs.details")}
+                </p>
+
+                {/* Gallery */}
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-1 md:gap-4 mt-10 max-w-6xl mx-auto">
+                    <a
+                        href={pilgrims}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img
+                            src={pilgrims}
+                            alt="Pilgrims"
+                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
+                        />
+                    </a>
+
+                    <a
+                        href={group1}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img
+                            src={group1}
+                            alt="Makkah View"
+                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
+                        />
+                    </a>
+
+                    <a
+                        href={plane}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img
+                            src={plane}
+                            alt="Spiritual Gathering"
+                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
+                        />
+                    </a>
+
+                    <a
+                        href={map}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img
+                            src={map}
+                            alt="Tour Bus"
+                            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform"
+                        />
+                    </a>
+                </div>
+            </section>
+
 
 
 

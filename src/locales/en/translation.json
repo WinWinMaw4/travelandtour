@@ -40,6 +40,17 @@
   },
   "packages": {
     "sectionTitle": "Our Packages",
+    "callNow": "Call Now",
+    "bookNow": "Book Now",
+    "modal": {
+      "contactTitle": "Contact Us",
+      "contactInquiryPrompt": "Ready to inquire about this package? Contact our nearest office:",
+      "closeButton": "Close"
+    },
+    "contact": {
+      "call": "Call",
+      "email": "Email"
+    },
     "economy13": {
       "title": "Economy Hajj Package – 13 Days",
       "description": "Stay 21 days with premium hotel in Makkah & Madinah, guided transport, full meals.",

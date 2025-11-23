@@ -148,8 +148,9 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
+      {/* {new Date().getFullYear()} */}
       <div className="border-t mt-8 pt-4 text-center text-gray-500 text-sm">
-        © {new Date().getFullYear()} Makka Tour. All rights reserved.
+        © 2025 Asia Sky Blue. All rights reserved.
       </div>
     </footer >
   );

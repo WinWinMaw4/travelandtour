@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Menu, X } from "lucide-react"; // lightweight icons
+import { Menu, Phone, X } from "lucide-react"; // lightweight icons
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import type { RootState } from "@store/index";
 import { LanguageSwitcher } from "@components/ui/LanguagesSwitcher";
 import { useTranslation } from "react-i18next";
 import { scrollToSection } from "@utils/ScrollToSection";
-import logo from "@assets/images/logo/logo.png"
+import logo from "@assets/images/logo/logowithouttext.png"
+import FlippingCallButton from "@components/ui/FlippingCallButton";
+import FlippingCallButtonWrapper from "@components/ui/FlippingCallButtonWrapper";
 
 const NavBar: React.FC = () => {
     const { t } = useTranslation();
@@ -85,15 +87,36 @@ const NavBar: React.FC = () => {
     }, []);
 
 
+
+
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
             <div className="max-w-[1920px] mx-auto px-6 py-2 flex justify-between items-center">
-                <h1 className="md:text-lg lg:text-2xl font-bold text-primary-700">
-                    <div className="flex justify-start items-center">
-                        <img src={logo} className="w-10" />
-                        <Link to={"/"}>Asia Sky Blue <sub className="font-normal">HAJJ & UMRAH</sub></Link>
+                <div className="flex items-center space-x-4">
+                    <img src={logo} className="w-14" alt="Asia Sky Blue Logo" />
+
+                    <h1 className="hidden lg:flex md:text-lg lg:text-2xl font-bold text-primary-700 items-center space-x-4">
+                        <Link to={"/"} className="flex flex-col">
+                            <span>Asia Sky Blue</span>
+                            <span className="font-bold text-sm text-gray-600">Hajj and Umrah</span>
+                        </Link>
+                    </h1>
+
+                    {/* d) Static Call Button (Kept for quick visibility on smaller screens) */}
+                    {/* <a
+                        href="tel:+1234567890" // ⚠️ Update
+                        className="hidden sm:flex md:hidden items-center bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold hover:bg-green-600 transition duration-300"
+                    >
+                        <Phone size={16} className="mr-1" />
+                        Call Now
+                    </a> */}
+                    <div className="">
+                        {/* <FlippingCallButton /> */}
+                        <FlippingCallButtonWrapper />
                     </div>
-                </h1>
+
+                </div>
+
 
                 {/* Desktop Nav */}
                 <nav className="hidden md:flex items-center space-x-6">

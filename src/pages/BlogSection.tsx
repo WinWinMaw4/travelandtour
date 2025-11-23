@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetEndpointQuery } from "@services/apiSlice";
 import { endpoints } from "@services/endpoints";
 import React from "react";
@@ -37,18 +38,27 @@ const BlogSection: React.FC = () => {
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 lg:gap-8">
         {data?.blogs?.map((post: Blog) => {
-          // Generate short excerpt (120 chars)
+          // ✅ Better excerpt cleaning for Editor.js content
           let excerpt = "";
           if (post.content) {
             try {
               const parsed = JSON.parse(post.content);
-              excerpt =
-                parsed?.blocks?.[0]?.data?.text?.replace(/<[^>]+>/g, "")?.slice(0, 120) || "";
+              const firstBlock = parsed?.blocks?.find(
+                (b: any) => b.type === "paragraph" && b.data?.text
+              );
+              excerpt = firstBlock?.data?.text
+                ?.replace(/<[^>]*>/g, "")
+                .replace(/&nbsp;/g, " ")
+                .replace(/\s+/g, " ")
+                .trim()
+                .slice(0, 150);
             } catch {
-              excerpt = post.content.slice(0, 120);
+              excerpt = post.content
+                .replace(/<[^>]*>/g, "")
+                .replace(/&nbsp;/g, " ")
+                .slice(0, 150);
             }
           }
-
           return (
             // <Link key={post.id} to={`/blogs/${post.slug}`} className="cursor-pointer">
             <div key={post.id} className="bg-white group rounded-2xl shadow-md hover:shadow-lg overflow-hidden transition flex flex-col h-full">
