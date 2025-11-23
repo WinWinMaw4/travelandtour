@@ -123,7 +123,7 @@ const MakkaTourWebsite: React.FC = () => {
                 </div>
             </section>
 
-            <section className="aspect-4/2 lg:mt-24 max-w-screen md:max-w-3xl xl:max-w-5xl mx-auto overflow-hidden">
+            <section className="aspect-4/2 lg:mt-10 max-w-screen md:max-w-3xl xl:max-w-5xl mx-auto overflow-hidden">
                 <BannerSection />
             </section>
 

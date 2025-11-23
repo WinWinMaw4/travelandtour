@@ -7,8 +7,21 @@ import { LanguageSwitcher } from "@components/ui/LanguagesSwitcher";
 import { useTranslation } from "react-i18next";
 import { scrollToSection } from "@utils/ScrollToSection";
 import logo from "@assets/images/logo/logowithouttext.png"
-import FlippingCallButton from "@components/ui/FlippingCallButton";
 import FlippingCallButtonWrapper from "@components/ui/FlippingCallButtonWrapper";
+import FlippingActionButton from "@components/ui/FlippingActionButton";
+import { useGetEndpointQuery } from "@services/apiSlice";
+import { endpoints } from "@services/endpoints";
+
+interface ApiContact {
+    id: number;
+    country_code: string; // e.g., 'AU', 'MM'
+    city: string;
+    state?: string;
+    country: string;
+    phone: string;
+    email: string;
+}
+
 
 const NavBar: React.FC = () => {
     const { t } = useTranslation();
@@ -17,6 +30,9 @@ const NavBar: React.FC = () => {
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [currentSection, setCurrentSection] = useState<string>("home");
+
+    const { data: contactApiData } = useGetEndpointQuery(`${endpoints.contacts}`);
+    const contacts: ApiContact[] = contactApiData?.data || [];
 
 
     // ✅ Get auth state from Redux
@@ -93,7 +109,7 @@ const NavBar: React.FC = () => {
         <header className="bg-white shadow-sm sticky top-0 z-50">
             <div className="max-w-[1920px] mx-auto px-6 py-2 flex justify-between items-center">
                 <div className="flex items-center space-x-4">
-                    <img src={logo} className="w-14" alt="Asia Sky Blue Logo" />
+                    <img src={logo} onClick={() => navigate("/")} className="w-14 cursor-pointer" alt="Asia Sky Blue Logo" />
 
                     <h1 className="hidden lg:flex md:text-lg lg:text-2xl font-bold text-primary-700 items-center space-x-4">
                         <Link to={"/"} className="flex flex-col">
@@ -110,11 +126,12 @@ const NavBar: React.FC = () => {
                         <Phone size={16} className="mr-1" />
                         Call Now
                     </a> */}
-                    <div className="">
-                        {/* <FlippingCallButton /> */}
-                        <FlippingCallButtonWrapper />
-                    </div>
 
+
+                </div>
+
+                <div className="">
+                    <FlippingActionButton contacts={contacts} />
                 </div>
 
 
