@@ -7,6 +7,7 @@ import { endpoints } from "@services/endpoints";
 import { useTranslation } from "react-i18next";
 import ShareButton from "@components/share/ShareButton";
 import { Phone, Mail } from "lucide-react"; // 📞📧 Import icons
+import BookingFormModal from "@components/page/booking/bookingFormModal";
 
 // --- TYPE DEFINITIONS ---
 
@@ -101,6 +102,8 @@ const ContactInfoModal: React.FC<ContactInfoModalProps> = ({ isOpen, onClose, pa
 const PackageDetail: React.FC = () => {
     const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
+
 
     // 1. Fetch Package Data
     const {
@@ -161,6 +164,11 @@ const PackageDetail: React.FC = () => {
             : `${import.meta.env.VITE_API_BASE_URL || ""}${pkg.coverImage}`
         : "https://via.placeholder.com/800x400?text=No+Cover+Image";
 
+
+    const openBooking = () => setIsBookingOpen(true);
+    const closeBooking = () => setIsBookingOpen(false);
+
+
     return (
         <>
             <section className="max-w-4xl mx-auto px-6 py-20">
@@ -188,19 +196,26 @@ const PackageDetail: React.FC = () => {
 
                         <div className="flex space-x-4">
                             {/* 📞 QUICK CALL BUTTON */}
-                            <a
+                            {/* <a
                                 href={`tel:${AU_CONTACT_PHONE}`}
                                 className="bg-green-600 text-white px-8 py-3 rounded-full hover:bg-green-700 transition font-medium"
                             >
-                                {t("packages.callNow")}
-                            </a>
+                                {t("packages.bookNow")}
+                            </a> */}
+                            <button
+                                onClick={openBooking}
+                                className="bg-green-600 text-white px-8 py-3 rounded-full hover:bg-green-700 transition font-medium"
+                            >
+                                {t("packages.bookNow")}
+                            </button>
+
 
                             {/* ℹ️ CONTACT US BUTTON (Triggers Contact Info Modal) */}
                             <button
                                 onClick={openContactModal}
                                 className="bg-primary-700 text-white px-8 py-3 rounded-full hover:bg-primary-800 transition font-medium"
                             >
-                                {t("packages.bookNow")}
+                                {t("packages.callNow")}
                             </button>
                         </div>
                     </div>
@@ -214,6 +229,13 @@ const PackageDetail: React.FC = () => {
                 packageTitle={pkg.title}
                 contactData={contacts}
             />
+
+            <BookingFormModal
+                isOpen={isBookingOpen}
+                onClose={closeBooking}
+                packageTitle={pkg.title}
+            />
+
         </>
     );
 };

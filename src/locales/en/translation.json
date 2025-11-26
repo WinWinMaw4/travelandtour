@@ -42,11 +42,13 @@
     "sectionTitle": "Our Packages",
     "callNow": "Call Now",
     "bookNow": "Book Now",
+
     "modal": {
       "contactTitle": "Contact Us",
       "contactInquiryPrompt": "Ready to inquire about this package? Contact our nearest office:",
       "closeButton": "Close"
     },
+
     "contact": {
       "call": "Call",
       "email": "Email"
@@ -63,6 +65,20 @@
       "price": "Est : $3000",
       "button": "Call Now"
     }
+  },
+  "form": {
+    "submit": "Submit",
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "suburb": "Suburb",
+    "person": "Number of People",
+    "town": "Town / City",
+    "state": "State / Region",
+    "note": "Additional Notes",
+    "successTitle": "Booking Successful!",
+    "successMessage": "Thank you for your booking. We will send you an email shortly.",
+    "ok": "OK"
   },
   "contact": {
     "sectionTitle": "Get in Touch",

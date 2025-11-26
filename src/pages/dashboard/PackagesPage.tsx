@@ -113,7 +113,7 @@ const PackagesPage: React.FC = () => {
                                 <h4 className="text-xl font-semibold mb-2 line-clamp-2">{pkg.title}</h4>
                                 <p className="text-gray-600 mb-2 line-clamp-3 ">{pkg.description}</p>
                                 <p className="text-primary-700 font-bold mb-4">
-                                    Est: {pkg.price ? `AUD ${pkg.price}` : "Contact for Price"}
+                                    Est: {pkg.price ? `AUD ${pkg.price}` : "Contact for Price" }
                                 </p>
                                 {/* <button className="bg-primary-700 text-white px-6 py-2 rounded-full hover:bg-primary-800 transition">
                                     Call Now
