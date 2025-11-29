@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Phone, MessageCircle, Mail, ChevronRight } from "lucide-react";
+import { BsWhatsapp } from "react-icons/bs";
 import ContactInfoModal from "./ContactInfoModal";
 
 interface ApiContact {
@@ -23,7 +24,7 @@ const FlippingActionButton: React.FC<Props> = ({ contacts }) => {
     // Only Call Now button triggers modal
     const contactButtons = [
         { icon: Phone, label: "Call Now", bgColor: "bg-yellow-600", onClick: () => setIsModalOpen(true) },
-        { icon: MessageCircle, label: "WhatsApp", bgColor: "bg-green-600", href: "https://wa.me/959123456789" },
+        { icon: BsWhatsapp, label: "WhatsApp", bgColor: "bg-green-600", href: "https://wa.me/959123456789" },
         { icon: Mail, label: "Email Us", bgColor: "bg-blue-600", href: "mailto:info@example.com" },
     ];
 

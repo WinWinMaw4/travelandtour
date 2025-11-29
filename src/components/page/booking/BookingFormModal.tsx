@@ -1,23 +1,34 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CheckCircle } from "lucide-react"; // ✅
+import { CheckCircle } from "lucide-react";
+import { useInvalidateEndpointMutation } from "@services/apiSlice";
+import { endpoints } from "@services/endpoints";
+import Input from "@components/ui/input/Input";
+import Textarea from "@components/ui/input/Textarea";
+
 
 interface BookingFormModalProps {
     isOpen: boolean;
     onClose: () => void;
     packageTitle: string;
-    onSubmit?: (data: any) => void; // optional callback for API submission
+    packageId: string | number;
 }
 
 const BookingFormModal: React.FC<BookingFormModalProps> = ({
     isOpen,
     onClose,
     packageTitle,
-    onSubmit,
+    packageId
 }) => {
     const { t } = useTranslation();
 
+    const [sendRequest, { isLoading }] = useInvalidateEndpointMutation();
+    const [errors, setErrors] = useState<any>({});
+    const [success, setSuccess] = useState(false);
+
     const [formData, setFormData] = useState({
+        packageId: Number(packageId),
         name: "",
         contact: "",
         email: "",
@@ -28,170 +39,178 @@ const BookingFormModal: React.FC<BookingFormModalProps> = ({
         note: "",
     });
 
-    const [success, setSuccess] = useState(false);
-
     if (!isOpen) return null;
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        setErrors((prev: any) => ({ ...prev, [e.target.name]: undefined }));
     };
 
-    const submit = () => {
-        if (onSubmit) onSubmit(formData);
-        console.log("Booking Submitted:", formData);
+    const submit = async () => {
+        setErrors({});
+        try {
+            const res = await sendRequest({
+                url: endpoints.bookings,
+                method: "POST",
+                body: formData,
+            }).unwrap();
 
-        // Show success popup
-        setSuccess(true);
+            if (res?.booking) {
+                setSuccess(true);
 
-        // Auto-close after 3s
-        setTimeout(() => {
-            setSuccess(false);
-            onClose();
-        }, 3000);
+                setTimeout(() => {
+                    setSuccess(false);
+                    onClose();
+                }, 4000);
+
+                return;
+            }
+        } catch (err: any) {
+            if (err?.data?.errors) {
+                setErrors(err.data.errors);
+            }
+        }
     };
 
     return (
         <>
-            {/* Overlay */}
             <div
                 className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
                 onClick={onClose}
             >
-                {/* Form Container */}
-                <div
-                    className="bg-white rounded-xl p-6 w-full max-w-2xl shadow-xl animate-fadeIn flex flex-col max-h-[80vh] overflow-y-auto"
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <h3 className="text-2xl font-bold mb-6">
-                        {t("packages.bookNow")} – {packageTitle}
-                    </h3>
+                {!success && (
+                    <div
+                        className="bg-white rounded-xl p-6 w-full max-w-2xl shadow-xl animate-fadeIn flex flex-col max-h-[80vh] overflow-y-auto"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 className="text-2xl font-bold mb-6">
+                            {t("packages.bookNow")} – {packageTitle}
+                        </h3>
 
-                    {/* FORM FIELDS */}
-                    <div className="space-y-4">
-                        {/* Name & Email Side-by-Side on large screens */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder={t("form.name")}
-                                className="w-full border p-3 rounded-lg"
-                                value={formData.name}
-                                onChange={handleChange}
-                            />
+                        <div className="space-y-4">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                <Input
+                                    name="name"
+                                    placeholder={t("form.name")}
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    error={errors.name}
+                                />
 
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder={t("form.email")}
-                                className="w-full border p-3 rounded-lg"
-                                value={formData.email}
-                                onChange={handleChange}
-                            />
-                        </div>
-
-                        <input
-                            type="text"
-                            name="contact"
-                            placeholder={t("form.phone")}
-                            className="w-full border p-3 rounded-lg"
-                            value={formData.contact}
-                            onChange={handleChange}
-                        />
-
-                        <div>
-                            <label className="block text-sm font-medium mb-1">
-                                {t("form.person")}
-                            </label>
-                            <div className="flex items-center gap-3">
-                                <button
-                                    type="button"
-                                    className="px-3 py-1 bg-gray-300 rounded-lg"
-                                    onClick={() =>
-                                        setFormData((prev) => ({
-                                            ...prev,
-                                            person: Math.max(1, prev.person - 1),
-                                        }))
-                                    }
-                                >
-                                    –
-                                </button>
-                                <span className="text-lg font-semibold">
-                                    {formData.person}
-                                </span>
-                                <button
-                                    type="button"
-                                    className="px-3 py-1 bg-gray-300 rounded-lg"
-                                    onClick={() =>
-                                        setFormData((prev) => ({
-                                            ...prev,
-                                            person: prev.person + 1,
-                                        }))
-                                    }
-                                >
-                                    +
-                                </button>
+                                <Input
+                                    name="email"
+                                    type="email"
+                                    placeholder={t("form.email")}
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    error={errors.email}
+                                />
                             </div>
+
+                            <Input
+                                name="contact"
+                                placeholder={t("form.phone")}
+                                value={formData.contact}
+                                onChange={handleChange}
+                                error={errors.contact}
+                            />
+
+                            {/* Person Selector */}
+                            <div>
+                                <label className="block text-sm font-medium mb-2">
+                                    {t("form.person")}
+                                </label>
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        type="button"
+                                        className="px-3 py-1 bg-gray-300 rounded-lg"
+                                        onClick={() =>
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                person: Math.max(1, prev.person - 1),
+                                            }))
+                                        }
+                                    >
+                                        –
+                                    </button>
+                                    <span className="text-lg font-semibold">
+                                        {formData.person}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        className="px-3 py-1 bg-gray-300 rounded-lg"
+                                        onClick={() =>
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                person: prev.person + 1,
+                                            }))
+                                        }
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+
+                            <Input
+                                name="suburb"
+                                placeholder={t("form.suburb")}
+                                value={formData.suburb}
+                                onChange={handleChange}
+                                error={errors.suburb}
+                            />
+
+                            <Input
+                                name="town"
+                                placeholder={t("form.town")}
+                                value={formData.town}
+                                onChange={handleChange}
+                                error={errors.town}
+                            />
+
+                            <Input
+                                name="state"
+                                placeholder={t("form.state")}
+                                value={formData.state}
+                                onChange={handleChange}
+                                error={errors.state}
+                                required
+                            />
+
+                            <Textarea
+                                name="note"
+                                rows={4}
+                                placeholder={t("form.note")}
+                                value={formData.note}
+                                onChange={handleChange}
+                                error={errors.note}
+                            />
                         </div>
 
-                        <input
-                            type="text"
-                            name="suburb"
-                            placeholder={t("form.suburb")}
-                            className="w-full border p-3 rounded-lg"
-                            value={formData.suburb}
-                            onChange={handleChange}
-                        />
+                        <div className="mt-6 flex justify-end gap-3">
+                            <button
+                                onClick={onClose}
+                                className="px-4 py-2 rounded-full bg-gray-200 cursor-pointer"
+                            >
+                                {t("packages.modal.closeButton")}
+                            </button>
 
-                        <input
-                            type="text"
-                            name="town"
-                            placeholder={t("form.town")}
-                            className="w-full border p-3 rounded-lg"
-                            value={formData.town}
-                            onChange={handleChange}
-                        />
-
-                        <input
-                            type="text"
-                            name="state"
-                            placeholder={t("form.state")}
-                            className="w-full border p-3 rounded-lg"
-                            value={formData.state}
-                            onChange={handleChange}
-                        />
-
-                        <textarea
-                            name="note"
-                            placeholder={t("form.note")}
-                            className="w-full border p-3 rounded-lg"
-                            rows={4}
-                            value={formData.note}
-                            onChange={handleChange}
-                        />
+                            <button
+                                onClick={submit}
+                                disabled={isLoading}
+                                className="px-6 py-2 cursor-pointer rounded-full bg-primary-700 text-white"
+                            >
+                                {isLoading
+                                    ? t("form.submitting")
+                                    : t("form.submit")}
+                            </button>
+                        </div>
                     </div>
-
-                    {/* ACTION BUTTONS */}
-                    <div className="mt-6 flex justify-end gap-3">
-                        <button
-                            onClick={onClose}
-                            className="px-4 py-2 rounded-full bg-gray-200"
-                        >
-                            {t("packages.modal.closeButton")}
-                        </button>
-
-                        <button
-                            onClick={submit}
-                            className="px-6 py-2 rounded-full bg-primary-700 text-white"
-                        >
-                            {t("form.submit")}
-                        </button>
-                    </div>
-                </div>
+                )}
             </div>
 
-            {/* USER-FRIENDLY SUCCESS POPUP */}
+            {/* SUCCESS POPUP */}
             {success && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
                     <div className="bg-white rounded-xl shadow-xl flex flex-col items-center p-6 animate-fadeIn scale-110 max-w-sm">
@@ -201,7 +220,7 @@ const BookingFormModal: React.FC<BookingFormModalProps> = ({
                         </h4>
                         <p className="text-center text-gray-700">
                             {t("form.successMessage") ||
-                                "Thank you! We will contact you via email shortly."}
+                                "Thank you! We will contact you shortly."}
                         </p>
                     </div>
                 </div>

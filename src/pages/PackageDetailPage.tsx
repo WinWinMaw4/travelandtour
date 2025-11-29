@@ -194,7 +194,7 @@ const PackageDetail: React.FC = () => {
                             {pkg.price ? `Est: AUD ${pkg.price}` : "Contact for Price"}
                         </p>
 
-                        <div className="flex space-x-4">
+                        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-4">
                             {/* 📞 QUICK CALL BUTTON */}
                             {/* <a
                                 href={`tel:${AU_CONTACT_PHONE}`}
@@ -202,20 +202,21 @@ const PackageDetail: React.FC = () => {
                             >
                                 {t("packages.bookNow")}
                             </a> */}
-                            <button
-                                onClick={openBooking}
-                                className="bg-green-600 text-white px-8 py-3 rounded-full hover:bg-green-700 transition font-medium"
-                            >
-                                {t("packages.bookNow")}
-                            </button>
+
 
 
                             {/* ℹ️ CONTACT US BUTTON (Triggers Contact Info Modal) */}
                             <button
                                 onClick={openContactModal}
-                                className="bg-primary-700 text-white px-8 py-3 rounded-full hover:bg-primary-800 transition font-medium"
+                                className="cursor-pointer bg-primary-700 text-white px-8 py-3 rounded-full hover:bg-primary-800 transition font-medium"
                             >
                                 {t("packages.callNow")}
+                            </button>
+                            <button
+                                onClick={openBooking}
+                                className="cursor-pointer bg-green-600 text-white px-8 py-3 rounded-full hover:bg-green-700 transition font-medium"
+                            >
+                                {t("packages.bookNow")}
                             </button>
                         </div>
                     </div>
@@ -234,6 +235,7 @@ const PackageDetail: React.FC = () => {
                 isOpen={isBookingOpen}
                 onClose={closeBooking}
                 packageTitle={pkg.title}
+                packageId={pkg.id}
             />
 
         </>

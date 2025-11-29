@@ -5,7 +5,8 @@ import { scrollToSection } from "@utils/ScrollToSection";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { FaInstagram, FaFacebookF, FaYoutube, FaTiktok } from "react-icons/fa";
+import { FaInstagram, FaFacebookF, FaYoutube, FaTiktok, FaWhatsapp } from "react-icons/fa";
+// import { RiWhatsappFill } from "react-icons/ri";
 
 
 const Footer: React.FC = () => {
@@ -68,6 +69,14 @@ const Footer: React.FC = () => {
               className="text-primary-700 hover:text-black transition text-xl"
             >
               <FaTiktok />
+            </a>
+            <a
+              href="https://www.tiktok.com/@asiaskybluehajjandumrah?_t=ZS-90s4x9VW5A4&_r=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary-700 hover:text-green-600 transition text-xl"
+            >
+              <FaWhatsapp />
             </a>
           </div>
 

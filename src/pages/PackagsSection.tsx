@@ -6,6 +6,7 @@ import { endpoints } from "@services/endpoints";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Phone, Mail } from "lucide-react"; // 📞📧 Import icons for the modal
+import BookingFormModal from "@components/page/booking/bookingFormModal";
 
 // --- TYPE DEFINITIONS ---
 
@@ -104,6 +105,9 @@ const PackagesSection: React.FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+
     // Fetch Packages Data
     const {
         data: packageData,
@@ -122,6 +126,8 @@ const PackagesSection: React.FC = () => {
     // State for Modal Visibility and Selected Package
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPackageTitle, setSelectedPackageTitle] = useState("");
+    const [selectedPackageId, setSelectedPackageId] = useState("");
+
 
     const openContactModal = (title: string) => {
         setSelectedPackageTitle(title);
@@ -159,6 +165,9 @@ const PackagesSection: React.FC = () => {
     const auContact = contacts.find(c => c.country_code === 'AU');
     const AU_CONTACT_PHONE = auContact?.phone.replace(/\s/g, '') || "+61490866626"; // Fallback number
 
+    const openBooking = () => setIsBookingOpen(true);
+    const closeBooking = () => setIsBookingOpen(false);
+
 
     return (
         <>
@@ -195,22 +204,27 @@ const PackagesSection: React.FC = () => {
 
                                         <div className="flex justify-center space-x-4">
                                             {/* 📞 CALL NOW BUTTON */}
-                                            <a
-                                                href={`tel:${AU_CONTACT_PHONE}`}
-                                                onClick={(e) => e.stopPropagation()}
-                                                className="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition text-sm font-medium"
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    openContactModal()
+                                                }
+                                                }
+                                                className="cursor-pointer bg-primary-700 text-white px-8 py-3 rounded-full hover:bg-primary-800 transition font-medium"
                                             >
                                                 {t("packages.callNow")}
-                                            </a>
+                                            </button>
 
                                             {/* ℹ️ CONTACT US BUTTON (Triggers Contact Info Modal) */}
                                             <button
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    openContactModal(pkg.title); // Open the contact modal
+                                                    setSelectedPackageId(pkg.id)
+                                                    setSelectedPackageTitle(pkg.title);
+                                                    openBooking()// Open the contact modal
                                                 }}
                                                 // Change the color and text to reflect a contact action
-                                                className="bg-primary-700 text-white px-4 py-2 rounded-full hover:bg-primary-800 transition text-sm font-medium"
+                                                className="cursor-pointer bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition text-sm font-medium"
                                             >
                                                 {t("packages.bookNow")}
                                             </button>
@@ -230,6 +244,14 @@ const PackagesSection: React.FC = () => {
                 packageTitle={selectedPackageTitle}
                 contactData={contacts}
             />
+
+            <BookingFormModal
+                isOpen={isBookingOpen}
+                onClose={closeBooking}
+                packageTitle={selectedPackageTitle}
+                packageId={selectedPackageId}
+            />
+
         </>
     );
 };
