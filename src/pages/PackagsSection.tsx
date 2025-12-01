@@ -11,7 +11,7 @@ import BookingFormModal from "@components/page/booking/bookingFormModal";
 // --- TYPE DEFINITIONS ---
 
 interface PackageItem {
-    id: number;
+    id: number | string;
     title: string;
     price: number;
     description: string;
@@ -126,7 +126,7 @@ const PackagesSection: React.FC = () => {
     // State for Modal Visibility and Selected Package
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPackageTitle, setSelectedPackageTitle] = useState("");
-    const [selectedPackageId, setSelectedPackageId] = useState("");
+    const [selectedPackageId, setSelectedPackageId] = useState<number | string>("");
 
 
     const openContactModal = (title: string) => {
@@ -138,6 +138,7 @@ const PackagesSection: React.FC = () => {
         setIsModalOpen(false);
         setSelectedPackageTitle("");
     };
+
 
     // --- Loading and Error Handling ---
     if (isPackagesLoading) {
@@ -185,6 +186,29 @@ const PackagesSection: React.FC = () => {
                                     : `${import.meta.env.VITE_API_BASE_URL || ""}${pkg.coverImage}`
                                 : "https://via.placeholder.com/800x400?text=No+Cover+Image";
 
+                            // ✅ Better excerpt cleaning for Editor.js content
+                            let excerpt = "";
+                            if (pkg.description) {
+                                try {
+                                    const parsed = JSON.parse(pkg.description);
+                                    const firstBlock = parsed?.blocks?.find(
+                                        (b: any) => b.type === "paragraph" && b.data?.text
+                                    );
+                                    excerpt = firstBlock?.data?.text
+                                        ?.replace(/<[^>]*>/g, "")
+                                        .replace(/&nbsp;/g, " ")
+                                        .replace(/\s+/g, " ")
+                                        .trim()
+                                        .slice(0, 150);
+                                } catch {
+                                    excerpt = pkg.description
+                                        .replace(/<[^>]*>/g, "")
+                                        .replace(/&nbsp;/g, " ")
+                                        .slice(0, 150);
+                                }
+                            }
+
+
                             return (
                                 <div
                                     key={pkg.id}
@@ -197,7 +221,10 @@ const PackagesSection: React.FC = () => {
                                     </div>
                                     <div className="p-6 text-center">
                                         <h4 className="text-xl font-semibold mb-2 group-hover:text-primary-700 line-clamp-2">{pkg.title}</h4>
-                                        <p className="text-gray-600 mb-2 line-clamp-3">{pkg.description}</p>
+                                        <p className="text-gray-600 mb-2 line-clamp-3">
+                                            {/* {pkg.description} */}
+                                            {excerpt}...
+                                        </p>
                                         <p className="text-primary-700 font-bold mb-4">
                                             {pkg.price ? `Est : AUD ${pkg.price}` : "Contact for Price"}
                                         </p>
@@ -206,8 +233,8 @@ const PackagesSection: React.FC = () => {
                                             {/* 📞 CALL NOW BUTTON */}
                                             <button
                                                 onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    openContactModal()
+                                                    e.stopPropagation();
+                                                    openContactModal(pkg.title);
                                                 }
                                                 }
                                                 className="cursor-pointer bg-primary-700 text-white px-8 py-3 rounded-full hover:bg-primary-800 transition font-medium"
@@ -249,7 +276,7 @@ const PackagesSection: React.FC = () => {
                 isOpen={isBookingOpen}
                 onClose={closeBooking}
                 packageTitle={selectedPackageTitle}
-                packageId={selectedPackageId}
+                packageId={Number(selectedPackageId)}
             />
 
         </>

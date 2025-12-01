@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useInvalidateEndpointMutation, useGetEndpointQuery } from "@services/apiSlice";
 import { endpoints } from "@services/endpoints";
 import toast from "react-hot-toast";
+import PackageEditor from "@components/page/package/PackageEditor";
 
 interface ValidationErrors {
     title?: string;
@@ -32,7 +33,14 @@ const PackageEdit = () => {
         if (pkgData) {
             setTitle(pkgData.title || "");
             setPrice(pkgData.price?.toString() || "");
-            setDescription(pkgData.description || "");
+            // Safely parse description
+            let parsedDescription: any = pkgData.description || "";
+            try {
+                parsedDescription = pkgData.description ? JSON.parse(pkgData.description) : "";
+            } catch {
+                // Keep it as string if not JSON
+            }
+            setDescription(parsedDescription);
             setPreview(
                 pkgData.coverImage?.startsWith("http")
                     ? pkgData.coverImage
@@ -61,7 +69,8 @@ const PackageEdit = () => {
         const formData = new FormData();
         formData.append("title", title);
         formData.append("price", price);
-        formData.append("description", description);
+        // formData.append("description", description);
+        formData.append("description", JSON.stringify(description));
         if (coverImage) formData.append("coverImage", coverImage);
 
         try {
@@ -124,7 +133,24 @@ const PackageEdit = () => {
             </div>
 
             {/* Description */}
-            <div>
+            {/* <PackageEditor
+                value={description}
+                onChange={setDescription}
+                error={errors.description}
+            /> */}
+            {description === "" ? (
+                <div className="text-gray-500 py-6 text-center">Loading editor...</div>
+            ) : (
+                <PackageEditor
+                    value={description}
+                    onChange={setDescription}
+                    error={errors.description}
+                />
+            )}
+
+
+
+            {/* <div>
                 <label className="block font-semibold text-gray-700 mb-2">Description</label>
                 <textarea
                     value={description}
@@ -135,7 +161,7 @@ const PackageEdit = () => {
                 {errors.description && (
                     <p className="text-red-500 text-sm mt-1">{errors.description}</p>
                 )}
-            </div>
+            </div> */}
 
             {/* Cover Image */}
             <div>

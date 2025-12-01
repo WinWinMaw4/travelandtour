@@ -91,58 +91,85 @@ const PackagesPage: React.FC = () => {
                 <p className="text-center text-gray-500">No packages available at the moment.</p>
             ) : (
                 <div className="grid  sm:grid-cols-2 md:grid-cols-3 gap-8">
-                    {packages.map((pkg) => (
-                        <div
-                            key={pkg.id}
-                            className="bg-white rounded-2xl shadow-md hover:shadow-lg transition overflow-hidden"
-                            onClick={() => navigate(`/packages/${pkg.id}`)} // ✅ navigate to detail
-                        >
-                            <div className="aspect-3/2 overflow-hidden rounded-t-2xl">
-                                <img
-                                    src={pkg.coverImage
-                                        ? pkg.coverImage.startsWith("http")
-                                            ? pkg.coverImage
-                                            : `${import.meta.env.VITE_API_BASE_URL || ""}${pkg.coverImage}`
-                                        : "https://via.placeholder.com/800x400?text=No+Cover+Image"}
-                                    alt={pkg.title}
-                                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                                />
-                            </div>
+                    {packages.map((pkg) => {
+                        // ✅ Better excerpt cleaning for Editor.js content
+                        let excerpt = "";
+                        if (pkg.description) {
+                            try {
+                                const parsed = JSON.parse(pkg.description);
+                                const firstBlock = parsed?.blocks?.find(
+                                    (b: any) => b.type === "paragraph" && b.data?.text
+                                );
+                                excerpt = firstBlock?.data?.text
+                                    ?.replace(/<[^>]*>/g, "")
+                                    .replace(/&nbsp;/g, " ")
+                                    .replace(/\s+/g, " ")
+                                    .trim()
+                                    .slice(0, 150);
+                            } catch {
+                                excerpt = pkg.description
+                                    .replace(/<[^>]*>/g, "")
+                                    .replace(/&nbsp;/g, " ")
+                                    .slice(0, 150);
+                            }
+                        }
 
-                            <div className="p-6 text-center">
-                                <h4 className="text-xl font-semibold mb-2 line-clamp-2">{pkg.title}</h4>
-                                <p className="text-gray-600 mb-2 line-clamp-3 ">{pkg.description}</p>
-                                <p className="text-primary-700 font-bold mb-4">
-                                    Est: {pkg.price ? `AUD ${pkg.price}` : "Contact for Price" }
-                                </p>
-                                {/* <button className="bg-primary-700 text-white px-6 py-2 rounded-full hover:bg-primary-800 transition">
+                        return (
+                            <div
+                                key={pkg.id}
+                                className="bg-white rounded-2xl shadow-md hover:shadow-lg transition overflow-hidden"
+                                onClick={() => navigate(`/packages/${pkg.id}`)} // ✅ navigate to detail
+                            >
+                                <div className="aspect-3/2 overflow-hidden rounded-t-2xl">
+                                    <img
+                                        src={pkg.coverImage
+                                            ? pkg.coverImage.startsWith("http")
+                                                ? pkg.coverImage
+                                                : `${import.meta.env.VITE_API_BASE_URL || ""}${pkg.coverImage}`
+                                            : "https://via.placeholder.com/800x400?text=No+Cover+Image"}
+                                        alt={pkg.title}
+                                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                    />
+                                </div>
+
+                                <div className="p-6 text-center">
+                                    <h4 className="text-xl font-semibold mb-2 line-clamp-2">{pkg.title}</h4>
+                                    <p className="text-gray-600 mb-2 line-clamp-3 ">
+                                        {excerpt}...
+                                    </p>
+                                    <p className="text-primary-700 font-bold mb-4">
+                                        Est: {pkg.price ? `AUD ${pkg.price}` : "Contact for Price"}
+                                    </p>
+                                    {/* <button className="bg-primary-700 text-white px-6 py-2 rounded-full hover:bg-primary-800 transition">
                                     Call Now
                                 </button> */}
 
-                                <div className="flex gap-2 w-full">
-                                    <Link
-                                        to={`/dashboard/packages/edit/${pkg.id}`}
-                                        onClick={(e) => e.stopPropagation()}
-                                        className="bg-yellow-400 px-3 py-1 rounded hover:bg-yellow-500 flex-1"
-                                    >
-                                        Edit
-                                    </Link>
+                                    <div className="flex gap-2 w-full">
+                                        <Link
+                                            to={`/dashboard/packages/edit/${pkg.id}`}
+                                            onClick={(e) => e.stopPropagation()}
+                                            className="bg-yellow-400 px-3 py-1 rounded hover:bg-yellow-500 flex-1"
+                                        >
+                                            Edit
+                                        </Link>
 
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setSelectedId(pkg.id);
-                                            setShowConfirm(true);
-                                        }}
-                                        className="bg-red-500 px-3 py-1 rounded text-white hover:bg-red-600 flex-1"
-                                    >
-                                        Delete
-                                    </button>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedId(pkg.id);
+                                                setShowConfirm(true);
+                                            }}
+                                            className="bg-red-500 px-3 py-1 rounded text-white hover:bg-red-600 flex-1"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
 
-                        </div>
-                    ))}
+                            </div>
+                        )
+                    })}
+
                 </div>
             )}
 

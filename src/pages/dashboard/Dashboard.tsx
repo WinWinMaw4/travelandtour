@@ -6,8 +6,10 @@ import BannerPage from './BannerPage';
 import Profile from './ProfilePage';
 import PackagesPage from './PackagesPage';
 import ContactPage from './contact/ContactPage';
+import BookingPage from './booking/BookingPage';
+import { useEffect } from 'react';
 
-const tabs = ['Blogs', 'Packages', 'Banners', 'Profile', 'Contact'];
+const tabs = ['Blogs', 'Packages', 'Banners', 'Booking', 'Profile', 'Contact'];
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -16,6 +18,13 @@ const Dashboard = () => {
     const handleTabClick = (tab: string) => {
         dispatch(setActiveTab({ key: 'dashboard', tab }));
     };
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }, [])
 
     return (
         <div className="p-4 max-w-screen overflow-hidden">
@@ -38,6 +47,7 @@ const Dashboard = () => {
                 {activeTab === 'Blogs' && <BlogList />}
                 {activeTab === 'Packages' && <div><PackagesPage /></div>}
                 {activeTab === 'Banners' && <div><BannerPage /></div>}
+                {activeTab === 'Booking' && <div><BookingPage /></div>}
                 {activeTab === 'Profile' && <div><Profile /></div>}
                 {activeTab === 'Contact' && <div><ContactPage /></div>}
 

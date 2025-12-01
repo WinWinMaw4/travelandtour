@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useInvalidateEndpointMutation } from "@services/apiSlice";
 import { endpoints } from "@services/endpoints";
 import toast from "react-hot-toast";
+import PackageEditor from "@components/page/package/PackageEditor";
 
 interface ValidationErrors {
     title?: string;
@@ -44,7 +45,9 @@ const PackageCreate = () => {
         const formData = new FormData();
         formData.append("title", title);
         formData.append("price", price.toString());
-        formData.append("description", description);
+        // formData.append("description", description);
+        formData.append("description", JSON.stringify(description));
+
         if (coverImage) formData.append("coverImage", coverImage);
 
         try {
@@ -104,7 +107,12 @@ const PackageCreate = () => {
             </div>
 
             {/* Description Input */}
-            <div>
+            <PackageEditor
+                value={description}
+                onChange={setDescription}
+                error={errors.description}
+            />
+            {/* <div>
                 <label className="block font-semibold text-gray-700 mb-2">Description</label>
                 <textarea
                     value={description}
@@ -116,7 +124,7 @@ const PackageCreate = () => {
                 {errors.description && (
                     <p className="text-red-500 text-sm mt-1">{errors.description}</p>
                 )}
-            </div>
+            </div> */}
 
             {/* Cover Image Upload */}
             <div>

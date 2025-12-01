@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckCircle } from "lucide-react";
 import { useInvalidateEndpointMutation } from "@services/apiSlice";
@@ -28,7 +28,7 @@ const BookingFormModal: React.FC<BookingFormModalProps> = ({
     const [success, setSuccess] = useState(false);
 
     const [formData, setFormData] = useState({
-        packageId: Number(packageId),
+        packageId: packageId ? Number(packageId) : null,
         name: "",
         contact: "",
         email: "",
@@ -38,6 +38,14 @@ const BookingFormModal: React.FC<BookingFormModalProps> = ({
         state: "",
         note: "",
     });
+
+    React.useEffect(() => {
+        setFormData((prev) => ({
+            ...prev,
+            packageId: packageId ? Number(packageId) : null,
+        }));
+    }, [packageId]);
+
 
     if (!isOpen) return null;
 

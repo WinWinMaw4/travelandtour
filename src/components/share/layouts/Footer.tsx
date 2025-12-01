@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
               <FaTiktok />
             </a>
             <a
-              href="https://www.tiktok.com/@asiaskybluehajjandumrah?_t=ZS-90s4x9VW5A4&_r=1"
+              href="https://wa.me/61490866626"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary-700 hover:text-green-600 transition text-xl"
