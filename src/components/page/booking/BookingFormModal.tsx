@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckCircle } from "lucide-react";
 import { useInvalidateEndpointMutation } from "@services/apiSlice";
@@ -207,8 +207,9 @@ const BookingFormModal: React.FC<BookingFormModalProps> = ({
                             <button
                                 onClick={submit}
                                 disabled={isLoading}
-                                className="px-6 py-2 cursor-pointer rounded-full bg-primary-700 text-white"
-                            >
+                                className={`px-6 py-2 rounded-full text-white transition-colors duration-200
+    ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-primary-700 hover:bg-primary-800"}
+  `}                            >
                                 {isLoading
                                     ? t("form.submitting")
                                     : t("form.submit")}

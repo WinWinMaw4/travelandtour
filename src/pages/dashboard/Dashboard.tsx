@@ -8,8 +8,9 @@ import PackagesPage from './PackagesPage';
 import ContactPage from './contact/ContactPage';
 import BookingPage from './booking/BookingPage';
 import { useEffect } from 'react';
+import DiscountPopUpList from './discountpopup/DiscountPopUpList';
 
-const tabs = ['Blogs', 'Packages', 'Banners', 'Booking', 'Profile', 'Contact'];
+const tabs = ['Blogs', 'Packages', 'Banners', 'Booking', 'Pop Up', 'Profile', 'Contact'];
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const Dashboard = () => {
                 {tabs.map((tab) => (
                     <button
                         key={tab}
-                        className={`px-4 py-2 font-medium ${activeTab === tab ? 'border-b-2 border-primary-600 text-primary-600' : 'text-gray-600'
+                        className={`px-4 py-2 whitespace-nowrap cursor-pointer font-medium ${activeTab === tab ? 'border-b-2 border-primary-600 text-primary-600' : 'text-gray-600'
                             }`}
                         onClick={() => handleTabClick(tab)}
                     >
@@ -50,7 +51,7 @@ const Dashboard = () => {
                 {activeTab === 'Booking' && <div><BookingPage /></div>}
                 {activeTab === 'Profile' && <div><Profile /></div>}
                 {activeTab === 'Contact' && <div><ContactPage /></div>}
-
+                {activeTab === 'Pop Up' && <div><DiscountPopUpList /></div>}
             </div>
         </div>
     );

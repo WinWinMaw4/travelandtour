@@ -45,7 +45,7 @@ const BannerPage: React.FC = () => {
 
     return (
         <div className="max-w-[1420px] mx-auto">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center flex-wrap">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Banners</h2>
 
                 <div className="mb-6">
@@ -61,9 +61,9 @@ const BannerPage: React.FC = () => {
             <div className="flex flex-wrap -mx-2">
                 {banners.length > 0 ? (
                     banners.map((banner: any) => (
-                        <div key={banner.id} className="w-1/2 sm:w-1/2 lg:w-1/3 p-2">
+                        <div key={banner.id} className="w-full sm:w-1/2 lg:w-1/3 p-2">
                             <div className="border rounded shadow hover:shadow-lg overflow-hidden w-full h-full">
-                                <div className="w-full aspect-[4/3] md:aspect-[16/9] bg-gray-100">
+                                <div className="w-full aspect-video bg-gray-100">
                                     <img
                                         src={
                                             banner.image?.startsWith("http")
@@ -71,7 +71,7 @@ const BannerPage: React.FC = () => {
                                                 : `${import.meta.env.VITE_API_URL}${banner.image}`
                                         }
                                         alt={banner.title}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-contain md:object-cover"
                                     />
                                 </div>
 

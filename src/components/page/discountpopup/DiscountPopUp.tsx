@@ -8,16 +8,21 @@ const DiscountPopUp = () => {
 
     const [showPopup, setShowPopup] = useState(false);
 
-    // 🕒 Check last popup time
+    const hasActivePopup =
+        data &&
+        data.isActive &&
+        data.image;
+
+    // Only run scroll logic if there IS a popup
     useEffect(() => {
+        if (!hasActivePopup) return; // 🛑 Nothing to show, skip everything
+
         const lastShown = localStorage.getItem("discount_popup_last_shown");
         if (lastShown) {
             const diff = Date.now() - Number(lastShown);
             const oneHour = 60 * 60 * 1000;
 
-            if (diff < oneHour) {
-                return; // Do NOT show popup yet
-            }
+            if (diff < oneHour) return;
         }
 
         const handleScroll = () => {
@@ -29,11 +34,11 @@ const DiscountPopUp = () => {
         window.addEventListener("scroll", handleScroll);
 
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [hasActivePopup]);
 
-    // 🚫 Disable page scroll when popup is open
+    // Scroll lock only when popup exists AND is open
     useEffect(() => {
-        if (showPopup) {
+        if (showPopup && hasActivePopup) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "auto";
@@ -42,17 +47,16 @@ const DiscountPopUp = () => {
         return () => {
             document.body.style.overflow = "auto";
         };
-    }, [showPopup]);
+    }, [showPopup, hasActivePopup]);
 
     if (isLoading) return null;
-    if (!data || !data.image || !data.isActive) return null;
+    if (!hasActivePopup) return null;
 
     return (
         <>
             {showPopup && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]">
                     <div className="bg-white rounded-xl p-1 shadow-xl max-w-[90%] relative">
-                        {/* Close button */}
                         <button
                             onClick={() => setShowPopup(false)}
                             className="absolute -top-3 -right-3 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg text-black cursor-pointer"
@@ -60,9 +64,7 @@ const DiscountPopUp = () => {
                             ✕
                         </button>
 
-                        {/* Image */}
                         <img
-                            // src={data.image}
                             src={
                                 data.image?.startsWith("http")
                                     ? data.image
@@ -77,5 +79,6 @@ const DiscountPopUp = () => {
         </>
     );
 };
+
 
 export default DiscountPopUp; 
