@@ -251,7 +251,7 @@ const PackagesSection: React.FC = () => {
                                                     openBooking()// Open the contact modal
                                                 }}
                                                 // Change the color and text to reflect a contact action
-                                                className="cursor-pointer bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition text-sm font-medium"
+                                                className="cursor-pointer bg-green-600 text-white px-8 py-3 rounded-full hover:bg-green-700 transition font-medium"
                                             >
                                                 {t("packages.bookNow")}
                                             </button>

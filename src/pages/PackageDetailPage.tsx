@@ -1,7 +1,7 @@
 // src/components/pages/PackageDetail.tsx (Updated)
 /* eslint-disable no-case-declarations */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, type JSX } from "react"; // 👈 Add useState
+import React, { useEffect, useState, type JSX } from "react"; // 👈 Add useState
 import { useParams } from "react-router-dom";
 import { useGetEndpointQuery } from "@services/apiSlice";
 import { endpoints } from "@services/endpoints";
@@ -9,6 +9,9 @@ import { useTranslation } from "react-i18next";
 import ShareButton from "@components/share/ShareButton";
 import { Phone, Mail } from "lucide-react"; // 📞📧 Import icons
 import BookingFormModal from "@components/page/booking/bookingFormModal";
+import SEO from "@components/share/seo/SEO";
+import metaCoverImage from "@assets/metaCover.png";
+
 
 // --- TYPE DEFINITIONS ---
 
@@ -129,6 +132,10 @@ const PackageDetail: React.FC = () => {
     const openContactModal = () => setIsModalOpen(true);
     const closeContactModal = () => setIsModalOpen(false);
 
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, [])
+
     // --- Loading and Error Handling ---
     if (isPackageLoading) {
         return (
@@ -223,19 +230,65 @@ const PackageDetail: React.FC = () => {
             }
         );
     };
+
+
+    // Determine the description for SEO
+    const seoDescription = pkg.description
+        ? (() => {
+            try {
+                const parsed = JSON.parse(pkg.description);
+                const firstBlock = parsed.blocks?.find(
+                    (b: any) => b.type === "paragraph" && b.data?.text
+                );
+
+                if (firstBlock) {
+                    return firstBlock.data.text
+                        // 1. Remove HTML tags
+                        .replace(/<[^>]*>/g, "")
+                        // 2. Replace non-breaking space
+                        .replace(/&nbsp;/g, " ")
+                        .trim()
+                        // 3. Truncate to 160 characters
+                        .slice(0, 160);
+                }
+                // Fallback if JSON is parsed but no paragraph block is found
+                return "Explore details of this exciting package for your next journey.";
+            } catch {
+                // Fallback if pkg.description is not valid JSON
+                return pkg.description.replace(/<[^>]*>/g, "").slice(0, 160);
+            }
+        })()
+        : "Explore details of this exciting package for your next journey with Asia Sky Blue.";
+
+
+    const pkgUrl = `${window.location.origin}/packages/${pkg.id}`; // Using pkg.id based on context
+
+    // Determine the keywords
+    const seoKeywords = `Asia Sky Blue, Travel Package, Tour, Vacation, ${pkg.title}`;
+
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
     return (
         <>
-            <section className="max-w-4xl mx-auto px-6 py-20">
+            <SEO
+                title={pkg.title + " | Asia Sky Blue"}
+                description={seoDescription}
+                keywords={seoKeywords}
+                image={pkg.coverImage ? `${BASE_URL}${pkg.coverImage}` : metaCoverImage}
+                url={pkgUrl}
+            />
+            <div id="packageDetail" className="min-w-sm max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-10 overflow-hidden">
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                     <div className="w-full mb-0 rounded-2xl overflow-hidden shadow aspect-video cursor-pointer">
                         <img
                             src={imageUrl}
                             alt={pkg.title}
-                            className="w-full h-full object-cover"
+                            className="w-full h-auto object-cover"
                         />
                     </div>
 
-                    <div className="p-8">
+                    <div className="p-8 ">
                         <div className="flex justify-end items-center mb-2">
                             <ShareButton />
 
@@ -247,151 +300,153 @@ const PackageDetail: React.FC = () => {
                         <p className="text-gray-700 whitespace-pre-line leading-relaxed mb-4">
                             {pkg.description}
                         </p> */}
-                        <p className="text-lg text-primary-700 font-semibold mb-6">
+                        <p className="text-xl text-primary-700 font-bold mb-6">
                             {pkg.price ? `Est: AUD ${pkg.price}` : "Contact for Price"}
                         </p>
 
                         {/* Render EditorJS content */}
-                        {parsedContent?.blocks?.map((block: any, idx: number) => {
-                            // 💡 Add processed content variable here
-                            let processedHtml = block.data.text;
+                        <div className="w-full">
+                            {parsedContent?.blocks?.map((block: any, idx: number) => {
+                                // 💡 Add processed content variable here
+                                let processedHtml = block.data.text;
 
-                            // Only process blocks that contain text/HTML (header, paragraph, list)
-                            if (block.type === "paragraph" || block.type === "header") {
-                                processedHtml = addTargetBlankToLinks(block.data.text);
-                            }
+                                // Only process blocks that contain text/HTML (header, paragraph, list)
+                                if (block.type === "paragraph" || block.type === "header") {
+                                    processedHtml = addTargetBlankToLinks(block.data.text);
+                                }
 
-                            switch (block.type) {
-                                case "paragraph":
-                                    return (
-                                        <div
-                                            key={idx}
-                                            className="prose prose-lg mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800"
-                                            dangerouslySetInnerHTML={{ __html: processedHtml }}
-                                        />
-                                    );
-                                case "header":
-                                    const Tag = `h${block.data.level}` as keyof JSX.IntrinsicElements;
-                                    let headingClass = "";
-                                    switch (block.data.level) {
-                                        case 2: headingClass = "text-2xl font-bold mb-4"; break;
-                                        case 3: headingClass = "text-xl font-semibold mb-3"; break;
-                                        case 4: headingClass = "text-lg font-medium mb-2"; break;
-                                        default: headingClass = "text-base font-normal mb-2";
-                                    }
-                                    return (
-                                        <Tag
-                                            key={idx}
-                                            className={`${headingClass} prose-a:text-primary-700 hover:prose-a:text-primary-800`}
-                                            dangerouslySetInnerHTML={{ __html: processedHtml }}
-                                        />
-                                    );
-                                case "list":
-                                    return block.data.style === "ordered" ? (
-                                        <ol key={idx} className="list-decimal list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
-                                            {block.data.items.map((item: any, i: number) => (
-                                                <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
-                                            ))}
-                                        </ol>
-                                    ) : (
-                                        <ul key={idx} className="list-disc list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
-                                            {block.data.items.map((item: any, i: number) => (
-                                                <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
-                                            ))}
-                                        </ul>
-                                    );
-                                case "table":
-                                    return (
-                                        <div key={idx} className="overflow-x-auto mb-6">
-                                            <table className="table-auto border border-gray-300 w-full text-left">
-                                                <thead className="bg-gray-100">
-                                                    <tr>
-                                                        {block.data.content[0].map((headerCell: string, hIdx: number) => (
-                                                            <th key={hIdx} className="border border-gray-300 px-4 py-2">
-                                                                <div dangerouslySetInnerHTML={{ __html: headerCell }} />
-                                                            </th>
-                                                        ))}
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {block.data.content.slice(1).map((row: string[], rIdx: number) => (
-                                                        <tr key={rIdx}>
-                                                            {row.map((cell: string, cIdx: number) => (
-                                                                <td key={cIdx} className="border border-gray-300 px-4 py-2">
-                                                                    <div dangerouslySetInnerHTML={{ __html: cell }} />
-                                                                </td>
+                                switch (block.type) {
+                                    case "paragraph":
+                                        return (
+                                            <div
+                                                key={idx}
+                                                className="prose prose-lg **break-word** wrap-break-word mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800 w-full"
+                                                dangerouslySetInnerHTML={{ __html: processedHtml }}
+                                            />
+                                        );
+                                    case "header":
+                                        const Tag = `h${block.data.level}` as keyof JSX.IntrinsicElements;
+                                        let headingClass = "";
+                                        switch (block.data.level) {
+                                            case 2: headingClass = "text-2xl font-bold mb-4"; break;
+                                            case 3: headingClass = "text-xl font-semibold mb-3"; break;
+                                            case 4: headingClass = "text-lg font-medium mb-2"; break;
+                                            default: headingClass = "text-base font-normal mb-2";
+                                        }
+                                        return (
+                                            <Tag
+                                                key={idx}
+                                                className={`${headingClass} prose-a:text-primary-700 hover:prose-a:text-primary-800`}
+                                                dangerouslySetInnerHTML={{ __html: processedHtml }}
+                                            />
+                                        );
+                                    case "list":
+                                        return block.data.style === "ordered" ? (
+                                            <ol key={idx} className="list-decimal list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800 **break-word**">
+                                                {block.data.items.map((item: any, i: number) => (
+                                                    <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
+                                                ))}
+                                            </ol>
+                                        ) : (
+                                            <ul key={idx} className="list-disc list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800 **break-word**">
+                                                {block.data.items.map((item: any, i: number) => (
+                                                    <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
+                                                ))}
+                                            </ul>
+                                        );
+                                    case "table":
+                                        return (
+                                            <div key={idx} className="**overflow-x-auto** mb-6">
+                                                <table className="table-auto border border-gray-300 w-full text-left">
+                                                    <thead className="bg-gray-100">
+                                                        <tr>
+                                                            {block.data.content[0].map((headerCell: string, hIdx: number) => (
+                                                                <th key={hIdx} className="border border-gray-300 px-4 py-2 **break-word**">
+                                                                    <div dangerouslySetInnerHTML={{ __html: headerCell }} />
+                                                                </th>
                                                             ))}
                                                         </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    );
-                                case "image":
-                                    return (
-                                        <div key={idx} className="image-block mb-6">
-                                            <img src={block.data.file.url} alt={block.data.caption || ""} className="rounded-lg shadow" />
-                                            {block.data.caption && (
-                                                <p className="caption text-sm text-gray-500 mt-1">{block.data.caption}</p>
-                                            )}
-                                        </div>
-                                    );
-                                case "quote":
-                                    return (
-                                        <blockquote key={idx} className="border-l-4 border-gray-300 pl-4 italic mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
-                                            <div dangerouslySetInnerHTML={{ __html: block.data.text }} />
-                                            {block.data.caption && <cite className="block mt-1 text-sm">{block.data.caption}</cite>}
-                                        </blockquote>
-                                    );
-                                case "linkTool":
-                                    const { link, meta } = block.data;
-                                    if (!meta || !meta.title) {
-                                        // Fallback for simple links if link preview failed
-                                        return (
-                                            <p key={idx} className="mb-6">
-                                                <a
-                                                    href={link}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-primary-700 hover:text-primary-800 hover:underline"
-                                                >
-                                                    {link}
-                                                </a>
-                                            </p>
-                                        );
-                                    }
-                                    // Rich Link Card Renderer
-                                    return (
-                                        <a
-                                            key={idx}
-                                            href={link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex flex-col md:flex-row border border-gray-200 rounded-xl overflow-hidden shadow-md mb-6 transition-shadow duration-200 hover:shadow-lg hover:border-primary-300"
-                                        >
-                                            <div className="p-4 flex-1">
-                                                <p className="text-xs text-gray-500 uppercase">{meta.site_name || "Link"}</p>
-                                                <h4 className="text-lg font-bold text-gray-800 mt-1 mb-2">{meta.title}</h4>
-                                                <p className="text-sm text-gray-600 line-clamp-2">{meta.description}</p>
+                                                    </thead>
+                                                    <tbody>
+                                                        {block.data.content.slice(1).map((row: string[], rIdx: number) => (
+                                                            <tr key={rIdx}>
+                                                                {row.map((cell: string, cIdx: number) => (
+                                                                    <td key={cIdx} className="border border-gray-300 px-4 py-2">
+                                                                        <div dangerouslySetInnerHTML={{ __html: cell }} />
+                                                                    </td>
+                                                                ))}
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            {meta.image && (
-                                                <div className="md:w-40 w-full h-32 md:h-auto flex-shrink-0">
-                                                    <img
-                                                        src={meta.image.url}
-                                                        alt={meta.title}
-                                                        className="w-full h-full object-cover"
-                                                    />
+                                        );
+                                    case "image":
+                                        return (
+                                            <div key={idx} className="image-block mb-6 **w-full h-auto**">
+                                                <img src={block.data.file.url} alt={block.data.caption || ""} className="**max-w-full** h-auto rounded-lg shadow" />
+                                                {block.data.caption && (
+                                                    <p className="caption text-sm text-gray-500 mt-1">{block.data.caption}</p>
+                                                )}
+                                            </div>
+                                        );
+                                    case "quote":
+                                        return (
+                                            <blockquote key={idx} className="border-l-4 border-gray-300 pl-4 italic mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
+                                                <div dangerouslySetInnerHTML={{ __html: block.data.text }} />
+                                                {block.data.caption && <cite className="block mt-1 text-sm">{block.data.caption}</cite>}
+                                            </blockquote>
+                                        );
+                                    case "linkTool":
+                                        const { link, meta } = block.data;
+                                        if (!meta || !meta.title) {
+                                            // Fallback for simple links if link preview failed
+                                            return (
+                                                <p key={idx} className="mb-6">
+                                                    <a
+                                                        href={link}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-primary-700 hover:text-primary-800 hover:underline"
+                                                    >
+                                                        {link}
+                                                    </a>
+                                                </p>
+                                            );
+                                        }
+                                        // Rich Link Card Renderer
+                                        return (
+                                            <a
+                                                key={idx}
+                                                href={link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex flex-col md:flex-row border border-gray-200 rounded-xl overflow-hidden shadow-md mb-6 transition-shadow duration-200 hover:shadow-lg hover:border-primary-300"
+                                            >
+                                                <div className="p-4 flex-1">
+                                                    <p className="text-xs text-gray-500 uppercase">{meta.site_name || "Link"}</p>
+                                                    <h4 className="text-lg font-bold text-gray-800 mt-1 mb-2">{meta.title}</h4>
+                                                    <p className="text-sm text-gray-600 line-clamp-2">{meta.description}</p>
                                                 </div>
-                                            )}
-                                        </a>
-                                    );
-                                default:
-                                    return null;
-                            }
-                        })}
+                                                {meta.image && (
+                                                    <div className="md:w-40 w-full h-32 md:h-auto shrink-0">
+                                                        <img
+                                                            src={meta.image.url}
+                                                            alt={meta.title}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    </div>
+                                                )}
+                                            </a>
+                                        );
+                                    default:
+                                        return null;
+                                }
+                            })}
+                        </div>
 
 
-                        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-4">
+                        <div className="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:space-x-4">
                             {/* 📞 QUICK CALL BUTTON */}
                             {/* <a
                                 href={`tel:${AU_CONTACT_PHONE}`}
@@ -418,7 +473,7 @@ const PackageDetail: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
             {/* Render the Contact Info Modal */}
             <ContactInfoModal

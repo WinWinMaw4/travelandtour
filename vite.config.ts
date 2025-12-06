@@ -11,6 +11,7 @@ export default defineConfig({
     tsconfigPaths(),
     ],
     server: {
+      host: true,
   open: "/",
   proxy: {
     '/api': {

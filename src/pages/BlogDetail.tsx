@@ -120,7 +120,7 @@ const BlogDetail: React.FC = () => {
     return (
         <>
             <SEO
-                title={post.title + " | Makka Tour Blog"}
+                title={post.title + " | Asia Sky Blue"}
                 description={
                     post.content
                         ? (() => {
@@ -140,7 +140,7 @@ const BlogDetail: React.FC = () => {
                         })()
                         : "Read this spiritual journey blog on Makka Tour."
                 }
-                keywords={`Makka Tour Blog, Hajj, Umrah, Pilgrimage, ${post.title}`}
+                keywords={`Aisa Sky Blue, Hajj, Umrah, Pilgrimage, ${post.title}`}
                 image={post.coverImage ? `${BASE_URL}${post.coverImage}` : metaCoverImage}
                 url={`${window.location.origin}/blogs/${post.slug}`}
             />

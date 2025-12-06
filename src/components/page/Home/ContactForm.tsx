@@ -19,10 +19,10 @@ const ContactForm: React.FC = () => {
 
         try {
             const result = await emailjs.sendForm(
-                "service_5rhtx7i", // 🔹 Replace with your EmailJS service ID
-                "template_xwyz7zs", // 🔹 Replace with your EmailJS template ID
+                "service_jurzfba", // 🔹 Replace with your EmailJS service ID
+                "template_y5zl8ti", // 🔹 Replace with your EmailJS template ID
                 formRef.current,
-                "hKa4bsmaGzw4qx7tf" // 🔹 Replace with your EmailJS public key
+                "mgeukIFFJS-ZIANkI" // 🔹 Replace with your EmailJS public key
             );
             console.log(result.text);
             setStatusMessage("✅ Your message has been sent successfully!");
