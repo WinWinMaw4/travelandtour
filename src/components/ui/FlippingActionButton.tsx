@@ -25,7 +25,7 @@ const FlippingActionButton: React.FC<Props> = ({ contacts }) => {
     const contactButtons = [
         { icon: Phone, label: "Call Now", bgColor: "bg-yellow-600", onClick: () => setIsModalOpen(true) },
         { icon: BsWhatsapp, label: "WhatsApp", bgColor: "bg-green-600", href: "https://wa.me/61490866626" },
-        { icon: Mail, label: "Email Us", bgColor: "bg-blue-600", href: "mailto:info@example.com" },
+        { icon: Mail, label: "Email Us", bgColor: "bg-blue-600", href: "mailto:asiaskyblue.au@gmail.com" },
     ];
 
     return (
