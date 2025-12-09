@@ -144,7 +144,7 @@ const BlogDetail: React.FC = () => {
                 image={post.coverImage ? `${BASE_URL}${post.coverImage}` : metaCoverImage}
                 url={`${window.location.origin}/blogs/${post.slug}`}
             />
-            <article className="max-w-4xl mx-auto px-6 py-10  md:py-20 relative">
+            <article className="min-w-sm max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-10 overflow-hidden">
                 {/* Confirm Modal */}
                 {showConfirm && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
@@ -215,143 +215,145 @@ const BlogDetail: React.FC = () => {
 
 
                 {/* Render EditorJS content */}
-                {parsedContent?.blocks?.map((block: any, idx: number) => {
-                    // 💡 Add processed content variable here
-                    let processedHtml = block.data.text;
+                <div className="w-full">
+                    {parsedContent?.blocks?.map((block: any, idx: number) => {
+                        // 💡 Add processed content variable here
+                        let processedHtml = block.data.text;
 
-                    // Only process blocks that contain text/HTML (header, paragraph, list)
-                    if (block.type === "paragraph" || block.type === "header") {
-                        processedHtml = addTargetBlankToLinks(block.data.text);
-                    }
+                        // Only process blocks that contain text/HTML (header, paragraph, list)
+                        if (block.type === "paragraph" || block.type === "header") {
+                            processedHtml = addTargetBlankToLinks(block.data.text);
+                        }
 
-                    switch (block.type) {
-                        case "paragraph":
-                            return (
-                                <div
-                                    key={idx}
-                                    className="prose prose-lg mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800"
-                                    dangerouslySetInnerHTML={{ __html: processedHtml }}
-                                />
-                            );
-                        case "header":
-                            const Tag = `h${block.data.level}` as keyof JSX.IntrinsicElements;
-                            let headingClass = "";
-                            switch (block.data.level) {
-                                case 2: headingClass = "text-2xl font-bold mb-4"; break;
-                                case 3: headingClass = "text-xl font-semibold mb-3"; break;
-                                case 4: headingClass = "text-lg font-medium mb-2"; break;
-                                default: headingClass = "text-base font-normal mb-2";
-                            }
-                            return (
-                                <Tag
-                                    key={idx}
-                                    className={`${headingClass} prose-a:text-primary-700 hover:prose-a:text-primary-800`}
-                                    dangerouslySetInnerHTML={{ __html: processedHtml }}
-                                />
-                            );
-                        case "list":
-                            return block.data.style === "ordered" ? (
-                                <ol key={idx} className="list-decimal list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
-                                    {block.data.items.map((item: any, i: number) => (
-                                        <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
-                                    ))}
-                                </ol>
-                            ) : (
-                                <ul key={idx} className="list-disc list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
-                                    {block.data.items.map((item: any, i: number) => (
-                                        <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
-                                    ))}
-                                </ul>
-                            );
-                        case "table":
-                            return (
-                                <div key={idx} className="overflow-x-auto mb-6">
-                                    <table className="table-auto border border-gray-300 w-full text-left">
-                                        <thead className="bg-gray-100">
-                                            <tr>
-                                                {block.data.content[0].map((headerCell: string, hIdx: number) => (
-                                                    <th key={hIdx} className="border border-gray-300 px-4 py-2">
-                                                        <div dangerouslySetInnerHTML={{ __html: headerCell }} />
-                                                    </th>
-                                                ))}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {block.data.content.slice(1).map((row: string[], rIdx: number) => (
-                                                <tr key={rIdx}>
-                                                    {row.map((cell: string, cIdx: number) => (
-                                                        <td key={cIdx} className="border border-gray-300 px-4 py-2">
-                                                            <div dangerouslySetInnerHTML={{ __html: cell }} />
-                                                        </td>
+                        switch (block.type) {
+                            case "paragraph":
+                                return (
+                                    <div
+                                        key={idx}
+                                        className="prose prose-lg wrap-break-word mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800 w-full overflow-hidden"
+                                        dangerouslySetInnerHTML={{ __html: processedHtml }}
+                                    />
+                                );
+                            case "header":
+                                const Tag = `h${block.data.level}` as keyof JSX.IntrinsicElements;
+                                let headingClass = "";
+                                switch (block.data.level) {
+                                    case 2: headingClass = "text-2xl font-bold mb-4 wrap-break-word"; break;
+                                    case 3: headingClass = "text-xl font-semibold mb-3 wrap-break-word"; break;
+                                    case 4: headingClass = "text-lg font-medium mb-2 wrap-break-word"; break;
+                                    default: headingClass = "text-base font-normal mb-2 wrap-break-word";
+                                }
+                                return (
+                                    <Tag
+                                        key={idx}
+                                        className={`${headingClass} prose-a:text-primary-700 hover:prose-a:text-primary-800`}
+                                        dangerouslySetInnerHTML={{ __html: processedHtml }}
+                                    />
+                                );
+                            case "list":
+                                return block.data.style === "ordered" ? (
+                                    <ol key={idx} className="list-decimal list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
+                                        {block.data.items.map((item: any, i: number) => (
+                                            <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
+                                        ))}
+                                    </ol>
+                                ) : (
+                                    <ul key={idx} className="list-disc list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
+                                        {block.data.items.map((item: any, i: number) => (
+                                            <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
+                                        ))}
+                                    </ul>
+                                );
+                            case "table":
+                                return (
+                                    <div key={idx} className="overflow-x-auto mb-6">
+                                        <table className="table-auto border border-gray-300 w-full text-left">
+                                            <thead className="bg-gray-100">
+                                                <tr>
+                                                    {block.data.content[0].map((headerCell: string, hIdx: number) => (
+                                                        <th key={hIdx} className="border border-gray-300 px-4 py-2">
+                                                            <div dangerouslySetInnerHTML={{ __html: headerCell }} />
+                                                        </th>
                                                     ))}
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            );
-                        case "image":
-                            return (
-                                <div key={idx} className="image-block mb-6">
-                                    <img src={block.data.file.url} alt={block.data.caption || ""} className="rounded-lg shadow" />
-                                    {block.data.caption && (
-                                        <p className="caption text-sm text-gray-500 mt-1">{block.data.caption}</p>
-                                    )}
-                                </div>
-                            );
-                        case "quote":
-                            return (
-                                <blockquote key={idx} className="border-l-4 border-gray-300 pl-4 italic mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
-                                    <div dangerouslySetInnerHTML={{ __html: block.data.text }} />
-                                    {block.data.caption && <cite className="block mt-1 text-sm">{block.data.caption}</cite>}
-                                </blockquote>
-                            );
-                        case "linkTool":
-                            const { link, meta } = block.data;
-                            if (!meta || !meta.title) {
-                                // Fallback for simple links if link preview failed
-                                return (
-                                    <p key={idx} className="mb-6">
-                                        <a
-                                            href={link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-primary-700 hover:text-primary-800 hover:underline"
-                                        >
-                                            {link}
-                                        </a>
-                                    </p>
-                                );
-                            }
-                            // Rich Link Card Renderer
-                            return (
-                                <a
-                                    key={idx}
-                                    href={link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex flex-col md:flex-row border border-gray-200 rounded-xl overflow-hidden shadow-md mb-6 transition-shadow duration-200 hover:shadow-lg hover:border-primary-300"
-                                >
-                                    <div className="p-4 flex-1">
-                                        <p className="text-xs text-gray-500 uppercase">{meta.site_name || "Link"}</p>
-                                        <h4 className="text-lg font-bold text-gray-800 mt-1 mb-2">{meta.title}</h4>
-                                        <p className="text-sm text-gray-600 line-clamp-2">{meta.description}</p>
+                                            </thead>
+                                            <tbody>
+                                                {block.data.content.slice(1).map((row: string[], rIdx: number) => (
+                                                    <tr key={rIdx}>
+                                                        {row.map((cell: string, cIdx: number) => (
+                                                            <td key={cIdx} className="border border-gray-300 px-4 py-2">
+                                                                <div dangerouslySetInnerHTML={{ __html: cell }} />
+                                                            </td>
+                                                        ))}
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    {meta.image && (
-                                        <div className="md:w-40 w-full h-32 md:h-auto flex-shrink-0">
-                                            <img
-                                                src={meta.image.url}
-                                                alt={meta.title}
-                                                className="w-full h-full object-cover"
-                                            />
+                                );
+                            case "image":
+                                return (
+                                    <div key={idx} className="image-block mb-6 max-w-full h-auto">
+                                        <img src={block.data.file.url} alt={block.data.caption || ""} className="rounded-lg shadow" />
+                                        {block.data.caption && (
+                                            <p className="caption text-sm text-gray-500 mt-1">{block.data.caption}</p>
+                                        )}
+                                    </div>
+                                );
+                            case "quote":
+                                return (
+                                    <blockquote key={idx} className="border-l-4 border-gray-300 pl-4 italic mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800">
+                                        <div dangerouslySetInnerHTML={{ __html: block.data.text }} />
+                                        {block.data.caption && <cite className="block mt-1 text-sm">{block.data.caption}</cite>}
+                                    </blockquote>
+                                );
+                            case "linkTool":
+                                const { link, meta } = block.data;
+                                if (!meta || !meta.title) {
+                                    // Fallback for simple links if link preview failed
+                                    return (
+                                        <p key={idx} className="mb-6">
+                                            <a
+                                                href={link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="wrap-break-word text-primary-700 hover:text-primary-800 hover:underline"
+                                            >
+                                                {link}
+                                            </a>
+                                        </p>
+                                    );
+                                }
+                                // Rich Link Card Renderer
+                                return (
+                                    <a
+                                        key={idx}
+                                        href={link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex flex-col md:flex-row border border-gray-200 rounded-xl overflow-hidden shadow-md mb-6 transition-shadow duration-200 hover:shadow-lg hover:border-primary-300"
+                                    >
+                                        <div className="p-4 flex-1">
+                                            <p className="text-xs text-gray-500 uppercase">{meta.site_name || "Link"}</p>
+                                            <h4 className="text-lg font-bold text-gray-800 mt-1 mb-2">{meta.title}</h4>
+                                            <p className="text-sm text-gray-600 line-clamp-2">{meta.description}</p>
                                         </div>
-                                    )}
-                                </a>
-                            );
-                        default:
-                            return null;
-                    }
-                })}
+                                        {meta.image && (
+                                            <div className="md:w-40 w-full h-32 md:h-auto shrink-0">
+                                                <img
+                                                    src={meta.image.url}
+                                                    alt={meta.title}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                        )}
+                                    </a>
+                                );
+                            default:
+                                return null;
+                        }
+                    })}
+                </div>
 
 
                 <div className="mt-12">

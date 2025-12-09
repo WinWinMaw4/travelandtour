@@ -320,7 +320,7 @@ const PackageDetail: React.FC = () => {
                                         return (
                                             <div
                                                 key={idx}
-                                                className="prose prose-lg **break-word** wrap-break-word mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800 w-full"
+                                                className="prose prose-lg wrap-break-word mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800 w-full"
                                                 dangerouslySetInnerHTML={{ __html: processedHtml }}
                                             />
                                         );
@@ -342,13 +342,13 @@ const PackageDetail: React.FC = () => {
                                         );
                                     case "list":
                                         return block.data.style === "ordered" ? (
-                                            <ol key={idx} className="list-decimal list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800 **break-word**">
+                                            <ol key={idx} className="list-decimal list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800 wrap-break-word">
                                                 {block.data.items.map((item: any, i: number) => (
                                                     <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
                                                 ))}
                                             </ol>
                                         ) : (
-                                            <ul key={idx} className="list-disc list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800 **break-word**">
+                                            <ul key={idx} className="list-disc list-inside mb-6 prose-a:text-primary-700 hover:prose-a:text-primary-800 wrap-break-word">
                                                 {block.data.items.map((item: any, i: number) => (
                                                     <li key={i} dangerouslySetInnerHTML={{ __html: item.content }} />
                                                 ))}
@@ -361,7 +361,7 @@ const PackageDetail: React.FC = () => {
                                                     <thead className="bg-gray-100">
                                                         <tr>
                                                             {block.data.content[0].map((headerCell: string, hIdx: number) => (
-                                                                <th key={hIdx} className="border border-gray-300 px-4 py-2 **break-word**">
+                                                                <th key={hIdx} className="border border-gray-300 px-4 py-2 wrap-break-word">
                                                                     <div dangerouslySetInnerHTML={{ __html: headerCell }} />
                                                                 </th>
                                                             ))}
@@ -383,7 +383,7 @@ const PackageDetail: React.FC = () => {
                                         );
                                     case "image":
                                         return (
-                                            <div key={idx} className="image-block mb-6 **w-full h-auto**">
+                                            <div key={idx} className="image-block mb-6 max-w-full h-auto">
                                                 <img src={block.data.file.url} alt={block.data.caption || ""} className="**max-w-full** h-auto rounded-lg shadow" />
                                                 {block.data.caption && (
                                                     <p className="caption text-sm text-gray-500 mt-1">{block.data.caption}</p>
